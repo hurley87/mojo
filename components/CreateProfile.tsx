@@ -32,7 +32,6 @@ export const CreateProfile = () => {
     toast.success('Username added!');
     setLoading(false);
   }
-  const disabled = usernameExists as boolean;
 
   return (
     <div className={`flex space-x-2 text-sm pt-10`}>
@@ -59,7 +58,7 @@ export const CreateProfile = () => {
                 onChange={(e) => setUsername(e.target.value)}
               />
               <button
-                disabled={disabled || username === ''}
+                disabled={username === ''}
                 onClick={handleCreateProfile}
                 className={`absolute top-0 right-0 rounded-l-none btn btn-primary ${
                   loading
