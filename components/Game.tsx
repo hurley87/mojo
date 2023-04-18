@@ -11,14 +11,16 @@ const Game = ({ gameId }: { gameId: string }) => {
     functionName: 'getGameAwayTeamName',
     args: [gameId],
   });
-  const { data: startTime } = useGamesRead({
+  const { data: startTime, isLoading } = useGamesRead({
     functionName: 'getGameStartTime',
     args: [gameId],
   });
 
   console.log('startTime', startTime);
 
-  return (
+  return isLoading || startTime === undefined ? (
+    <div className="h-5 w-full animate-pulse bg-primary-focus"></div>
+  ) : (
     <div>
       {homeTeamName} vs {awayTeamName},{' '}
       {startTime &&
