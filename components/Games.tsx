@@ -9,6 +9,8 @@ const Games = () => {
     args: [],
   });
 
+  console.log('games', games);
+
   return (
     <div>
       {!isLoading &&

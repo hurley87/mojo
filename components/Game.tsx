@@ -16,7 +16,7 @@ const Game = ({ gameId }: { gameId: string }) => {
     args: [gameId],
   });
 
-  console.log('startTime', startTime.toNumber());
+  console.log('startTime', startTime);
 
   return (
     <div>
