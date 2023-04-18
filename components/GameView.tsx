@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { useGamesRead } from '@/hooks/useGamesRead';
 
-const ViewGame = ({ gameId }: { gameId: string }) => {
+const GameView = ({ gameId }: { gameId: string }) => {
   const { data: homeTeamName } = useGamesRead({
     functionName: 'getGameHomeTeamName',
     args: [gameId],
@@ -54,4 +54,4 @@ const ViewGame = ({ gameId }: { gameId: string }) => {
   );
 };
 
-export default ViewGame;
+export default GameView;

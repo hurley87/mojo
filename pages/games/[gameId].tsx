@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import * as React from 'react';
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
-import ViewGame from '@/components/ViewGame';
+import GameView from '@/components/GameView';
 
 const ViewGamePage: NextPage = () => {
   const [gameId, setGameId] = React.useState<string | undefined>();
@@ -15,7 +15,7 @@ const ViewGamePage: NextPage = () => {
     }
   }, [router.isReady, router.query]);
 
-  return <Layout>{!!gameId && <ViewGame gameId={gameId} />}</Layout>;
+  return <Layout>{!!gameId && <GameView gameId={gameId} />}</Layout>;
 };
 
 export default ViewGamePage;
