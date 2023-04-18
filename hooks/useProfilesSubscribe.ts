@@ -1,5 +1,5 @@
 import { useContractEvent } from 'wagmi';
-import ProfilesContract from '../hardhat-ts/artifacts/contracts/Profiles.sol/Profiles.json';
+import ProfilesContract from './abis/Profiles.json';
 
 export const useProfilesSubscriber = ({ eventName, listener }: any) => {
   return useContractEvent({

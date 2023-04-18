@@ -1,5 +1,5 @@
 import { useContractRead } from 'wagmi';
-import GamesContract from '../hardhat-ts/artifacts/contracts/Games.sol/Games.json';
+import GamesContract from './abis/Games.json';
 
 export const useGamesRead = ({ functionName, args }: any) => {
   return useContractRead({

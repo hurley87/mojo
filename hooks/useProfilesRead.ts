@@ -1,5 +1,5 @@
 import { useContractRead } from 'wagmi';
-import ProfilesContract from '../hardhat-ts/artifacts/contracts/Profiles.sol/Profiles.json';
+import ProfilesContract from './abis/Profiles.json';
 
 export const useProfilesRead = ({ functionName, args }: any) => {
   return useContractRead({

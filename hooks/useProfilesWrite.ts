@@ -1,6 +1,6 @@
 import * as wagmi from 'wagmi';
 import type { BigNumber } from 'ethers';
-import ProfilesContract from '../hardhat-ts/artifacts/contracts/Profiles.sol/Profiles.json';
+import ProfilesContract from './abis/Profiles.json';
 import { ethers } from 'ethers';
 import { magic } from '@/lib/magic';
 import { GelatoRelay } from '@gelatonetwork/relay-sdk';
