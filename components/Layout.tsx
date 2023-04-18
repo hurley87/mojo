@@ -29,7 +29,7 @@ const Layout = ({ children }: Props) => (
       />
     </Head>
     <Navbar />
-    <div className="flex flex-col items-center">{children}</div>
+    <div className="container lg:w-1/2 mx-auto px-4">{children}</div>
   </div>
 );
 
