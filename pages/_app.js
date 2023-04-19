@@ -5,6 +5,7 @@ import { magic } from '@/lib/magic';
 import { useEffect, useState } from 'react';
 import { WagmiConfig, createClient } from 'wagmi';
 import { providers } from 'ethers';
+import { Analytics } from '@vercel/analytics/react';
 
 // Use wagmi to configure the provider.
 // Right now, we will only connect to hardhat's standalone localhost network
@@ -38,6 +39,7 @@ function MyApp({ Component, pageProps }) {
       <UserContext.Provider value={[user, setUser]}>
         <Component {...pageProps} />
         <Toaster position="top-center" />
+        <Analytics />
       </UserContext.Provider>
     </WagmiConfig>
   );
