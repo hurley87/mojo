@@ -19,7 +19,7 @@ const Bets = ({ gameId }: { gameId: number }) => {
 
   console.log(
     'BETS',
-    bets.map((b: any) => ({ ...b }))
+    bets?.map((b: any) => ({ ...b }))
   );
 
   return (
