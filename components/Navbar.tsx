@@ -71,6 +71,25 @@ const Navbar = () => {
             <input type="checkbox" id="my-modal-2" className="modal-toggle" />
             <div className="modal">
               <div className="modal-box text-center flex flex-col gap-6">
+                <label htmlFor="my-modal-2">
+                  <div className="badge badge-info cursor-pointer float-right">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      className="inline-block w-4 h-4 mr-2 stroke-current"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      ></path>
+                    </svg>
+                    close
+                  </div>
+                </label>
+
                 <div className="flex justify-center">
                   <Image alt="logo" width={100} height={100} src="/logo.svg" />
                 </div>
