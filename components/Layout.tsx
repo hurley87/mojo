@@ -7,7 +7,7 @@ type Props = {
 };
 
 const Layout = ({ children }: Props) => (
-  <div className="p-4">
+  <div className="flex flex-col h-screen justify-between p-4">
     <Head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -28,8 +28,15 @@ const Layout = ({ children }: Props) => (
         content={`https://consumercrypto.club/future.png`}
       />
     </Head>
-    <Navbar />
-    <div className="container lg:w-1/2 mx-auto px-4">{children}</div>
+    <div>
+      <Navbar />
+      <div className="container lg:w-1/2 mx-auto px-4 pb-10">{children}</div>
+    </div>
+    <footer className="p-4 footer text-base-content footer-center">
+      <div>
+        <p>Copyright © 2023 - All right reserved by MOJO</p>
+      </div>
+    </footer>
   </div>
 );
 
