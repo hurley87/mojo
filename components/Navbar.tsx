@@ -70,7 +70,7 @@ const Navbar = () => {
             </label>
             <input type="checkbox" id="my-modal-2" className="modal-toggle" />
             <div className="modal">
-              <div className="modal-box text-center flex flex-col gap-6">
+              <div className="modal-box text-center flex flex-col gap-6 pb-6">
                 <label htmlFor="my-modal-2">
                   <div className="badge badge-info cursor-pointer float-right">
                     <svg
@@ -91,7 +91,7 @@ const Navbar = () => {
                 </label>
 
                 <div className="flex justify-center">
-                  <Image alt="logo" width={100} height={100} src="/logo.svg" />
+                  <Image alt="logo" width={80} height={80} src="/logo.svg" />
                 </div>
                 <div>
                   <Link
@@ -106,7 +106,7 @@ const Navbar = () => {
                     {data?.value && parseFloat(makeNum(data?.value))} ETH
                   </p>
                 </div>
-                <div className="flex relative w-full justify-center gap-2">
+                <div className="flex relative w-full justify-center gap-2 pb-6">
                   <label
                     htmlFor="my-modal-2"
                     className="btn btn-primary btn-outline w-48"
