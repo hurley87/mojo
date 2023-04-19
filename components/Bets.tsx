@@ -31,9 +31,10 @@ const Bets = ({ gameId }: { gameId: number }) => {
         <div className="flex flex-col space-y-3">no bets yet</div>
       )}
       <div className="flex flex-col gap-4 mt-4">
-        {reverseArr(bets).map((betId: BigNumber) => (
-          <Bet key={betId.toNumber()} betId={betId} />
-        ))}
+        {bets &&
+          reverseArr(bets).map((betId: BigNumber) => (
+            <Bet key={betId.toNumber()} betId={betId} />
+          ))}
       </div>
     </div>
   );
