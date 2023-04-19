@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { useProfilesRead } from '@/hooks/useProfilesRead';
 import useProfilesWrite from '@/hooks/useProfilesWrite';
 import { useProfilesSubscriber } from '@/hooks/useProfilesSubscribe';
+import { GetStarted } from './GetStart';
 
 export const CreateProfile = () => {
   const [user, _]: any = useContext(UserContext);
@@ -35,7 +36,8 @@ export const CreateProfile = () => {
 
   return (
     <div className={`flex space-x-2 text-sm pt-10`}>
-      {!isLoading && hasProfile === undefined && <div>Loading...</div>}
+      {user === null && <GetStarted />}
+      {user && !isLoading && hasProfile === undefined && <div>Loading...</div>}
       {!isLoading && hasProfile !== undefined && hasProfile && <Games />}
       {!isLoading && hasProfile !== undefined && !hasProfile && (
         <div>

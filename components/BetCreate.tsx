@@ -25,7 +25,7 @@ export const CreateBet = ({
 
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
-  const { data } = useBalance({
+  const { data, isLoading } = useBalance({
     address,
   });
 
@@ -35,7 +35,7 @@ export const CreateBet = ({
     setIsBetting(false);
   }
 
-  return data && !(parseFloat(makeNum(data?.value)) > 0) ? (
+  return isLoading ? null : data && !(parseFloat(makeNum(data?.value)) > 0) ? (
     <div className="alert alert-error">
       <div className="flex-1">
         <svg

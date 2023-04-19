@@ -9,5 +9,5 @@ export const useProfilesRead = ({ functionName, args }: any) => {
     abi: ProfilesContract.abi,
     watch: false,
     args,
-  });
+  }) as any;
 };

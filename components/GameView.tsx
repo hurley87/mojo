@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import { useGamesRead } from '@/hooks/useGamesRead';
-import { CreateBet } from './CreateBet';
-import { makeNum } from '@/lib/number-utils';
+import { CreateBet } from './BetCreate';
+import Bets from './Bets';
 
 const GameView = ({ gameId }: { gameId: string }) => {
   const { data: homeTeamName } = useGamesRead({
@@ -25,11 +25,7 @@ const GameView = ({ gameId }: { gameId: string }) => {
     functionName: 'getGameStartTime',
     args: [gameId],
   });
-
   const date = new Date();
-
-  console.log('startTime', startTime.toNumber());
-  console.log('otherTime', date.getTime() / 1000);
 
   return (
     <div>
@@ -38,9 +34,14 @@ const GameView = ({ gameId }: { gameId: string }) => {
       </h1>
       <p className="text-sm">
         {startTime &&
-          moment.unix(startTime.toNumber()).format('MMMM Do [at] h:mm a')}
+          moment.unix(startTime.toNumber()).format('MMMM Do [at] h:mm a')}{' '}
+        |{' '}
+        <span className="font-mono countdown">
+          {' '}
+          <span>10</span>:<span>24</span>:<span>60</span>
+        </span>
       </p>
-      {startTime.toNumber() < date.getTime() / 1000 ? (
+      {startTime && startTime.toNumber() < date.getTime() / 1000 ? (
         <div className="alert alert-warning">
           <div className="flex-1">
             <svg
@@ -64,10 +65,11 @@ const GameView = ({ gameId }: { gameId: string }) => {
           gameId={parseInt(gameId)}
           homeTeamName={homeTeamName}
           awayTeamName={awayTeamName}
-          awayTeamId={awayTeamId.toNumber()}
-          homeTeamId={homeTeamId.toNumber()}
+          awayTeamId={awayTeamId}
+          homeTeamId={homeTeamId}
         />
       )}
+      <Bets gameId={parseInt(gameId)} />
     </div>
   );
 };
