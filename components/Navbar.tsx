@@ -25,15 +25,6 @@ const Navbar = () => {
     address,
   });
 
-  // Get the price of ETH from Uniswap on mount
-  // useEffect(() => {
-  //   (async () => {
-
-  //   })();
-  // }, [data]);
-
-  // console.log('data', data);
-
   async function login() {
     await magic.oauth.loginWithRedirect({
       provider: 'discord',
@@ -50,16 +41,11 @@ const Navbar = () => {
 
   async function handleConvert() {
     const price = await getETHPrice();
-    console.log('HANDLE IT');
-    console.log('price', price);
-    console.log(data);
     if (data) {
       setUSDAmount(parseFloat(makeNum(data?.value)) * price);
     }
     setIsUSD(!isUSD);
   }
-
-  console.log(user);
 
   return (
     <div className="navbar mb-2 shadow-lg bg-neutral text-neutral-content rounded-box">

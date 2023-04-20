@@ -32,19 +32,12 @@ const useBetsWrite = () => {
       betValue: string,
       odds: number
     ): Promise<string> => {
-      console.log('CREATE BET');
-      console.log(gameId);
-      console.log(teamId);
-      console.log(betValue);
-      console.log(odds);
       try {
         if (contract) {
           const tx = await contract.createBet(gameId, makeBig(odds), teamId, {
             value: utils.parseEther(betValue),
           });
-
           const receipt = await tx.wait();
-          console.log(receipt);
 
           return receipt.transactionHash;
         } else return '';
@@ -55,7 +48,6 @@ const useBetsWrite = () => {
     };
 
     const cancelBet = async (betId: number): Promise<string> => {
-      console.log(betId);
       try {
         if (contract) {
           const { data } = await contract.populateTransaction.cancelBet(betId);
@@ -66,12 +58,7 @@ const useBetsWrite = () => {
             data: data,
             user: await signer.getAddress(),
           };
-          console.log('request', request);
-
           const apiKey = process.env.NEXT_PUBLIC_GELATO_API as string;
-
-          console.log(apiKey);
-
           const response = await relay.sponsoredCallERC2771(
             request,
             provider,
@@ -93,19 +80,14 @@ const useBetsWrite = () => {
       betValue: string,
       betId: number
     ): Promise<string> => {
-      console.log('BET ACCEPT');
-      console.log(betId);
-      console.log(betValue);
       try {
         if (contract) {
           const tx = await contract.acceptBet(betId, {
             value: utils.parseEther(betValue),
           });
-
           const receipt = await tx.wait();
-          console.log(receipt);
 
-          return '';
+          return receipt.transactionHash;
         } else return '';
       } catch (e) {
         console.log('e', e);

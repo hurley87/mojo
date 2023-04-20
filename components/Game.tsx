@@ -16,8 +16,6 @@ const Game = ({ gameId }: { gameId: string }) => {
     args: [gameId],
   });
 
-  console.log('startTime', startTime);
-
   return isLoading || startTime === undefined ? (
     <div className="h-5 w-full animate-pulse bg-primary-focus"></div>
   ) : (

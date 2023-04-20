@@ -9,7 +9,6 @@ const ViewGamePage: NextPage = () => {
   const router = useRouter();
 
   React.useEffect(() => {
-    console.log(router.query);
     if (router.isReady) {
       setGameId(router.query.gameId?.toString());
     }

@@ -64,7 +64,7 @@ export const CreateBet = ({
         betValue,
         odds
       );
-      console.log(createBetResponse);
+
       if (createBetResponse === 'insufficient funds') {
         toast.error('insufficient funds');
         va.track('BetCreatedError', {
@@ -86,12 +86,7 @@ export const CreateBet = ({
 
   async function handleConvert() {
     const price = await getETHPrice();
-    console.log('HANDLE IT');
-    console.log('price', price);
-
-    if (data) {
-      setUSDAmount(parseFloat(betValue) * price);
-    }
+    if (data) setUSDAmount(parseFloat(betValue) * price);
 
     setIsUSD(true);
   }

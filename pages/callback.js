@@ -25,11 +25,6 @@ const Callback = () => {
         router.push('/');
       }
     };
-    console.log('NOW');
-    if (router.query.magic_credential) {
-      console.log('HELLOOOOOO');
-      console.log(router.query.magic_credential);
-    }
     callback();
   }, [router, setUser, showWarning]);
 
