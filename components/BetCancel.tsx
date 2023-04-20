@@ -3,6 +3,7 @@ import { BigNumber } from 'ethers';
 import useBetsWrite from '@/hooks/useBetsWrite';
 import { useBetsSubscriber } from '@/hooks/useBetsSubscribe';
 import { BetCancelled } from './BetCancelled';
+import va from '@vercel/analytics';
 
 export const CancelBet = ({ betId }: { betId: BigNumber }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,8 +13,8 @@ export const CancelBet = ({ betId }: { betId: BigNumber }) => {
   useBetsSubscriber({
     eventName: 'BetCancelled',
     listener: (id: any) => {
-      console.log(id.toNumber());
-      setIsCancelled(false);
+      va.track('BetCancelled', { betId: id.toNumber() });
+      setIsCancelled(true);
     },
   });
 
@@ -23,6 +24,7 @@ export const CancelBet = ({ betId }: { betId: BigNumber }) => {
       await betsContract?.cancelBet(betId.toNumber());
     } catch (e) {
       console.log(e);
+      va.track('BetCancelledError', { betId: betId.toNumber() });
       setIsLoading(false);
     }
   }

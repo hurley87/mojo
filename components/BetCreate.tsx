@@ -3,6 +3,11 @@ import { UserContext } from '@/lib/UserContext';
 import { makeNum } from '@/lib/number-utils';
 import { useContext, useState } from 'react';
 import { useBalance } from 'wagmi';
+import va from '@vercel/analytics';
+import { useBetsSubscriber } from '@/hooks/useBetsSubscribe';
+import { BigNumber } from 'ethers';
+import toast from 'react-hot-toast';
+import { getETHPrice } from '@/lib/getEthPrice';
 
 export const CreateBet = ({
   gameId,
@@ -18,21 +23,77 @@ export const CreateBet = ({
   homeTeamId: number;
 }) => {
   const [teamId, setTeamId] = useState(homeTeamId);
-  const [betValue, setBetValue] = useState('1.0');
+  const [betValue, setBetValue] = useState('0.01');
   const [odds, setOdds] = useState(1.0);
   const [isBetting, setIsBetting] = useState(false);
   const betsContract = useBetsWrite();
-
+  const [isUSD, setIsUSD] = useState(false);
+  const [usdAmount, setUSDAmount] = useState(2000);
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
   const { data, isLoading } = useBalance({
     address,
   });
 
+  useBetsSubscriber({
+    eventName: 'BetCreated',
+    listener: (
+      betCounter: BigNumber,
+      msgValue: BigNumber,
+      odds: BigNumber,
+      teamId: BigNumber,
+      msgSender: string
+    ) => {
+      va.track('BetCreated', {
+        betId: betCounter.toNumber(),
+        amount: makeNum(msgValue),
+        odds: makeNum(odds),
+        teamId: teamId.toNumber(),
+        address: msgSender,
+      });
+      setIsBetting(false);
+    },
+  });
+
   async function handlePlaceBetting() {
-    setIsBetting(true);
-    await betsContract?.createBet(gameId, teamId, betValue, odds);
-    setIsBetting(false);
+    try {
+      setIsBetting(true);
+      const createBetResponse = await betsContract?.createBet(
+        gameId,
+        teamId,
+        betValue,
+        odds
+      );
+      console.log(createBetResponse);
+      if (createBetResponse === 'insufficient funds') {
+        toast.error('insufficient funds');
+        va.track('BetCreatedError', {
+          amount: betValue,
+          odds: odds,
+          teamId: teamId,
+          address: user?.publicAddress,
+        });
+        setIsBetting(false);
+      } else {
+        toast.success('bet placed');
+        setIsBetting(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setIsBetting(false);
+    }
+  }
+
+  async function handleConvert() {
+    const price = await getETHPrice();
+    console.log('HANDLE IT');
+    console.log('price', price);
+
+    if (data) {
+      setUSDAmount(parseFloat(betValue) * price);
+    }
+
+    setIsUSD(true);
   }
 
   return isLoading ? null : data && !(parseFloat(makeNum(data?.value)) > 0) ? (
@@ -65,13 +126,43 @@ export const CreateBet = ({
           <option value={homeTeamId}>{homeTeamName}</option>
           <option value={awayTeamId}>{awayTeamName}</option>
         </select>
-        <input
-          type="text"
-          placeholder="bet amount"
-          className="input input-primary input-bordered w-full"
-          value={betValue}
-          onChange={(e) => setBetValue(e.target.value)}
-        />
+
+        {isUSD ? (
+          <label className="input-group input-group-md">
+            <input
+              type="text"
+              placeholder="bet amount"
+              className={`input input-bordered w-full`}
+              value={
+                isUSD
+                  ? usdAmount.toFixed(2)
+                  : data && parseFloat(makeNum(data?.value))
+              }
+            />
+            <button onClick={() => setIsUSD(false)} className="btn btn-primary">
+              USD
+            </button>
+          </label>
+        ) : (
+          <label className="input-group input-group-md">
+            <input
+              type="text"
+              placeholder="bet amount"
+              className={`input input-bordered w-full ${
+                (data &&
+                  parseFloat(betValue) > parseFloat(makeNum(data?.value))) ||
+                betValue === ''
+                  ? 'input-error'
+                  : 'input-primary'
+              }`}
+              value={betValue}
+              onChange={(e) => setBetValue(e.target.value)}
+            />
+            <span onClick={handleConvert} className="btn btn-primary">
+              ETH
+            </span>
+          </label>
+        )}
         <div className="flex p-1 border-primary border rounded-lg">
           <button
             onClick={() => setOdds(odds - 0.1)}
@@ -91,16 +182,22 @@ export const CreateBet = ({
             +
           </button>
         </div>
-        <button
-          onClick={handlePlaceBetting}
-          className={`btn btn-primary ${
-            isBetting
-              ? 'loading before:!w-4 before:!h-4 before:!mx-0 before:!mr-1'
-              : ''
-          }`}
-        >
-          Place Bet
-        </button>
+        {data && (
+          <button
+            onClick={handlePlaceBetting}
+            disabled={
+              parseFloat(betValue) > parseFloat(makeNum(data?.value)) ||
+              betValue === ''
+            }
+            className={`btn btn-primary ${
+              isBetting
+                ? 'loading before:!w-4 before:!h-4 before:!mx-0 before:!mr-1'
+                : ''
+            }`}
+          >
+            Place Bet
+          </button>
+        )}
       </div>
     </div>
   );

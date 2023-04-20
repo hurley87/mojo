@@ -46,35 +46,11 @@ const useBetsWrite = () => {
           const receipt = await tx.wait();
           console.log(receipt);
 
-          return '';
-
-          //   const request: any = {
-          //     chainId: 84531,
-          //     target: '0xF6F7080DE9004187193edA6bD978Aa77B4db60e9',
-          //     data: data,
-
-          //     user: await signer.getAddress(),
-          //   };
-          //   console.log('request', request);
-
-          //   const apiKey = process.env.NEXT_PUBLIC_GELATO_API as string;
-
-          //   console.log(apiKey);
-
-          //   const response = await relay.sponsoredCallERC2771(
-          //     request,
-          //     provider,
-          //     apiKey
-          //   );
-
-          //   const taskId = response.taskId;
-          //   console.log('response', taskId);
-
-          //   return taskId;
+          return receipt.transactionHash;
         } else return '';
-      } catch (e) {
+      } catch (e: any) {
         console.log('e', e);
-        return '';
+        return new Error('insufficient funds').message;
       }
     };
 

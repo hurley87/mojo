@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { UserContext } from '@/lib/UserContext';
 import { magic } from '@/lib/magic';
@@ -6,30 +6,29 @@ import { useContext } from 'react';
 import { format } from '@/lib/format';
 import {
   BanknotesIcon,
-  DocumentDuplicateIcon,
   ClipboardDocumentCheckIcon,
   ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline';
-import { useBalance, useProvider } from 'wagmi';
-import { makeBig, makeNum } from '@/lib/number-utils';
+import { useBalance } from 'wagmi';
+import { makeNum } from '@/lib/number-utils';
 import { getETHPrice } from '@/lib/getEthPrice';
-import Image from 'next/image';
 import { toast } from 'react-hot-toast';
+import { BsQuestionCircle } from 'react-icons/bs';
+import { RxDiscordLogo } from 'react-icons/rx';
 
 const Navbar = () => {
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
-  const { data, isError, isLoading } = useBalance({
+  const [isUSD, setIsUSD] = useState(false);
+  const [usdAmount, setUSDAmount] = useState(2000);
+  const { data } = useBalance({
     address,
   });
 
   // Get the price of ETH from Uniswap on mount
   // useEffect(() => {
   //   (async () => {
-  //     const price = await getETHPrice();
-  //     console.log('price', price);
-  //     console.log(data);
-  //     if (data) console.log(parseFloat(makeNum(data?.value)) * price);
+
   //   })();
   // }, [data]);
 
@@ -49,6 +48,17 @@ const Navbar = () => {
     window.location.href = '/';
   }
 
+  async function handleConvert() {
+    const price = await getETHPrice();
+    console.log('HANDLE IT');
+    console.log('price', price);
+    console.log(data);
+    if (data) {
+      setUSDAmount(parseFloat(makeNum(data?.value)) * price);
+    }
+    setIsUSD(!isUSD);
+  }
+
   console.log(user);
 
   return (
@@ -58,7 +68,19 @@ const Navbar = () => {
           <span className="text-sm font-bold">MOJO</span>
         </Link>
       </div>
-      <div className="flex-none">
+      <div className="flex">
+        <Link href="/faq">
+          <div className="btn btn-square">
+            <BsQuestionCircle className="h-6 w-6" />
+          </div>
+        </Link>
+        <a
+          href="https://discord.gg/MjT8ZAZtw4"
+          target="_blank"
+          className="btn btn-square"
+        >
+          <RxDiscordLogo className="h-6 w-6" />
+        </a>
         {!user?.loading && !user?.issuer ? (
           <button className="btn btn-ghost" onClick={login}>
             Login
@@ -70,9 +92,9 @@ const Navbar = () => {
             </label>
             <input type="checkbox" id="my-modal-2" className="modal-toggle" />
             <div className="modal">
-              <div className="modal-box text-center flex flex-col gap-6 pb-6">
+              <div className="modal-box text-center flex flex-col gap-4 max-w-xs">
                 <label htmlFor="my-modal-2">
-                  <div className="badge badge-info cursor-pointer float-right">
+                  <div className="badge badge-info cursor-pointer">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -89,41 +111,53 @@ const Navbar = () => {
                     close
                   </div>
                 </label>
-
-                <div className="flex justify-center">
-                  <Image alt="logo" width={80} height={80} src="/logo.svg" />
-                </div>
-                <div>
-                  <Link
-                    target="_blank"
-                    href={`https://goerli.basescan.org/address/${user?.publicAddress}`}
-                  >
-                    <p className="font-bold text-lg">
-                      {format(user?.publicAddress)}
-                    </p>
-                  </Link>
-                  <p className="text-sm">
-                    {data?.value && parseFloat(makeNum(data?.value))} ETH
+                <Link
+                  target="_blank"
+                  href={`https://goerli.basescan.org/address/${user?.publicAddress}`}
+                >
+                  <p className="font-bold text-lg w-full text-center">
+                    {format(user?.publicAddress)}
                   </p>
-                </div>
-                <div className="flex relative w-full justify-center gap-2 pb-6">
-                  <label
-                    htmlFor="my-modal-2"
-                    className="btn btn-primary btn-outline w-48"
-                    onClick={() => {
-                      navigator.clipboard.writeText(user?.publicAddress);
-                      toast.success('Copied to clipboard! 📋');
-                    }}
-                  >
-                    <ClipboardDocumentCheckIcon className="h-6 w-6" /> Copy
-                    Address
+                </Link>
+
+                <label
+                  className="btn btn-primary btn-outline w-full"
+                  onClick={() => {
+                    navigator.clipboard.writeText(user?.publicAddress);
+                    toast.success('Copied to clipboard! 📋');
+                  }}
+                >
+                  <ClipboardDocumentCheckIcon className="h-6 w-6" /> Copy
+                  Address
+                </label>
+                <div className="flex items-center">
+                  <label className="input-group input-group-md">
+                    <input
+                      type="text"
+                      placeholder="bet amount"
+                      className={`input input-bordered`}
+                      value={
+                        isUSD
+                          ? usdAmount.toFixed(2)
+                          : data && parseFloat(makeNum(data?.value))
+                      }
+                    />
+                    <button
+                      onClick={() => handleConvert()}
+                      className="btn btn-primary"
+                    >
+                      {isUSD ? 'USD' : 'ETH'}
+                    </button>
                   </label>
+                </div>
+
+                <div className="flex relative w-full justify-center gap-2">
                   <label
                     htmlFor="my-modal-2"
-                    className="btn btn-primary btn-outline w-48"
+                    className="btn btn-primary btn-outline w-full"
                     onClick={logout}
                   >
-                    <ArrowLeftOnRectangleIcon className="h-6 w-6" /> Disconnect
+                    <ArrowLeftOnRectangleIcon className="h-6 w-6" /> Logout
                   </label>
                 </div>
               </div>

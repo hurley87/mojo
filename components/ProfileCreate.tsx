@@ -6,6 +6,7 @@ import { useProfilesRead } from '@/hooks/useProfilesRead';
 import useProfilesWrite from '@/hooks/useProfilesWrite';
 import { useProfilesSubscriber } from '@/hooks/useProfilesSubscribe';
 import { GetStarted } from './GetStart';
+import va from '@vercel/analytics';
 
 export const CreateProfile = () => {
   const [user, _]: any = useContext(UserContext);
@@ -18,20 +19,36 @@ export const CreateProfile = () => {
     functionName: 'checkUsernameExists',
     args: [username],
   });
+
   useProfilesSubscriber({
     eventName: 'ProfileCreated',
-    listener: (id: any, username: any, walletAddress: any) => {
-      console.log('ok');
-      console.log(id, username, walletAddress);
+    listener: (id: any, username: string, walletAddress: string) => {
+      va.track('ProfileCreated', {
+        profileId: id.toNumber(),
+        username,
+        address: walletAddress,
+      });
     },
   });
+
   const profilesContract = useProfilesWrite();
   const [loading, setLoading] = useState(false);
+
   async function handleCreateProfile() {
     setLoading(true);
-    await profilesContract?.createProfile(username);
-    toast.success('Username added!');
-    setLoading(false);
+    try {
+      await profilesContract?.createProfile(username);
+      toast.success('username created');
+      setLoading(false);
+    } catch (e) {
+      toast.error('try again');
+      setLoading(false);
+      va.track('ProfileCreatedError', {
+        username,
+        address: user?.publicAddress,
+      });
+      return;
+    }
   }
 
   return (

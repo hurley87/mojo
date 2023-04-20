@@ -3,6 +3,7 @@ import { BigNumber } from 'ethers';
 import useBetsWrite from '@/hooks/useBetsWrite';
 import { useBetsSubscriber } from '@/hooks/useBetsSubscribe';
 import { BetAccepted } from './BetAccepted';
+import va from '@vercel/analytics';
 
 export const BetAccept = ({
   betValue,
@@ -17,8 +18,14 @@ export const BetAccept = ({
 
   useBetsSubscriber({
     eventName: 'BetAccepted',
-    listener: (id: any) => {
-      console.log(id.toNumber());
+    listener: (id: any, creator: string, acceptor: string) => {
+      va.track('BetAccepted', {
+        betId: id.toNumber(),
+        betValue,
+        creator,
+        acceptor,
+      });
+      setHasAccepted(true);
       setIsLoading(false);
     },
   });
@@ -27,10 +34,10 @@ export const BetAccept = ({
     try {
       setIsLoading(true);
       await betsContract?.acceptBet(betValue, betId.toNumber());
-      setHasAccepted(true);
     } catch (e) {
       console.log(e);
       setIsLoading(false);
+      va.track('BetAcceptedError', { betId: betId.toNumber() });
     }
   }
 

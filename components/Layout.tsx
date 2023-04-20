@@ -32,7 +32,7 @@ const Layout = ({ children }: Props) => (
       <Navbar />
       <div className="container lg:w-1/2 mx-auto px-4 pb-10">{children}</div>
     </div>
-    <footer className="p-4 footer text-base-content footer-center">
+    <footer className="footer text-base-content footer-center">
       <div>
         <p>Copyright © 2023 - All right reserved by MOJO</p>
       </div>

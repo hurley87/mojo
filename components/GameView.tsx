@@ -3,6 +3,7 @@ import moment from 'moment';
 import { useGamesRead } from '@/hooks/useGamesRead';
 import { CreateBet } from './BetCreate';
 import Bets from './Bets';
+import Link from 'next/link';
 
 const GameView = ({ gameId }: { gameId: string }) => {
   const { data: homeTeamName } = useGamesRead({
@@ -29,18 +30,17 @@ const GameView = ({ gameId }: { gameId: string }) => {
 
   return (
     <div>
-      <h1 className="text-xl">
-        {homeTeamName} vs {awayTeamName}
-      </h1>
-      <p className="text-sm">
-        {startTime &&
-          moment.unix(startTime.toNumber()).format('MMMM Do [at] h:mm a')}{' '}
-        |{' '}
-        <span className="font-mono countdown">
-          {' '}
-          <span>10</span>:<span>24</span>:<span>60</span>
-        </span>
-      </p>
+      <div className="text-sm breadcrumbs mb-4">
+        <ul>
+          <li>
+            <Link href="/">Games</Link>
+          </li>
+          <li>
+            {homeTeamName} vs {awayTeamName}
+          </li>
+        </ul>
+      </div>
+
       {startTime && startTime.toNumber() < date.getTime() / 1000 ? (
         <div className="alert alert-warning">
           <div className="flex-1">
@@ -61,15 +61,22 @@ const GameView = ({ gameId }: { gameId: string }) => {
           </div>
         </div>
       ) : (
-        <CreateBet
-          gameId={parseInt(gameId)}
-          homeTeamName={homeTeamName}
-          awayTeamName={awayTeamName}
-          awayTeamId={awayTeamId}
-          homeTeamId={homeTeamId}
-        />
+        <>
+          <p className="pb-1">
+            Place a bet before{' '}
+            {startTime &&
+              moment.unix(startTime.toNumber()).format('MMMM Do [at] h:mm a')}
+          </p>
+          <CreateBet
+            gameId={parseInt(gameId)}
+            homeTeamName={homeTeamName}
+            awayTeamName={awayTeamName}
+            awayTeamId={awayTeamId}
+            homeTeamId={homeTeamId}
+          />
+          <Bets gameId={parseInt(gameId)} />
+        </>
       )}
-      <Bets gameId={parseInt(gameId)} />
     </div>
   );
 };
