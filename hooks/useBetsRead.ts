@@ -7,7 +7,7 @@ export const useBetsRead = ({ functionName, args }: any) => {
     functionName,
     address: '0xF6F7080DE9004187193edA6bD978Aa77B4db60e9',
     abi: BetsContract.abi,
-    watch: false,
+    watch: true,
     args,
   }) as any;
 };

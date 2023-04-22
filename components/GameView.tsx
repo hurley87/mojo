@@ -36,7 +36,9 @@ const GameView = ({ gameId }: { gameId: string }) => {
             <Link href="/">Games</Link>
           </li>
           <li>
-            {homeTeamName} vs {awayTeamName}
+            {homeTeamName} vs {awayTeamName},{' '}
+            {startTime &&
+              moment.unix(startTime.toNumber()).format('MMMM Do [at] h:mm a')}
           </li>
         </ul>
       </div>
@@ -62,11 +64,6 @@ const GameView = ({ gameId }: { gameId: string }) => {
         </div>
       ) : (
         <>
-          <p className="pb-1">
-            Place a bet before{' '}
-            {startTime &&
-              moment.unix(startTime.toNumber()).format('MMMM Do [at] h:mm a')}
-          </p>
           <CreateBet
             gameId={parseInt(gameId)}
             homeTeamName={homeTeamName}

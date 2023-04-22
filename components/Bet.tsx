@@ -10,6 +10,7 @@ import { BetAccept } from './BetAccept';
 import { BetAccepted } from './BetAccepted';
 import { BetCancelled } from './BetCancelled';
 import { BetFinished } from './BetFinished';
+import BullLottie from './BullLottie';
 
 const BET_STATE = ['Created', 'Accepted', 'Finished', 'Cancelled'];
 
@@ -41,16 +42,28 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
   }, [bet?.state, bet?.odds, bet?.amount]);
 
   return user?.loading ? (
-    <div className="h-5 w-full animate-pulse bg-primary-focus"></div>
+    <div className="h-10 w-full animate-pulse bg-primary-focus rounded-md"></div>
   ) : (
-    <div className={`flex space-x-2 text-sm`}>
-      {isBetLoading && <div>Loading...</div>}
+    <div className={`flex`}>
+      <div className="divider"></div>
+      {isBetLoading && (
+        <div className="h-10 w-full animate-pulse bg-primary-focus rounded-md"></div>
+      )}
       {!isBetLoading && bet && (
-        <div className={`flex space-x-2 text-sm pt-4`}>
-          <p className="mt-0.5">
-            {profile?.username} bet {makeNum(bet?.amount)}, odds:{' '}
-            {makeNum(bet?.odds)} on {teamPicked?.name}
-          </p>
+        <div className="flex justify-between w-full">
+          <div className="flex flex-col gap-0">
+            <p className="text-sm lg:text-lg">
+              {profile?.username} bet {makeNum(bet?.amount)} on{' '}
+              {teamPicked?.name}
+            </p>
+            <p className="text-xs">
+              Odds: {makeNum(bet?.odds)} | Profit:{' '}
+              {(parseFloat(makeNum(bet?.odds)) * parseFloat(betValue)).toFixed(
+                2
+              )}
+            </p>
+          </div>
+
           {myBet && betState === BET_STATE[0] && <CancelBet betId={betId} />}
           {!myBet && betState === BET_STATE[0] && (
             <BetAccept betValue={betValue} betId={betId} />

@@ -7,6 +7,7 @@ import useProfilesWrite from '@/hooks/useProfilesWrite';
 import { useProfilesSubscriber } from '@/hooks/useProfilesSubscribe';
 import { GetStarted } from './GetStart';
 import va from '@vercel/analytics';
+import BullLottie from './BullLottie';
 
 export const CreateProfile = () => {
   const [user, _]: any = useContext(UserContext);
@@ -52,9 +53,9 @@ export const CreateProfile = () => {
   }
 
   return (
-    <div className={`flex space-x-2 text-sm pt-10`}>
+    <div className="lg:pt-10 w-full">
       {user === null && <GetStarted />}
-      {user && !isLoading && hasProfile === undefined && <div>Loading...</div>}
+      {user && !isLoading && hasProfile === undefined && <BullLottie />}
       {!isLoading && hasProfile !== undefined && hasProfile && <Games />}
       {!isLoading && hasProfile !== undefined && !hasProfile && (
         <div>

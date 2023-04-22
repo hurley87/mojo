@@ -1,5 +1,10 @@
+import { FAQ } from '@/components/FAQ';
 import Layout from '@/components/Layout';
 
 export default function Home() {
-  return <Layout>faq</Layout>;
+  return (
+    <Layout>
+      <FAQ />
+    </Layout>
+  );
 }

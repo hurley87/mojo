@@ -1,7 +1,6 @@
 import React from 'react';
 import Game from './Game';
 import { useGamesRead } from '@/hooks/useGamesRead';
-import Link from 'next/link';
 
 const Games = () => {
   const { data: games, isLoading } = useGamesRead({
@@ -9,16 +8,18 @@ const Games = () => {
     args: [],
   });
 
-  console.log('games', games);
-
   return (
-    <div>
+    <div className="p-4 lg:p-6 card bg-base-300 w-full">
       {!isLoading &&
         games !== undefined &&
-        games?.map((game: any) => (
-          <Link key={game.gameId.toNumber()} href={`/games/${game.gameId}`}>
-            <Game gameId={game.gameId.toNumber()} />
-          </Link>
+        games?.map((game: any, index: number) => (
+          <>
+            {index !== 0 && <div className="divider"></div>}
+            <Game
+              key={game.gameId.toNumber()}
+              gameId={game.gameId.toNumber()}
+            />
+          </>
         ))}
     </div>
   );

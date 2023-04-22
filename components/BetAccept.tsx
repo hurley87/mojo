@@ -44,7 +44,7 @@ export const BetAccept = ({
   return !hasAccepted ? (
     <button
       onClick={handleAcceptBet}
-      className={`btn btn-primary ${
+      className={`btn ${
         isLoading
           ? 'loading before:!w-4 before:!h-4 before:!mx-0 before:!mr-1'
           : ''
