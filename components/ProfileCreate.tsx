@@ -20,10 +20,13 @@ export const CreateProfile = () => {
     functionName: 'checkUsernameExists',
     args: [username],
   });
+  const [showCreate, setShowCreate] = useState(!hasProfile);
 
   useProfilesSubscriber({
     eventName: 'ProfileCreated',
     listener: (id: any, username: string, walletAddress: string) => {
+      toast.success('username created');
+      setShowCreate(false);
       va.track('ProfileCreated', {
         profileId: id.toNumber(),
         username,
@@ -35,12 +38,13 @@ export const CreateProfile = () => {
   const profilesContract = useProfilesWrite();
   const [loading, setLoading] = useState(false);
 
+  console.log('SHOW', showCreate);
+
   async function handleCreateProfile() {
     setLoading(true);
+    console.log(user);
     try {
       await profilesContract?.createProfile(username);
-      toast.success('username created');
-      setLoading(false);
     } catch (e) {
       toast.error('try again');
       setLoading(false);
@@ -60,9 +64,9 @@ export const CreateProfile = () => {
           <BullLottie />
         </div>
       )}
-      {!isLoading && hasProfile !== undefined && hasProfile && <Games />}
-      {!isLoading && hasProfile !== undefined && !hasProfile && (
-        <div>
+      {!isLoading && hasProfile !== undefined && !showCreate && <Games />}
+      {!isLoading && hasProfile !== undefined && showCreate && (
+        <div className="max-w-sm mx-auto mt-10">
           <div className="form-control">
             <label className="label">
               <span className="label-text">
@@ -82,7 +86,7 @@ export const CreateProfile = () => {
                 onChange={(e) => setUsername(e.target.value)}
               />
               <button
-                disabled={username === ''}
+                disabled={username === '' || usernameExists}
                 onClick={handleCreateProfile}
                 className={`absolute top-0 right-0 rounded-l-none btn btn-primary ${
                   loading

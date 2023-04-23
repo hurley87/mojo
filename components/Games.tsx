@@ -13,13 +13,10 @@ const Games = () => {
       {!isLoading &&
         games !== undefined &&
         games?.map((game: any, index: number) => (
-          <>
+          <div key={game.gameId.toNumber()}>
             {index !== 0 && <div className="divider"></div>}
-            <Game
-              key={game.gameId.toNumber()}
-              gameId={game.gameId.toNumber()}
-            />
-          </>
+            <Game gameId={game.gameId.toNumber()} />
+          </div>
         ))}
     </div>
   );
