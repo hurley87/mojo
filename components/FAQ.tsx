@@ -1,7 +1,8 @@
 const faqs = [
   {
     question: 'How do I get started?',
-    answer: 'tabIndex={0} attribute is necessary to make the div focusable',
+    answer:
+      'You need a Discord account to get started. In Discord, you can join the server by clicking the link in the top right corner of the page.',
   },
   {
     question: 'How do I place a bet?',
@@ -39,18 +40,18 @@ const faqs = [
 
 export const FAQ = () => {
   return (
-    <div className="w-full flex flex-col gap-4 my-10">
+    <div className="w-full flex flex-col gap-4 mt-10 mb-20">
       {faqs.map((faq, index) => (
         <div
           key={index}
           tabIndex={index}
           className="collapse collapse-arrow bg-base-100 rounded-box"
         >
-          <div className="collapse-title text-sm lg:text-xl font-medium">
+          <div className="collapse-title text-sm lg:text-2xl font-medium">
             {faq.question}
           </div>
           <div className="collapse-content">
-            <p className="text-xs lg:text-md">{faq.answer}</p>
+            <p className="text-xs lg:text-lg">{faq.answer}</p>
           </div>
         </div>
       ))}

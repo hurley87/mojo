@@ -1,5 +1,5 @@
 import { UserContext } from '@/lib/UserContext';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Games from './Games';
 import toast from 'react-hot-toast';
 import { useProfilesRead } from '@/hooks/useProfilesRead';
@@ -22,6 +22,12 @@ export const CreateProfile = () => {
   });
   const [showCreate, setShowCreate] = useState(!hasProfile);
 
+  useEffect(() => {
+    if (hasProfile) {
+      setShowCreate(!hasProfile);
+    }
+  }, [hasProfile]);
+
   useProfilesSubscriber({
     eventName: 'ProfileCreated',
     listener: (id: any, username: string, walletAddress: string) => {
@@ -38,7 +44,7 @@ export const CreateProfile = () => {
   const profilesContract = useProfilesWrite();
   const [loading, setLoading] = useState(false);
 
-  console.log('SHOW', showCreate);
+  console.log('SHOW', hasProfile);
 
   async function handleCreateProfile() {
     setLoading(true);

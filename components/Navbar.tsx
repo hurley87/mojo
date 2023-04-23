@@ -80,12 +80,12 @@ const Navbar = () => {
             <div className="modal">
               <div className="modal-box text-center flex flex-col gap-4 max-w-xs">
                 <label htmlFor="my-modal-2">
-                  <div className="badge badge-info cursor-pointer">
+                  <div className="btn btn-primary btn-outline w-full">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
-                      className="inline-block w-4 h-4 mr-2 stroke-current"
+                      className="inline-block w-4 h-4 mr-1 stroke-current"
                     >
                       <path
                         stroke-linecap="round"
@@ -101,8 +101,8 @@ const Navbar = () => {
                   target="_blank"
                   href={`https://goerli.basescan.org/address/${user?.publicAddress}`}
                 >
-                  <p className="font-bold text-lg w-full text-center">
-                    {format(user?.publicAddress)}
+                  <p className="btn btn-primary btn-outline w-full">
+                    Visit {format(user?.publicAddress)}
                   </p>
                 </Link>
 
@@ -113,8 +113,8 @@ const Navbar = () => {
                     toast.success('Copied to clipboard! 📋');
                   }}
                 >
-                  <ClipboardDocumentCheckIcon className="h-6 w-6" /> Copy
-                  Address
+                  <ClipboardDocumentCheckIcon className="h-6 w-6" /> Copy{' '}
+                  {format(user?.publicAddress)}
                 </label>
                 <div className="flex items-center">
                   <label className="input-group input-group-md">
