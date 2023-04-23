@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { magic } from '@/lib/magic';
 import { UserContext } from '@/lib/UserContext';
 import { toast } from 'react-hot-toast';
+import Layout from '@/components/Layout';
+import BullLottie from '@/components/BullLottie';
 
 const Callback = () => {
   const router = useRouter();
@@ -28,7 +30,13 @@ const Callback = () => {
     callback();
   }, [router, setUser, showWarning]);
 
-  return <div>loading ...</div>;
+  return (
+    <Layout>
+      <div className="max-w-lg mx-auto mt-10">
+        <BullLottie />
+      </div>
+    </Layout>
+  );
 };
 
 export default Callback;
