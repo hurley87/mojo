@@ -10,7 +10,6 @@ import { BetAccept } from './BetAccept';
 import { BetAccepted } from './BetAccepted';
 import { BetCancelled } from './BetCancelled';
 import { BetFinished } from './BetFinished';
-import BullLottie from './BullLottie';
 
 const BET_STATE = ['Created', 'Accepted', 'Finished', 'Cancelled'];
 

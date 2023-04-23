@@ -55,7 +55,11 @@ export const CreateProfile = () => {
   return (
     <div className="lg:pt-10 w-full">
       {user === null && <GetStarted />}
-      {user && !isLoading && hasProfile === undefined && <BullLottie />}
+      {user && !isLoading && hasProfile === undefined && (
+        <div className="max-w-lg mx-auto mt-10">
+          <BullLottie />
+        </div>
+      )}
       {!isLoading && hasProfile !== undefined && hasProfile && <Games />}
       {!isLoading && hasProfile !== undefined && !hasProfile && (
         <div>
