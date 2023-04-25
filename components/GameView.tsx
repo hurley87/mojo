@@ -43,7 +43,7 @@ const GameView = ({ gameId }: { gameId: string }) => {
         </ul>
       </div>
 
-      {startTime && startTime.toNumber() < date.getTime() / 1000 ? (
+      {startTime && startTime.toNumber() > date.getTime() / 1000 ? (
         <div className="alert alert-warning">
           <div className="flex-1">
             <svg

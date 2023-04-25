@@ -50,7 +50,7 @@ export const BetAccept = ({
           : ''
       }`}
     >
-      accept
+      {betValue} ETH to accept
     </button>
   ) : (
     <BetAccepted betId={betId} />
