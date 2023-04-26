@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { UserContext } from '@/lib/UserContext';
 import { magic } from '@/lib/magic';
 import { useContext } from 'react';
-import { format } from '@/lib/format';
 import {
   BanknotesIcon,
   ClipboardDocumentCheckIcon,
@@ -13,7 +12,7 @@ import { useBalance } from 'wagmi';
 import { makeNum } from '@/lib/number-utils';
 import { getETHPrice } from '@/lib/getEthPrice';
 import { toast } from 'react-hot-toast';
-import { BsQuestionCircle } from 'react-icons/bs';
+import { BsQuestionCircle, BsEye } from 'react-icons/bs';
 import { RxDiscordLogo } from 'react-icons/rx';
 
 const Navbar = () => {
@@ -102,7 +101,7 @@ const Navbar = () => {
                   href={`https://goerli.basescan.org/address/${user?.publicAddress}`}
                 >
                   <p className="btn btn-primary btn-outline w-full">
-                    Visit {format(user?.publicAddress)}
+                    <BsEye className="h-6 w-6" /> View Transactions
                   </p>
                 </Link>
 
@@ -114,7 +113,7 @@ const Navbar = () => {
                   }}
                 >
                   <ClipboardDocumentCheckIcon className="h-6 w-6" /> Copy{' '}
-                  {format(user?.publicAddress)}
+                  Address
                 </label>
                 <div className="flex items-center">
                   <label className="input-group input-group-md">
