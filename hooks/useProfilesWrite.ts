@@ -22,7 +22,7 @@ const useProfilesWrite = () => {
 
     const contract = wagmi.useContract({
       // Add the address that was output from your deploy script
-      address: '0x23Bb9234B1cc80FbE72707aB137630031eCA524B',
+      address: '0xa4E34Cee12251b0F28e814E0dc332D838F615dB9',
       abi: ProfilesContract.abi,
       signerOrProvider: signer,
     });
@@ -36,7 +36,7 @@ const useProfilesWrite = () => {
 
           const request: any = {
             chainId: 84531,
-            target: '0x23Bb9234B1cc80FbE72707aB137630031eCA524B',
+            target: '0xa4E34Cee12251b0F28e814E0dc332D838F615dB9',
             data: data,
             user: await signer.getAddress(),
           };

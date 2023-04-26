@@ -5,7 +5,7 @@ export const useBetsSubscriber = ({ eventName, listener }: any) => {
   return useContractEvent({
     chainId: 84531,
     eventName,
-    address: '0xF6F7080DE9004187193edA6bD978Aa77B4db60e9',
+    address: '0x3eD00fF99F1671311f04853C7ceA2Ac9A53bfC8c',
     abi: BetsContract.abi,
     listener: listener as (...args: unknown[]) => void,
   });

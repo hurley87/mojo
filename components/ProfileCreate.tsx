@@ -44,8 +44,6 @@ export const CreateProfile = () => {
   const profilesContract = useProfilesWrite();
   const [loading, setLoading] = useState(false);
 
-  console.log('SHOW', hasProfile);
-
   async function handleCreateProfile() {
     setLoading(true);
     console.log(user);

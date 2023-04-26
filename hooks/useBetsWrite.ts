@@ -21,7 +21,7 @@ const useBetsWrite = () => {
     const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
     const signer = provider.getSigner();
     const contract = wagmi.useContract({
-      address: '0xF6F7080DE9004187193edA6bD978Aa77B4db60e9',
+      address: '0x3eD00fF99F1671311f04853C7ceA2Ac9A53bfC8c',
       abi: BetsContract.abi,
       signerOrProvider: signer,
     });
@@ -54,7 +54,7 @@ const useBetsWrite = () => {
 
           const request: any = {
             chainId: 84531,
-            target: '0xF6F7080DE9004187193edA6bD978Aa77B4db60e9',
+            target: '0x3eD00fF99F1671311f04853C7ceA2Ac9A53bfC8c',
             data: data,
             user: await signer.getAddress(),
           };
