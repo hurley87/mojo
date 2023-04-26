@@ -2,39 +2,38 @@ const faqs = [
   {
     question: 'How do I get started?',
     answer:
-      'You need a Discord account to get started. In Discord, you can join the server by clicking the link in the top right corner of the page.',
+      'You need a Discord account to get started. Join our Discord server and follow the instructions in the #get-started channel.',
   },
   {
     question: 'How do I place a bet?',
-    answer: 'tabIndex={1} attribute is necessary to make the div focusable',
+    answer:
+      'Pick a game, pick a team, the amount you want to bet and the odds you want to bet at. Then click the "Place Bet" button. Someone will have to accept your bet before it is placed.',
   },
   {
     question: 'How do you make money?',
-    answer: 'tabIndex={2} attribute is necessary to make the div focusable',
+    answer: 'We take 1% of the amount from each bet.',
   },
   {
     question: 'How are you only able to charge 1%?',
-    answer: 'tabIndex={2} attribute is necessary to make the div focusable',
+    answer:
+      'We use the blockchain to cut out the middleman. We can charge less because all bets are managed by code. ',
   },
   {
     question: 'What currency do I bet with?',
-    answer: 'tabIndex={2} attribute is necessary to make the div focusable',
+    answer: 'This is built on Base. You can get testnet ETH directly from us.',
   },
   {
-    question: 'How can I get more testnet ETH?',
-    answer: 'tabIndex={2} attribute is necessary to make the div focusable',
-  },
-  {
-    question: 'When are bets closed?',
-    answer: 'tabIndex={2} attribute is necessary to make the div focusable',
+    question: 'When are bets closed and winnings distributed?',
+    answer:
+      'We close bets before the game starts and winnings are distributed after the game ends.',
   },
   {
     question: 'How do I check my balance?',
-    answer: 'tabIndex={2} attribute is necessary to make the div focusable',
+    answer: 'You can check your balance in the top right corner of the page.',
   },
   {
     question: 'How do I withdraw my winnings?',
-    answer: 'tabIndex={3} attribute is necessary to make the div focusable',
+    answer: 'Reach out to our support team to withdraw your winnings.',
   },
 ];
 
@@ -47,11 +46,11 @@ export const FAQ = () => {
           tabIndex={index}
           className="collapse collapse-arrow bg-base-100 rounded-box"
         >
-          <div className="collapse-title text-sm lg:text-2xl font-medium">
+          <div className="collapse-title text-sm lg:text-xl font-medium">
             {faq.question}
           </div>
           <div className="collapse-content">
-            <p className="text-xs lg:text-lg">{faq.answer}</p>
+            <p>{faq.answer}</p>
           </div>
         </div>
       ))}
