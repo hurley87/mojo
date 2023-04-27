@@ -23,10 +23,10 @@ export const GetStarted = () => {
             />
           </p>
 
-          <h1 className="mb-5 text-3xl md:text-6xl font-bold">
+          <h1 className="mb-5 text-3xl md:text-5xl lg:text-6xl font-bold">
             Cut out the middleman. Bet your friend directly.
           </h1>
-          <p className="mb-8 text-lg md:text-xl">
+          <p className="mb-8 text-lg lg:text-xl">
             MOJO makes betting with friends easy, transparent, and fair without
             the need for a casino, bookie, offshore site, or other middleman.
           </p>
