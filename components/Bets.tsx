@@ -18,7 +18,7 @@ const Bets = ({ gameId }: { gameId: number }) => {
   });
 
   return (
-    <div className="flex flex-col gap-2 mt-6">
+    <div className="flex flex-col gap-2 mt-4">
       {isBetsLoading && (
         <div className="flex flex-col space-y-3">loading ...</div>
       )}
