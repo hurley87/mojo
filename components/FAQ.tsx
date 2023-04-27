@@ -2,7 +2,7 @@ const faqs = [
   {
     question: 'How do I get started?',
     answer:
-      'You need a Discord account to get started. Join our Discord server and follow the instructions in the #get-started channel.',
+      'You need a Discord account to get started. Join our Discord server at https://discord.gg/MjT8ZAZtw4 and follow the instructions in the #start-here channel.',
   },
   {
     question: 'How do I place a bet?',
