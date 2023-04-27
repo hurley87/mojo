@@ -28,6 +28,8 @@ const GameView = ({ gameId }: { gameId: string }) => {
   });
   const date = new Date();
 
+  console.log('awayTeamId', awayTeamId);
+
   return (
     <div>
       <div className="text-sm breadcrumbs mb-2">
@@ -68,8 +70,8 @@ const GameView = ({ gameId }: { gameId: string }) => {
             gameId={parseInt(gameId)}
             homeTeamName={homeTeamName}
             awayTeamName={awayTeamName}
-            awayTeamId={awayTeamId}
-            homeTeamId={homeTeamId}
+            awayTeamId={awayTeamId.toNumber()}
+            homeTeamId={homeTeamId.toNumber()}
           />
           <Bets gameId={parseInt(gameId)} />
         </>

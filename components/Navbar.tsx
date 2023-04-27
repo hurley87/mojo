@@ -14,6 +14,7 @@ import { getETHPrice } from '@/lib/getEthPrice';
 import { toast } from 'react-hot-toast';
 import { BsQuestionCircle, BsEye } from 'react-icons/bs';
 import { RxDiscordLogo } from 'react-icons/rx';
+import { useProfilesRead } from '@/hooks/useProfilesRead';
 
 const Navbar = () => {
   const [user, _]: any = useContext(UserContext);
@@ -22,6 +23,10 @@ const Navbar = () => {
   const [usdAmount, setUSDAmount] = useState(2000);
   const { data } = useBalance({
     address,
+  });
+  const { data: profile } = useProfilesRead({
+    functionName: 'getProfileByWalletAddress',
+    args: [address],
   });
 
   async function login() {
@@ -72,8 +77,8 @@ const Navbar = () => {
           </button>
         ) : (
           <>
-            <label htmlFor="my-modal-2" className="btn btn-square modal-button">
-              <BanknotesIcon className="h-6 w-6" />
+            <label htmlFor="my-modal-2" className="btn modal-button">
+              {profile?.username}
             </label>
             <input type="checkbox" id="my-modal-2" className="modal-toggle" />
             <div className="modal">

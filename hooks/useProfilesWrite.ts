@@ -44,8 +44,6 @@ const useProfilesWrite = () => {
 
           const apiKey = process.env.NEXT_PUBLIC_GELATO_API as string;
 
-          console.log(apiKey);
-
           const response = await relay.sponsoredCallERC2771(
             request,
             provider,

@@ -33,11 +33,21 @@ const useBetsWrite = () => {
       odds: number
     ): Promise<string> => {
       try {
+        console.log('gameId', gameId);
+        console.log('teamId', teamId);
+        console.log('betValue', betValue);
+        console.log('odds', odds);
         if (contract) {
-          const tx = await contract.createBet(gameId, makeBig(odds), teamId, {
-            value: utils.parseEther(betValue),
-          });
+          const tx = await contract.createBet(
+            gameId,
+            makeBig(odds),
+            makeBig(teamId),
+            {
+              value: utils.parseEther(betValue),
+            }
+          );
           const receipt = await tx.wait();
+          console.log(receipt);
 
           return receipt.transactionHash;
         } else return '';
@@ -48,6 +58,7 @@ const useBetsWrite = () => {
     };
 
     const cancelBet = async (betId: number): Promise<string> => {
+      console.log('betId', betId);
       try {
         if (contract) {
           const { data } = await contract.populateTransaction.cancelBet(betId);

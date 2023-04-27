@@ -1,6 +1,6 @@
 import useBetsWrite from '@/hooks/useBetsWrite';
 import { UserContext } from '@/lib/UserContext';
-import { makeNum } from '@/lib/number-utils';
+import { makeBig, makeNum } from '@/lib/number-utils';
 import { useContext, useState } from 'react';
 import { useBalance } from 'wagmi';
 import va from '@vercel/analytics';
@@ -8,6 +8,7 @@ import { useBetsSubscriber } from '@/hooks/useBetsSubscribe';
 import { BigNumber } from 'ethers';
 import toast from 'react-hot-toast';
 import { getETHPrice } from '@/lib/getEthPrice';
+import { useTeamsRead } from '@/hooks/useTeamsRead';
 
 export const CreateBet = ({
   gameId,
@@ -22,6 +23,7 @@ export const CreateBet = ({
   awayTeamId: number;
   homeTeamId: number;
 }) => {
+  console.log(homeTeamId);
   const [teamId, setTeamId] = useState(homeTeamId);
   const [betValue, setBetValue] = useState('0.01');
   const [odds, setOdds] = useState(1.0);
@@ -33,6 +35,10 @@ export const CreateBet = ({
   const address = user?.publicAddress;
   const { data, isLoading } = useBalance({
     address,
+  });
+  const { data: teamPicked } = useTeamsRead({
+    functionName: 'getTeam',
+    args: [teamId],
   });
 
   useBetsSubscriber({
@@ -194,6 +200,10 @@ export const CreateBet = ({
           </button>
         )}
       </div>
+      <p className="pt-2 text-xs">
+        Bet {betValue} ETH on {teamPicked?.name} to win at {odds.toFixed(1)}{' '}
+        odds.
+      </p>
     </div>
   );
 };
