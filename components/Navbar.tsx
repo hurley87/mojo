@@ -106,7 +106,7 @@ const Navbar = () => {
                   href={`https://goerli.basescan.org/address/${user?.publicAddress}`}
                 >
                   <p className="btn btn-primary btn-outline w-full">
-                    <BsEye className="h-6 w-6" /> View Transactions
+                    <BsEye className="h-6 w-6 mr-2" /> View Transactions
                   </p>
                 </Link>
 
@@ -117,7 +117,7 @@ const Navbar = () => {
                     toast.success('Copied to clipboard! 📋');
                   }}
                 >
-                  <ClipboardDocumentCheckIcon className="h-6 w-6" /> Copy{' '}
+                  <ClipboardDocumentCheckIcon className="h-6 w-6 mr-2" /> Copy{' '}
                   Address
                 </label>
                 <div className="flex items-center">
@@ -147,7 +147,7 @@ const Navbar = () => {
                     className="btn btn-primary btn-outline w-full"
                     onClick={logout}
                   >
-                    <ArrowLeftOnRectangleIcon className="h-6 w-6" /> Logout
+                    <ArrowLeftOnRectangleIcon className="h-6 w-6 mr-2" /> Logout
                   </label>
                 </div>
               </div>
