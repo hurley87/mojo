@@ -27,7 +27,7 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
   });
   const { data: teamPicked } = useTeamsRead({
     functionName: 'getTeam',
-    args: [bet?.teamPickedId],
+    args: [parseInt(makeNum(bet?.teamPickedId))],
   });
   const myBet =
     user?.publicAddress?.toLowerCase() === bet?.creator?.toLowerCase();
@@ -36,9 +36,12 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
     if (bet?.state) setBetState(BET_STATE[bet?.state]);
     if (bet?.odds)
       setBetValue(
-        (Number(bet?.amount.mul(100).div(bet?.odds)) / 100).toString()
+        (Number(bet?.amount.mul(10000).div(bet?.odds)) / 10000).toString()
       );
   }, [bet?.state, bet?.odds, bet?.amount]);
+
+  console.log(betValue);
+  console.log(makeNum(bet?.amount));
 
   return user?.loading ? (
     <div className="h-10 w-full animate-pulse bg-primary-focus rounded-md"></div>
@@ -51,16 +54,27 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
       {!isBetLoading && bet && (
         <div className="flex justify-between w-full">
           <div className="flex flex-col gap-0">
-            <p className="text-sm lg:text-lg">
-              {profile?.username} bet {makeNum(bet?.amount)} on{' '}
+            <p className="text-sm lg:text-md font-bold">
+              {profile?.username} bet {makeNum(bet?.amount)} ETH on{' '}
               {teamPicked?.name}
             </p>
-            <p className="text-xs">
-              Odds: {makeNum(bet?.odds)} | Profit:{' '}
-              {(parseFloat(makeNum(bet?.odds)) * parseFloat(betValue)).toFixed(
-                2
-              )}
-            </p>
+            <div className="flex flex-row gap-1">
+              <p className="text-xs pt-1.5 text-green-500">
+                {myBet
+                  ? `Profit: ${
+                      Number(bet?.amount.mul(10000).div(bet?.odds)) / 10000
+                    }`
+                  : `Profit: ${makeNum(bet?.amount)}`}
+              </p>
+              <div
+                className="tooltip tooltip-right"
+                data-tip={`The odds are ${parseFloat(
+                  makeNum(bet?.odds)
+                ).toFixed(1)} to 1`}
+              >
+                <button className="btn btn-xs">?</button>
+              </div>
+            </div>
           </div>
 
           {myBet && betState === BET_STATE[0] && <CancelBet betId={betId} />}

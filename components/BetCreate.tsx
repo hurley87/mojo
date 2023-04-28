@@ -23,7 +23,6 @@ export const CreateBet = ({
   awayTeamId: number;
   homeTeamId: number;
 }) => {
-  console.log(homeTeamId);
   const [teamId, setTeamId] = useState(homeTeamId);
   const [betValue, setBetValue] = useState('0.01');
   const [odds, setOdds] = useState(1.0);
@@ -41,6 +40,8 @@ export const CreateBet = ({
     args: [teamId],
   });
 
+  console.log('teamId', teamId);
+
   useBetsSubscriber({
     eventName: 'BetCreated',
     listener: (
@@ -54,7 +55,7 @@ export const CreateBet = ({
         betId: betCounter.toNumber(),
         amount: makeNum(msgValue),
         odds: makeNum(odds),
-        teamId: teamId.toNumber(),
+        teamId: teamId?.toNumber(),
         address: msgSender,
       });
       setIsBetting(false);
@@ -117,7 +118,7 @@ export const CreateBet = ({
       </div>
     </div>
   ) : (
-    <div>
+    <div className="py-4">
       <div className="flex flex-col md:flex-row gap-2">
         <select
           defaultValue={homeTeamId}
@@ -201,8 +202,12 @@ export const CreateBet = ({
         )}
       </div>
       <p className="pt-2 text-xs">
-        Bet {betValue} ETH on {teamPicked?.name} to win at {odds.toFixed(1)}{' '}
-        odds.
+        Bet <b>{betValue} ETH</b> on the {teamPicked?.name} to win at{' '}
+        <b>{odds.toFixed(1)} to 1 odds</b> for a profit of{' '}
+        <b>
+          {Number(makeBig(betValue).mul(10000).div(makeBig(odds))) / 10000} ETH
+        </b>
+        .
       </p>
     </div>
   );

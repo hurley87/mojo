@@ -44,13 +44,13 @@ export const BetAccept = ({
   return !hasAccepted ? (
     <button
       onClick={handleAcceptBet}
-      className={`btn ${
+      className={`btn btn-primary btn-outline ${
         isLoading
           ? 'loading before:!w-4 before:!h-4 before:!mx-0 before:!mr-1'
           : ''
       }`}
     >
-      {betValue} ETH to accept
+      accept - {betValue} ETH
     </button>
   ) : (
     <BetAccepted betId={betId} />

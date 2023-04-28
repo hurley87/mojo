@@ -5,7 +5,7 @@ export const useProfilesSubscriber = ({ eventName, listener }: any) => {
   return useContractEvent({
     chainId: 84531,
     eventName,
-    address: '0xa4E34Cee12251b0F28e814E0dc332D838F615dB9',
+    address: '0x7C98F5fb1c227Af0db2F74cCb38e2e40f84F3E27',
     abi: ProfilesContract.abi,
     listener: listener as (...args: unknown[]) => void,
   });
