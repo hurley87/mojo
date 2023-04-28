@@ -201,7 +201,7 @@ export const CreateBet = ({
           </button>
         )}
       </div>
-      <p className="pt-2 text-xs">
+      <p className="pt-3 text-xs">
         Bet <b>{betValue} ETH</b> on the {teamPicked?.name} to win at{' '}
         <b>{odds.toFixed(1)} to 1 odds</b> for a profit of{' '}
         <b>
