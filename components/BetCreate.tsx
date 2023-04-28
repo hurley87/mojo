@@ -55,7 +55,7 @@ export const CreateBet = ({
         betId: betCounter.toNumber(),
         amount: makeNum(msgValue),
         odds: makeNum(odds),
-        teamId: teamId?.toNumber(),
+        teamId: makeNum(teamId),
         address: msgSender,
       });
       setIsBetting(false);

@@ -52,10 +52,10 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
         <div className="h-10 w-full animate-pulse bg-primary-focus rounded-md"></div>
       )}
       {!isBetLoading && bet && (
-        <div className="flex justify-between w-full">
+        <div className="flex flex-col md:flex-row gap-3 md:justify-between w-full">
           <div className="flex flex-col gap-0">
             <p className="text-sm lg:text-md font-bold">
-              {profile?.username} bet {makeNum(bet?.amount)} ETH on{' '}
+              {profile?.username} bet {makeNum(bet?.amount)} ETH on the{' '}
               {teamPicked?.name}
             </p>
             <div className="flex flex-row gap-1">
