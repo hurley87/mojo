@@ -73,9 +73,9 @@ const GameView = ({ gameId }: { gameId: string }) => {
             awayTeamId={awayTeamId.toNumber()}
             homeTeamId={homeTeamId.toNumber()}
           />
-          <Bets gameId={parseInt(gameId)} />
         </>
       )}
+      <Bets gameId={parseInt(gameId)} />
     </div>
   );
 };
