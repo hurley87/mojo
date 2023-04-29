@@ -2,7 +2,7 @@ import { useEffect, useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { magic } from '@/lib/magic';
 import { UserContext } from '@/lib/UserContext';
-import { toast } from 'react-hot-toast';
+// import { toast } from 'react-hot-toast';
 import Layout from '@/components/Layout';
 import BullLottie from '@/components/BullLottie';
 
@@ -22,7 +22,7 @@ const Callback = () => {
         router.push('/');
       } catch (error) {
         console.log('error', error);
-        if (showWarning) toast.error('There was an error. Please try again.');
+        // if (showWarning) toast.success('Get started!');
         setShowWarning(false);
         router.push('/');
       }
