@@ -6,7 +6,6 @@ import Bets from './Bets';
 import Link from 'next/link';
 
 const GameView = ({ gameId }: { gameId: string }) => {
-  console.log('gameId', gameId);
   const { data: homeTeamName } = useGamesRead({
     functionName: 'getGameHomeTeamName',
     args: [gameId],
@@ -28,8 +27,6 @@ const GameView = ({ gameId }: { gameId: string }) => {
     args: [gameId],
   });
   const date = new Date();
-
-  console.log('gameId', gameId);
 
   return (
     <div>

@@ -40,9 +40,6 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
       );
   }, [bet?.state, bet?.odds, bet?.amount]);
 
-  console.log(betValue);
-  console.log(makeNum(bet?.amount));
-
   return user?.loading ? (
     <div className="h-10 w-full animate-pulse bg-primary-focus rounded-md"></div>
   ) : (

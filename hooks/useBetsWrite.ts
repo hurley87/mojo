@@ -33,10 +33,6 @@ const useBetsWrite = () => {
       odds: number
     ): Promise<string> => {
       try {
-        console.log('gameId', gameId);
-        console.log('teamId', teamId);
-        console.log('betValue', betValue);
-        console.log('odds', odds);
         if (contract) {
           const tx = await contract.createBet(
             gameId,
@@ -58,7 +54,6 @@ const useBetsWrite = () => {
     };
 
     const cancelBet = async (betId: number): Promise<string> => {
-      console.log('betId', betId);
       try {
         if (contract) {
           const { data } = await contract.populateTransaction.cancelBet(betId);

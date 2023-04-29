@@ -46,7 +46,6 @@ export const CreateProfile = () => {
 
   async function handleCreateProfile() {
     setLoading(true);
-    console.log(user);
     try {
       await profilesContract?.createProfile(username);
     } catch (e) {

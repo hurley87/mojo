@@ -40,8 +40,6 @@ export const CreateBet = ({
     args: [teamId],
   });
 
-  console.log('teamId', teamId);
-
   useBetsSubscriber({
     eventName: 'BetCreated',
     listener: (
