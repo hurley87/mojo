@@ -27,10 +27,13 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
   });
   const { data: teamPicked } = useTeamsRead({
     functionName: 'getTeam',
-    args: [parseInt(makeNum(bet?.teamPickedId))],
+    args: [bet?.teamPickedId?.toNumber()],
   });
   const myBet =
     user?.publicAddress?.toLowerCase() === bet?.creator?.toLowerCase();
+
+  console.log(bet?.teamPickedId?.toNumber());
+  console.log(bet?.otherTeamPickedId?.toNumber());
 
   useEffect(() => {
     if (bet?.state) setBetState(BET_STATE[bet?.state]);

@@ -21,7 +21,7 @@ const useBetsWrite = () => {
     const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
     const signer = provider.getSigner();
     const contract = wagmi.useContract({
-      address: '0xE392753b47575c3854397CC827Bc57d8Daa54EDD',
+      address: '0xC0d272Fe35E3E45852af12b454AA4AE7e8EE939F',
       abi: BetsContract.abi,
       signerOrProvider: signer,
     });
@@ -32,16 +32,12 @@ const useBetsWrite = () => {
       betValue: string,
       odds: number
     ): Promise<string> => {
+      console.log('createBet', gameId, teamId, betValue, odds);
       try {
         if (contract) {
-          const tx = await contract.createBet(
-            gameId,
-            makeBig(odds),
-            makeBig(teamId),
-            {
-              value: utils.parseEther(betValue),
-            }
-          );
+          const tx = await contract.createBet(gameId, makeBig(odds), teamId, {
+            value: utils.parseEther(betValue),
+          });
           const receipt = await tx.wait();
           console.log(receipt);
 
@@ -60,7 +56,7 @@ const useBetsWrite = () => {
 
           const request: any = {
             chainId: 84531,
-            target: '0xE392753b47575c3854397CC827Bc57d8Daa54EDD',
+            target: '0xC0d272Fe35E3E45852af12b454AA4AE7e8EE939F',
             data: data,
             user: await signer.getAddress(),
           };

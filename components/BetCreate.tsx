@@ -46,14 +46,14 @@ export const CreateBet = ({
       betCounter: BigNumber,
       msgValue: BigNumber,
       odds: BigNumber,
-      teamId: BigNumber,
+      teamId: number,
       msgSender: string
     ) => {
       va.track('BetCreated', {
         betId: betCounter.toNumber(),
         amount: makeNum(msgValue),
         odds: makeNum(odds),
-        teamId: makeNum(teamId),
+        teamId: teamId,
         address: msgSender,
       });
       setIsBetting(false);
@@ -61,6 +61,9 @@ export const CreateBet = ({
   });
 
   async function handlePlaceBetting() {
+    console.log('SUBMIT');
+    console.log(gameId, teamId, betValue, odds);
+    console.log(homeTeamId);
     try {
       setIsBetting(true);
       const createBetResponse = await betsContract?.createBet(

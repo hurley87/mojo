@@ -18,7 +18,7 @@ const GameView = ({ gameId }: { gameId: string }) => {
     functionName: 'getGameAwayTeamId',
     args: [gameId],
   });
-  const { data: homeTeamId } = useGamesRead({
+  const { data: homeTeamId, isLoading } = useGamesRead({
     functionName: 'getGameHomeTeamId',
     args: [gameId],
   });
@@ -64,13 +64,15 @@ const GameView = ({ gameId }: { gameId: string }) => {
         </div>
       ) : (
         <>
-          <CreateBet
-            gameId={parseInt(gameId)}
-            homeTeamName={homeTeamName}
-            awayTeamName={awayTeamName}
-            awayTeamId={awayTeamId?.toNumber()}
-            homeTeamId={homeTeamId?.toNumber()}
-          />
+          {!isLoading && awayTeamId?.toNumber() && homeTeamId?.toNumber() && (
+            <CreateBet
+              gameId={parseInt(gameId)}
+              homeTeamName={homeTeamName}
+              awayTeamName={awayTeamName}
+              awayTeamId={awayTeamId?.toNumber()}
+              homeTeamId={homeTeamId?.toNumber()}
+            />
+          )}
         </>
       )}
       <Bets gameId={parseInt(gameId)} />

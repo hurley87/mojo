@@ -47,10 +47,10 @@ const Bets = ({ gameId }: { gameId: number }) => {
         {bets && bets.length > 0 && (
           <div className="p-2 lg:p-6 card bg-base-300 w-full">
             {reverseArr(bets).map((betId: BigNumber, index: number) => (
-              <>
+              <div key={index}>
                 {index !== 0 && <div className="divider"></div>}
                 <Bet key={betId.toNumber()} betId={betId} />
-              </>
+              </div>
             ))}
           </div>
         )}

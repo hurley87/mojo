@@ -77,9 +77,12 @@ const Navbar = () => {
           </button>
         ) : (
           <>
-            <label htmlFor="my-modal-2" className="btn modal-button">
-              {profile?.username}
-            </label>
+            {profile?.walletAddress.toLowerCase() ===
+              address?.toLowerCase() && (
+              <label htmlFor="my-modal-2" className="btn modal-button">
+                {profile?.username}
+              </label>
+            )}
             <input type="checkbox" id="my-modal-2" className="modal-toggle" />
             <div className="modal">
               <div className="modal-box text-center flex flex-col gap-4 max-w-xs">
