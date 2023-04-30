@@ -64,7 +64,7 @@ const GameView = ({ gameId }: { gameId: string }) => {
         </div>
       ) : (
         <>
-          {!isLoading && awayTeamId?.toNumber() && homeTeamId?.toNumber() && (
+          {!isLoading && (
             <CreateBet
               gameId={parseInt(gameId)}
               homeTeamName={homeTeamName}
