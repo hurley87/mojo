@@ -12,6 +12,7 @@ const Layout = ({ children }: Props) => {
   return (
     <div className="flex flex-col h-screen justify-between p-4">
       <Head>
+        <title>MOJO</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="description" content="P2P sports betting protocol" />
