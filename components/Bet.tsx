@@ -32,9 +32,6 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
   const myBet =
     user?.publicAddress?.toLowerCase() === bet?.creator?.toLowerCase();
 
-  console.log(bet?.teamPickedId?.toNumber());
-  console.log(bet?.otherTeamPickedId?.toNumber());
-
   useEffect(() => {
     if (bet?.state) setBetState(BET_STATE[bet?.state]);
     if (bet?.odds)

@@ -4,6 +4,7 @@ import useBetsWrite from '@/hooks/useBetsWrite';
 import { useBetsSubscriber } from '@/hooks/useBetsSubscribe';
 import { BetAccepted } from './BetAccepted';
 import va from '@vercel/analytics';
+import toast from 'react-hot-toast';
 
 export const BetAccept = ({
   betValue,
@@ -36,6 +37,7 @@ export const BetAccept = ({
       await betsContract?.acceptBet(betValue, betId.toNumber());
     } catch (e) {
       console.log(e);
+      toast.error('Inufficient funds');
       setIsLoading(false);
       va.track('BetAcceptedError', { betId: betId.toNumber() });
     }

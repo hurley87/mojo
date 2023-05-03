@@ -82,19 +82,14 @@ const useBetsWrite = () => {
       betValue: string,
       betId: number
     ): Promise<string> => {
-      try {
-        if (contract) {
-          const tx = await contract.acceptBet(betId, {
-            value: utils.parseEther(betValue),
-          });
-          const receipt = await tx.wait();
+      if (contract) {
+        const tx = await contract.acceptBet(betId, {
+          value: utils.parseEther(betValue),
+        });
+        const receipt = await tx.wait();
 
-          return receipt.transactionHash;
-        } else return '';
-      } catch (e) {
-        console.log('e', e);
-        return '';
-      }
+        return receipt.transactionHash;
+      } else return '';
     };
 
     return {
