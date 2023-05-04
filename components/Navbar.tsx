@@ -8,6 +8,7 @@ import {
   ClipboardDocumentCheckIcon,
   ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline';
+import { GiHorseHead, GiHockey } from 'react-icons/gi';
 import { useBalance } from 'wagmi';
 import { makeNum } from '@/lib/number-utils';
 import { getETHPrice } from '@/lib/getEthPrice';
@@ -61,6 +62,16 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex">
+        <Link href="/hockey">
+          <div className="btn btn-square">
+            <GiHockey className="h-6 w-6" />
+          </div>
+        </Link>
+        <Link href="/derby">
+          <div className="btn btn-square">
+            <GiHorseHead className="h-6 w-6" />
+          </div>
+        </Link>
         <Link href="/faq">
           <div className="btn btn-square">
             <BsQuestionCircle className="h-6 w-6" />
