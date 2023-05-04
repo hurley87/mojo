@@ -27,7 +27,7 @@ const Layout = ({ children }: Props) => {
           name="twitter:image"
           content="https://pollock-art.s3.amazonaws.com/meta.png"
         />
-        <meta property="og:url" content={`https://mojoclub.vercel.app/`} />
+        <meta property="og:url" content={`https://mojo.club`} />
         <meta property="og:title" content="MOJO" />
         <meta property="og:description" content="P2P sports betting protocol" />
         <meta
