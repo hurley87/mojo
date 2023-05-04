@@ -29,6 +29,8 @@ const Navbar = () => {
     args: [address],
   });
 
+  console.log(profile);
+
   async function login() {
     await magic.oauth.loginWithRedirect({
       provider: 'discord',
@@ -104,6 +106,34 @@ const Navbar = () => {
                     close
                   </div>
                 </label>
+                <div className="flex flex-col">
+                  <div className="">
+                    <table className="table w-full">
+                      {/* head */}
+                      <thead>
+                        <tr>
+                          <th className="pb-0">Bets</th>
+                          <th className="pb-0">Winnings</th>
+                          <th className="pb-0">Losses</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {/* row 1 */}
+                        <tr>
+                          <td className="text-xs pt-1">
+                            {profile?.betCount.toNumber()}
+                          </td>
+                          <td className="text-xs pt-1">
+                            {makeNum(profile?.winnings)} ETH
+                          </td>
+                          <td className="text-xs pt-1">
+                            {makeNum(profile?.losses)} ETH
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
                 <Link
                   target="_blank"
                   href={`https://goerli.basescan.org/address/${user?.publicAddress}`}
