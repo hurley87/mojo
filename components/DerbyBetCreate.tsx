@@ -9,6 +9,7 @@ import { getETHPrice } from '@/lib/getEthPrice';
 import useDerbyWrite from '@/hooks/useDerbyWrite';
 import { useDerbySubscriber } from '@/hooks/useDerbySubscribe';
 import { horses } from '@/lib/horses';
+import Link from 'next/link';
 
 export const DerbyBetCreate = () => {
   const [horseId, setHorseId] = useState<number>(0);
@@ -86,58 +87,62 @@ export const DerbyBetCreate = () => {
     </div>
   ) : (
     <div className="py-4">
-      <div className="flex flex-col md:flex-row gap-2">
-        <select
-          defaultValue={0}
-          onChange={(e) => setHorseId(parseInt(e.target.value))}
-          className="select select-bordered select-primary w-56"
-        >
-          {horses.map((horse, index) => {
-            return (
-              <option key={index} value={index}>
-                {horse}
-              </option>
-            );
-          })}
-        </select>
+      {data ? (
+        <div className="flex flex-col md:flex-row gap-2">
+          <select
+            defaultValue={0}
+            onChange={(e) => setHorseId(parseInt(e.target.value))}
+            className="select select-bordered select-primary w-56"
+          >
+            {horses.map((horse, index) => {
+              return (
+                <option key={index} value={index}>
+                  {horse}
+                </option>
+              );
+            })}
+          </select>
 
-        {isUSD ? (
-          <label className="input-group input-group-md">
-            <input
-              type="text"
-              placeholder="bet amount"
-              className={`input input-bordered w-full`}
-              value={
-                isUSD
-                  ? usdAmount.toFixed(2)
-                  : data && parseFloat(makeNum(data?.value))
-              }
-            />
-            <button onClick={() => setIsUSD(false)} className="btn btn-primary">
-              USD
-            </button>
-          </label>
-        ) : (
-          <label className="input-group input-group-md">
-            <input
-              type="text"
-              placeholder="bet amount"
-              className={`input input-bordered w-full ${
-                (data &&
-                  parseFloat(betValue) > parseFloat(makeNum(data?.value))) ||
-                betValue === ''
-                  ? 'input-error'
-                  : 'input-primary'
-              }`}
-              value={betValue}
-              onChange={(e) => setBetValue(e.target.value)}
-            />
-            <span onClick={handleConvert} className="btn btn-primary">
-              ETH
-            </span>
-          </label>
-        )}
-        {data && (
+          {isUSD ? (
+            <label className="input-group input-group-md">
+              <input
+                type="text"
+                placeholder="bet amount"
+                className={`input input-bordered w-full`}
+                value={
+                  isUSD
+                    ? usdAmount.toFixed(2)
+                    : data && parseFloat(makeNum(data?.value))
+                }
+              />
+              <button
+                onClick={() => setIsUSD(false)}
+                className="btn btn-primary"
+              >
+                USD
+              </button>
+            </label>
+          ) : (
+            <label className="input-group input-group-md">
+              <input
+                type="text"
+                placeholder="bet amount"
+                className={`input input-bordered w-full ${
+                  (data &&
+                    parseFloat(betValue) > parseFloat(makeNum(data?.value))) ||
+                  betValue === ''
+                    ? 'input-error'
+                    : 'input-primary'
+                }`}
+                value={betValue}
+                onChange={(e) => setBetValue(e.target.value)}
+              />
+              <span onClick={handleConvert} className="btn btn-primary">
+                ETH
+              </span>
+            </label>
+          )}
+
           <button
             onClick={handlePlaceBetting}
             disabled={
@@ -152,8 +157,15 @@ export const DerbyBetCreate = () => {
           >
             Place Bet
           </button>
-        )}
-      </div>
+        </div>
+      ) : (
+        <Link href="/">
+          <button className={`btn btn-primary text-sm`}>
+            Create an account before betting
+          </button>
+        </Link>
+      )}
+
       <p className="pt-3 text-xs">
         Bet <b>{betValue} ETH</b> on {horses[horseId]} to win the Kentucky
         Derby. All bets are final and must be placed before 6:30pm EST.

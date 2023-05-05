@@ -9,6 +9,7 @@ import { BigNumber } from 'ethers';
 import toast from 'react-hot-toast';
 import { getETHPrice } from '@/lib/getEthPrice';
 import { useTeamsRead } from '@/hooks/useTeamsRead';
+import Link from 'next/link';
 
 export const CreateBet = ({
   gameId,
@@ -120,72 +121,75 @@ export const CreateBet = ({
     </div>
   ) : (
     <div className="py-4">
-      <div className="flex flex-col md:flex-row gap-2">
-        <select
-          defaultValue={homeTeamId}
-          onChange={(e) => setTeamId(parseInt(e.target.value))}
-          className="select select-bordered select-primary"
-        >
-          <option value={homeTeamId}>{homeTeamName}</option>
-          <option value={awayTeamId}>{awayTeamName}</option>
-        </select>
+      {data ? (
+        <div className="flex flex-col md:flex-row gap-2">
+          <select
+            defaultValue={homeTeamId}
+            onChange={(e) => setTeamId(parseInt(e.target.value))}
+            className="select select-bordered select-primary"
+          >
+            <option value={homeTeamId}>{homeTeamName}</option>
+            <option value={awayTeamId}>{awayTeamName}</option>
+          </select>
 
-        {isUSD ? (
-          <label className="input-group input-group-md">
-            <input
-              type="text"
-              placeholder="bet amount"
-              className={`input input-bordered w-full`}
-              value={
-                isUSD
-                  ? usdAmount.toFixed(2)
-                  : data && parseFloat(makeNum(data?.value))
-              }
-            />
-            <button onClick={() => setIsUSD(false)} className="btn btn-primary">
-              USD
+          {isUSD ? (
+            <label className="input-group input-group-md">
+              <input
+                type="text"
+                placeholder="bet amount"
+                className={`input input-bordered w-full`}
+                value={
+                  isUSD
+                    ? usdAmount.toFixed(2)
+                    : data && parseFloat(makeNum(data?.value))
+                }
+              />
+              <button
+                onClick={() => setIsUSD(false)}
+                className="btn btn-primary"
+              >
+                USD
+              </button>
+            </label>
+          ) : (
+            <label className="input-group input-group-md">
+              <input
+                type="text"
+                placeholder="bet amount"
+                className={`input input-bordered w-full ${
+                  (data &&
+                    parseFloat(betValue) > parseFloat(makeNum(data?.value))) ||
+                  betValue === ''
+                    ? 'input-error'
+                    : 'input-primary'
+                }`}
+                value={betValue}
+                onChange={(e) => setBetValue(e.target.value)}
+              />
+              <span onClick={handleConvert} className="btn btn-primary">
+                ETH
+              </span>
+            </label>
+          )}
+          <div className="flex p-1 border-primary border rounded-lg">
+            <button
+              onClick={() => setOdds(odds - 0.1)}
+              className="btn btn-sm btn-active btn-square m-0.5"
+            >
+              -
             </button>
-          </label>
-        ) : (
-          <label className="input-group input-group-md">
             <input
-              type="text"
-              placeholder="bet amount"
-              className={`input input-bordered w-full ${
-                (data &&
-                  parseFloat(betValue) > parseFloat(makeNum(data?.value))) ||
-                betValue === ''
-                  ? 'input-error'
-                  : 'input-primary'
-              }`}
-              value={betValue}
-              onChange={(e) => setBetValue(e.target.value)}
+              onChange={(e) => setOdds(parseFloat(e.target.value))}
+              className="text-md text-center bg-transparent w-full md:w-10"
+              value={odds.toFixed(1)}
             />
-            <span onClick={handleConvert} className="btn btn-primary">
-              ETH
-            </span>
-          </label>
-        )}
-        <div className="flex p-1 border-primary border rounded-lg">
-          <button
-            onClick={() => setOdds(odds - 0.1)}
-            className="btn btn-sm btn-active btn-square m-0.5"
-          >
-            -
-          </button>
-          <input
-            onChange={(e) => setOdds(parseFloat(e.target.value))}
-            className="text-md text-center bg-transparent w-full md:w-10"
-            value={odds.toFixed(1)}
-          />
-          <button
-            onClick={() => setOdds(odds + 0.1)}
-            className="btn btn-active btn-sm btn-square m-0.5"
-          >
-            +
-          </button>
-        </div>
-        {data && (
+            <button
+              onClick={() => setOdds(odds + 0.1)}
+              className="btn btn-active btn-sm btn-square m-0.5"
+            >
+              +
+            </button>
+          </div>
           <button
             onClick={handlePlaceBetting}
             disabled={
@@ -200,8 +204,15 @@ export const CreateBet = ({
           >
             Place Bet
           </button>
-        )}
-      </div>
+        </div>
+      ) : (
+        <Link href="/">
+          <button className={`btn btn-primary text-sm`}>
+            Create an account before betting
+          </button>
+        </Link>
+      )}
+
       <p className="pt-3 text-xs">
         Bet <b>{betValue} ETH</b> on the {teamPicked?.name} to win at{' '}
         <b>{odds.toFixed(1)} to 1 odds</b> for a profit of{' '}
