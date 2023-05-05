@@ -4,7 +4,6 @@ import { UserContext } from '@/lib/UserContext';
 import { magic } from '@/lib/magic';
 import { useContext } from 'react';
 import {
-  BanknotesIcon,
   ClipboardDocumentCheckIcon,
   ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline';
@@ -29,8 +28,6 @@ const Navbar = () => {
     functionName: 'getProfileByWalletAddress',
     args: [address],
   });
-
-  console.log(profile);
 
   async function login() {
     await magic.oauth.loginWithRedirect({
