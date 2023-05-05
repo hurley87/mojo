@@ -32,8 +32,10 @@ const DerbyBets = () => {
         {bets && bets.length > 0 && (
           <div className="p-2 lg:p-6 card bg-base-300 w-full">
             <div className="flex pb-10 justify-between w-full font-bold">
-              <p>{bets.length} Bets</p>
-              <p>{makeNum(totalBets)} ETH</p>
+              <p>
+                {bets.length} bets for a total of {makeNum(totalBets)} ETH
+              </p>
+              <p>Potential Earnings</p>
             </div>
             {reverseArr(bets).map((bet, index: number) => (
               <div key={index}>

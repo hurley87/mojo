@@ -36,9 +36,6 @@ export const DerbyBetCreate = () => {
   });
 
   async function handlePlaceBetting() {
-    console.log('SUBMIT');
-    console.log(horseId, betValue);
-
     try {
       setIsBetting(true);
       const createBetResponse = await betsContract?.placeBet(horseId, betValue);
