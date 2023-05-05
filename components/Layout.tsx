@@ -15,21 +15,18 @@ const Layout = ({ children }: Props) => {
         <title>MOJO</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="P2P sports betting protocol" />
+        <meta name="description" content="P2P sports betting" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@davidhurley87" />
         <meta name="twitter:title" content="MOJO" />
-        <meta
-          name="twitter:description"
-          content="P2P sports betting protocol"
-        />
+        <meta name="twitter:description" content="P2P sports betting" />
         <meta
           name="twitter:image"
           content="https://pollock-art.s3.amazonaws.com/meta.png"
         />
         <meta property="og:url" content={`https://mojo.club`} />
         <meta property="og:title" content="MOJO" />
-        <meta property="og:description" content="P2P sports betting protocol" />
+        <meta property="og:description" content="P2P sports betting" />
         <meta
           property="og:image"
           content="https://pollock-art.s3.amazonaws.com/meta.png"
