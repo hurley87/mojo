@@ -52,30 +52,30 @@ const Navbar = () => {
   }
 
   return (
-    <div className="navbar mb-2 shadow-lg bg-neutral text-neutral-content rounded-box">
-      <div className="flex-1 px-4 mx-2">
+    <div className="navbar mb-2 shadow-lg bg-neutral text-neutral-content rounded-box text-sm">
+      <div className="flex-1 mx-2">
         <Link href="/">
-          <span className="text-sm font-bold">MOJO</span>
+          <span className="font-bold text-sm">MOJO</span>
         </Link>
       </div>
-      <div className="flex">
+      <div className="flex gap-1">
         <Link href="/hockey">
           <div className="tooltip tooltip-bottom" data-tip="Hockey">
-            <div className="btn btn-square">
+            <div className="btn btn-square btn-sm">
               <GiHockey className="h-6 w-6" />
             </div>
           </div>
         </Link>
         <Link href="/derby">
           <div className="tooltip tooltip-bottom" data-tip="Kentucky Derby">
-            <div className="btn btn-square">
+            <div className="btn btn-square btn-sm">
               <GiHorseHead className="h-6 w-6" />
             </div>
           </div>
         </Link>
         <Link href="/faq">
           <div className="tooltip tooltip-bottom" data-tip="FAQ">
-            <div className="btn btn-square">
+            <div className="btn btn-square btn-sm">
               <BsQuestionCircle className="h-6 w-6" />
             </div>
           </div>
@@ -84,7 +84,7 @@ const Navbar = () => {
           <a
             href="https://discord.gg/MjT8ZAZtw4"
             target="_blank"
-            className="btn btn-square"
+            className="btn btn-square btn-sm"
           >
             <RxDiscordLogo className="h-6 w-6" />
           </a>
@@ -98,14 +98,17 @@ const Navbar = () => {
             {profile?.walletAddress.toLowerCase() ===
               address?.toLowerCase() && (
               <div className="tooltip tooltip-bottom" data-tip="Profile">
-                <label htmlFor="my-modal-2" className="btn modal-button">
+                <label
+                  htmlFor="my-modal-2"
+                  className="btn modal-button  btn-sm"
+                >
                   {profile?.username}
                 </label>
               </div>
             )}
             <input type="checkbox" id="my-modal-2" className="modal-toggle" />
             <div className="modal">
-              <div className="modal-box text-center flex flex-col gap-4 max-w-xs">
+              <div className="modal-box text-center flex flex-col gap-4 max-w-sm">
                 <label htmlFor="my-modal-2">
                   <div className="btn btn-primary btn-outline w-full">
                     <svg
@@ -138,13 +141,13 @@ const Navbar = () => {
                       <tbody>
                         {/* row 1 */}
                         <tr>
-                          <td className="text-xs pt-1">
+                          <td className="text-sm pt-1">
                             {profile?.betCount.toNumber()}
                           </td>
-                          <td className="text-xs pt-1">
+                          <td className="text-sm pt-1">
                             {makeNum(profile?.winnings)} ETH
                           </td>
-                          <td className="text-xs pt-1">
+                          <td className="text-sm pt-1">
                             {makeNum(profile?.losses)} ETH
                           </td>
                         </tr>
