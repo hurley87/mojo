@@ -85,7 +85,7 @@ const Navbar = () => {
           target="_blank"
           className="btn btn-square"
         >
-          <div className="tooltip tooltip-bottom" data-tip="Discord Community">
+          <div className="tooltip tooltip-bottom" data-tip="Community">
             <RxDiscordLogo className="h-6 w-6" />
           </div>
         </a>
