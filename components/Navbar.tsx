@@ -61,17 +61,23 @@ const Navbar = () => {
       <div className="flex">
         <Link href="/hockey">
           <div className="btn btn-square">
-            <GiHockey className="h-6 w-6" />
+            <div className="tooltip tooltip-bottom" data-tip="Hockey">
+              <GiHockey className="h-6 w-6" />
+            </div>
           </div>
         </Link>
         <Link href="/derby">
           <div className="btn btn-square">
-            <GiHorseHead className="h-6 w-6" />
+            <div className="tooltip tooltip-bottom" data-tip="Kentucky Derby">
+              <GiHorseHead className="h-6 w-6" />
+            </div>
           </div>
         </Link>
         <Link href="/faq">
           <div className="btn btn-square">
-            <BsQuestionCircle className="h-6 w-6" />
+            <div className="tooltip tooltip-bottom" data-tip="FAQ">
+              <BsQuestionCircle className="h-6 w-6" />
+            </div>
           </div>
         </Link>
         <a
@@ -79,7 +85,9 @@ const Navbar = () => {
           target="_blank"
           className="btn btn-square"
         >
-          <RxDiscordLogo className="h-6 w-6" />
+          <div className="tooltip tooltip-bottom" data-tip="Discord Community">
+            <RxDiscordLogo className="h-6 w-6" />
+          </div>
         </a>
         {!user?.loading && !user?.issuer ? (
           <button className="btn btn-ghost" onClick={login}>

@@ -34,7 +34,6 @@ const Layout = ({ children }: Props) => {
       </Head>
       <div>
         {user !== null && <Navbar />}
-
         <div className="container lg:w-1/2 mx-auto lg:px-4 pb-10">
           {children}
         </div>
