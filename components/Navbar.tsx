@@ -60,35 +60,35 @@ const Navbar = () => {
       </div>
       <div className="flex">
         <Link href="/hockey">
-          <div className="btn btn-square">
-            <div className="tooltip tooltip-bottom" data-tip="Hockey">
+          <div className="tooltip tooltip-bottom" data-tip="Hockey">
+            <div className="btn btn-square">
               <GiHockey className="h-6 w-6" />
             </div>
           </div>
         </Link>
         <Link href="/derby">
-          <div className="btn btn-square">
-            <div className="tooltip tooltip-bottom" data-tip="Kentucky Derby">
+          <div className="tooltip tooltip-bottom" data-tip="Kentucky Derby">
+            <div className="btn btn-square">
               <GiHorseHead className="h-6 w-6" />
             </div>
           </div>
         </Link>
         <Link href="/faq">
-          <div className="btn btn-square">
-            <div className="tooltip tooltip-bottom" data-tip="FAQ">
+          <div className="tooltip tooltip-bottom" data-tip="FAQ">
+            <div className="btn btn-square">
               <BsQuestionCircle className="h-6 w-6" />
             </div>
           </div>
         </Link>
-        <a
-          href="https://discord.gg/MjT8ZAZtw4"
-          target="_blank"
-          className="btn btn-square"
-        >
-          <div className="tooltip tooltip-bottom" data-tip="Community">
+        <div className="tooltip tooltip-bottom" data-tip="Community">
+          <a
+            href="https://discord.gg/MjT8ZAZtw4"
+            target="_blank"
+            className="btn btn-square"
+          >
             <RxDiscordLogo className="h-6 w-6" />
-          </div>
-        </a>
+          </a>
+        </div>
         {!user?.loading && !user?.issuer ? (
           <button className="btn btn-ghost" onClick={login}>
             Login
@@ -97,9 +97,11 @@ const Navbar = () => {
           <>
             {profile?.walletAddress.toLowerCase() ===
               address?.toLowerCase() && (
-              <label htmlFor="my-modal-2" className="btn modal-button">
-                {profile?.username}
-              </label>
+              <div className="tooltip tooltip-bottom" data-tip="Profile">
+                <label htmlFor="my-modal-2" className="btn modal-button">
+                  {profile?.username}
+                </label>
+              </div>
             )}
             <input type="checkbox" id="my-modal-2" className="modal-toggle" />
             <div className="modal">
