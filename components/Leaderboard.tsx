@@ -21,7 +21,6 @@ export const Leaderboard = () => {
   const sortedProfiles = results?.sort((a: any, b: any) => {
     return b.points - a.points;
   });
-  console.log(sortedProfiles);
 
   return (
     <div className="w-full">
