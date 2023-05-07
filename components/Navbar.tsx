@@ -7,7 +7,10 @@ import {
   ClipboardDocumentCheckIcon,
   ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline';
-import { GiHorseHead, GiHockey } from 'react-icons/gi';
+import {
+  //GiHorseHead,
+  GiHockey,
+} from 'react-icons/gi';
 import { useBalance } from 'wagmi';
 import { makeNum } from '@/lib/number-utils';
 import { getETHPrice } from '@/lib/getEthPrice';
@@ -66,13 +69,13 @@ const Navbar = () => {
             </div>
           </div>
         </Link>
-        <Link href="/derby">
+        {/* <Link href="/derby">
           <div className="tooltip tooltip-bottom" data-tip="Kentucky Derby">
             <div className="btn btn-square btn-sm">
               <GiHorseHead className="h-6 w-6" />
             </div>
           </div>
-        </Link>
+        </Link> */}
         <Link href="/faq">
           <div className="tooltip tooltip-bottom" data-tip="FAQ">
             <div className="btn btn-square btn-sm">
