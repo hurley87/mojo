@@ -23,7 +23,11 @@ export const DerbyBet = ({ bet }: { bet: any }) => {
   return user?.loading ? (
     <div className="h-10 w-full animate-pulse bg-primary-focus rounded-md"></div>
   ) : (
-    <div className={`flex justify-between`}>
+    <div
+      className={`flex justify-between ${
+        bet?.horseNumber.toNumber() === 6 && 'bg-blue-900'
+      }`}
+    >
       {(isProfileLoading || isLoading || totalBetsLoading) && (
         <div className="h-10 w-full animate-pulse bg-primary-focus rounded-md"></div>
       )}
