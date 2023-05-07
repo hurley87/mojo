@@ -6,7 +6,7 @@ export const Leaderboard = () => {
     functionName: 'getProfiles',
     args: [],
   });
-  const results = profiles.map((profile: any) => {
+  const results = profiles?.map((profile: any) => {
     const points =
       parseFloat(makeNum(profile.winnings)) -
       parseFloat(makeNum(profile.losses));
@@ -18,7 +18,7 @@ export const Leaderboard = () => {
       betCount: profile.betCount.toNumber(),
     };
   });
-  const sortedProfiles = results.sort((a: any, b: any) => {
+  const sortedProfiles = results?.sort((a: any, b: any) => {
     return b.points - a.points;
   });
   console.log(sortedProfiles);
