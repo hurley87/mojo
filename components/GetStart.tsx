@@ -23,12 +23,12 @@ export const GetStarted = () => {
             />
           </p>
 
-          <h1 className="mb-5 text-3xl md:text-5xl lg:text-6xl font-bold">
-            Cut out the middleman. Bet your friends directly.
+          <h1 className="mb-3 text-3xl md:text-5xl lg:text-6xl font-bold">
+            Onchain Fantasy Sports
           </h1>
-          <p className="mb-8 text-lg lg:text-xl">
-            MOJO makes betting with friends easy, transparent, and fair without
-            the need for a casino, bookie, offshore site, or other middleman.
+          <p className="mb-6 text-lg lg:text-xl">
+            Compete with friends for bragging rights. Pick winners to earn
+            tokens.
           </p>
           <button onClick={login} className="btn btn-primary">
             Connect Your Discord Account
