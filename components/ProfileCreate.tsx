@@ -195,7 +195,6 @@ export const CreateProfile = () => {
               </a>{' '}
               to join our Discord server for more info on the game.
             </p>
-            <p>{"Let's"} start by creating your wallet.</p>
             <button
               onClick={handleMint}
               className={`btn btn-primary ${
