@@ -205,7 +205,7 @@ export const CreateProfile = () => {
         hasMinted &&
         !isApproved && (
           <div className="max-w-sm mx-auto">
-            <div className="pt-10 flex flex-col gap-4">
+            <div className="flex flex-col gap-4">
               <h2 className="font-bold text-lg">The MOJO Token</h2>
               <p>This token is not real money.</p>
               <p>For now, it is simply used to keep score.</p>
