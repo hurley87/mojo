@@ -174,7 +174,7 @@ export const CreateProfile = () => {
       {/* has not minted, no approval, no profile */}
       {!isLoading && checkWalletAddressExists !== undefined && !hasMinted && (
         <div className="max-w-sm mx-auto">
-          <div className="pt-10 flex flex-col gap-4">
+          <div className="flex flex-col gap-4">
             <h2 className="font-bold text-lg">Welcome to Mojo!</h2>
             <p>The rules of the game are simple.</p>
             <p>Everyone starts with 100 MOJO tokens.</p>
