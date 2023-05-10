@@ -28,7 +28,7 @@ export const CreateBet = ({
   const [amount, setAmount] = useState(10);
   const [counter, setCounter] = useState(10);
   const [isBetting, setIsBetting] = useState(false);
-  const [betPlaced, setBetPlaced] = useState(true);
+  const [betPlaced, setBetPlaced] = useState(false);
   const betsContract = useBetsWrite();
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
@@ -121,7 +121,7 @@ export const CreateBet = ({
               >
                 ✕
               </label>
-              <div className="flex flex-col gap-4 p-6">
+              <div className="flex flex-col gap-4 p-2 md:p-6">
                 <div className="flex flex-col">
                   <label className="text-sm w-full">Pick a team to win</label>
                   <select
@@ -135,7 +135,7 @@ export const CreateBet = ({
                 </div>
                 <div className="w-full">
                   <label className="text-sm">
-                    Choose an amount of tokens you want to stake
+                    Amount of tokens you want to stake
                   </label>
                   <div className="flex p-1 border-primary border rounded-lg w-full justify-between">
                     <button
@@ -159,7 +159,7 @@ export const CreateBet = ({
                 </div>
                 <div className="w-full">
                   <label className="text-sm pb-1">
-                    Choose an amount of tokens you want someone else to stake
+                    Amount of tokens you want someone else to stake
                   </label>
                   <div className="flex p-1 border-primary border rounded-lg w-full justify-between">
                     <button
