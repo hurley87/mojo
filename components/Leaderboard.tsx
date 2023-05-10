@@ -36,7 +36,7 @@ export const Leaderboard = () => {
                 <th>Bet Count</th>
                 <th>Winnings</th>
                 <th>Losses</th>
-                <th>Earnings</th>
+                <th>Score</th>
               </tr>
             </thead>
             <tbody>

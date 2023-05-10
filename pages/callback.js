@@ -19,14 +19,14 @@ const Callback = () => {
         let userMetadata = await magic.user.getMetadata();
         console.log('userMetadata', userMetadata);
         await setUser(userMetadata);
-        router.push('/hockey');
+        router.push('/');
       } catch (error) {
         console.log('error', error);
         if (showWarning) {
           toast.success('Redirecting to home page...');
           setShowWarning(false);
         }
-        router.push('/hockey');
+        router.push('/');
       }
     };
     callback();

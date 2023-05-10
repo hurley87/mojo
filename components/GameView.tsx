@@ -30,10 +30,10 @@ const GameView = ({ gameId }: { gameId: string }) => {
 
   return (
     <div>
-      <div className="text-sm breadcrumbs mb-2">
+      <div className="text-sm breadcrumbs mt-2">
         <ul>
           <li>
-            <Link href="/hockey">Games</Link>
+            <Link href="/">Games</Link>
           </li>
           <li>
             {homeTeamName} vs {awayTeamName},{' '}

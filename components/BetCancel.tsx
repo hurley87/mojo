@@ -34,7 +34,7 @@ export const CancelBet = ({ betId }: { betId: BigNumber }) => {
   ) : (
     <button
       onClick={handleCancelBet}
-      className={`btn btn-primary btn-outline ${
+      className={`btn btn-primary btn-md btn-outline ${
         isLoading
           ? 'loading before:!w-4 before:!h-4 before:!mx-0 before:!mr-1'
           : ''

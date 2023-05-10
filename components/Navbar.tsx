@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { UserContext } from '@/lib/UserContext';
 import { magic } from '@/lib/magic';
@@ -7,29 +7,23 @@ import {
   ClipboardDocumentCheckIcon,
   ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline';
-import {
-  //GiHorseHead,
-  GiHockey,
-} from 'react-icons/gi';
-import { useBalance } from 'wagmi';
-import { makeNum } from '@/lib/number-utils';
-import { getETHPrice } from '@/lib/getEthPrice';
 import { toast } from 'react-hot-toast';
-import { BsQuestionCircle, BsEye } from 'react-icons/bs';
+import { BsEye } from 'react-icons/bs';
 import { RxDiscordLogo } from 'react-icons/rx';
 import { useProfilesRead } from '@/hooks/useProfilesRead';
+import { useMojoRead } from '@/hooks/useMojoRead';
+import { makeNum } from '@/lib/number-utils';
 
 const Navbar = () => {
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
-  const [isUSD, setIsUSD] = useState(false);
-  const [usdAmount, setUSDAmount] = useState(2000);
-  const { data } = useBalance({
-    address,
-  });
   const { data: profile } = useProfilesRead({
     functionName: 'getProfileByWalletAddress',
     args: [address],
+  });
+  const { data: mojoBalance } = useMojoRead({
+    functionName: 'balanceOf',
+    args: [user?.publicAddress],
   });
 
   async function login() {
@@ -46,14 +40,6 @@ const Navbar = () => {
     window.location.href = '/';
   }
 
-  async function handleConvert() {
-    const price = await getETHPrice();
-    if (data) {
-      setUSDAmount(parseFloat(makeNum(data?.value)) * price);
-    }
-    setIsUSD(!isUSD);
-  }
-
   return (
     <div className="navbar mb-2 shadow-lg bg-neutral text-neutral-content rounded-box text-sm">
       <div className="flex-1 mx-2">
@@ -62,27 +48,6 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex gap-1">
-        <Link href="/hockey">
-          <div className="tooltip tooltip-bottom" data-tip="Hockey">
-            <div className="btn btn-square btn-sm">
-              <GiHockey className="h-6 w-6" />
-            </div>
-          </div>
-        </Link>
-        {/* <Link href="/derby">
-          <div className="tooltip tooltip-bottom" data-tip="Kentucky Derby">
-            <div className="btn btn-square btn-sm">
-              <GiHorseHead className="h-6 w-6" />
-            </div>
-          </div>
-        </Link> */}
-        <Link href="/faq">
-          <div className="tooltip tooltip-bottom" data-tip="FAQ">
-            <div className="btn btn-square btn-sm">
-              <BsQuestionCircle className="h-6 w-6" />
-            </div>
-          </div>
-        </Link>
         <div className="tooltip tooltip-bottom" data-tip="Community">
           <a
             href="https://discord.gg/MjT8ZAZtw4"
@@ -105,7 +70,8 @@ const Navbar = () => {
                   htmlFor="my-modal-2"
                   className="btn modal-button  btn-sm"
                 >
-                  {profile?.username}
+                  {profile?.username}{' '}
+                  {profile?.username && `| ${makeNum(mojoBalance)}`}
                 </label>
               </div>
             )}
@@ -130,37 +96,9 @@ const Navbar = () => {
                     close
                   </div>
                 </label>
-                <div className="flex flex-col">
-                  <div className="">
-                    <table className="table w-full">
-                      {/* head */}
-                      <thead>
-                        <tr>
-                          <th className="pb-0">Bets</th>
-                          <th className="pb-0">Winnings</th>
-                          <th className="pb-0">Losses</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {/* row 1 */}
-                        <tr>
-                          <td className="text-sm pt-1">
-                            {profile?.betCount.toNumber()}
-                          </td>
-                          <td className="text-sm pt-1">
-                            {makeNum(profile?.winnings)} ETH
-                          </td>
-                          <td className="text-sm pt-1">
-                            {makeNum(profile?.losses)} ETH
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
                 <Link
                   target="_blank"
-                  href={`https://goerli.basescan.org/address/${user?.publicAddress}`}
+                  href={`https://goerli.basescan.org/address/${user?.publicAddress}#tokentxns`}
                 >
                   <p className="btn btn-primary btn-outline w-full">
                     <BsEye className="h-6 w-6 mr-2" /> View Transactions
@@ -171,32 +109,12 @@ const Navbar = () => {
                   className="btn btn-primary btn-outline w-full"
                   onClick={() => {
                     navigator.clipboard.writeText(user?.publicAddress);
-                    toast.success('Copied to clipboard! 📋');
+                    toast.success('Address copied to clipboard!');
                   }}
                 >
-                  <ClipboardDocumentCheckIcon className="h-6 w-6 mr-2" /> Copy{' '}
-                  Address
+                  <ClipboardDocumentCheckIcon className="h-6 w-6 mr-2" /> Copy
+                  Wallet Address
                 </label>
-                <div className="flex items-center">
-                  <label className="input-group input-group-md">
-                    <input
-                      type="text"
-                      placeholder="bet amount"
-                      className={`input input-bordered`}
-                      value={
-                        isUSD
-                          ? usdAmount.toFixed(2)
-                          : data && parseFloat(makeNum(data?.value))
-                      }
-                    />
-                    <button
-                      onClick={() => handleConvert()}
-                      className="btn btn-primary"
-                    >
-                      {isUSD ? 'USD' : 'ETH'}
-                    </button>
-                  </label>
-                </div>
 
                 <div className="flex relative w-full justify-center gap-2">
                   <label

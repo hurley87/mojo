@@ -1,9 +1,10 @@
 import * as wagmi from 'wagmi';
 import type { BigNumber } from 'ethers';
-import BetsContract from './abis/Bets.json';
-import { ethers } from 'ethers';
+import MojoContract from './abis/Mojo.json';
+import { utils, ethers } from 'ethers';
 import { magic } from '@/lib/magic';
 import { GelatoRelay } from '@gelatonetwork/relay-sdk';
+import { makeBig } from '@/lib/number-utils';
 
 const relay = new GelatoRelay();
 
@@ -15,39 +16,37 @@ export interface Transfer {
   amount: BigNumber;
 }
 
-const useBetsWrite = () => {
+const useMojoWrite = () => {
   if (magic.rpcProvider) {
     const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
     const signer = provider.getSigner();
     const contract = wagmi.useContract({
-      address: '0xcE8e0E9aF03193aC75d75dD9e8DAB168ab8c4DCc',
-      abi: BetsContract.abi,
+      address: '0xfD65660A51fF9A1a6404e1bD51E651293c6cA426',
+      abi: MojoContract.abi,
       signerOrProvider: signer,
     });
 
-    const createBet = async (
-      gameId: number,
-      teamId: number,
-      amount: number,
-      counter: number
+    const approve = async (
+      address: string,
+      amount: BigNumber
     ): Promise<string> => {
-      console.log('createBet', gameId, teamId, amount, counter);
+      console.log('approve', address, amount);
       try {
         if (contract) {
-          const { data } = await contract.populateTransaction.createBet(
-            gameId,
-            teamId,
-            amount,
-            counter
+          const { data } = await contract.populateTransaction.approve(
+            address,
+            amount
           );
 
           const request: any = {
             chainId: 84531,
-            target: '0xcE8e0E9aF03193aC75d75dD9e8DAB168ab8c4DCc',
+            target: '0xfD65660A51fF9A1a6404e1bD51E651293c6cA426',
             data: data,
             user: await signer.getAddress(),
           };
+
           const apiKey = process.env.NEXT_PUBLIC_GELATO_API as string;
+
           const response = await relay.sponsoredCallERC2771(
             request,
             provider,
@@ -65,18 +64,21 @@ const useBetsWrite = () => {
       }
     };
 
-    const cancelBet = async (betId: number): Promise<string> => {
+    const mint = async (amount: BigNumber): Promise<string> => {
+      console.log('mint', amount);
       try {
         if (contract) {
-          const { data } = await contract.populateTransaction.cancelBet(betId);
+          const { data } = await contract.populateTransaction.mint(amount);
 
           const request: any = {
             chainId: 84531,
-            target: '0xcE8e0E9aF03193aC75d75dD9e8DAB168ab8c4DCc',
+            target: '0xfD65660A51fF9A1a6404e1bD51E651293c6cA426',
             data: data,
             user: await signer.getAddress(),
           };
+
           const apiKey = process.env.NEXT_PUBLIC_GELATO_API as string;
+
           const response = await relay.sponsoredCallERC2771(
             request,
             provider,
@@ -88,44 +90,19 @@ const useBetsWrite = () => {
 
           return taskId;
         } else return '';
-      } catch (e) {
+      } catch (e: any) {
         console.log('e', e);
-        return '';
+        return new Error('insufficient funds').message;
       }
-    };
-
-    const acceptBet = async (betId: number): Promise<string> => {
-      if (contract) {
-        const { data } = await contract.populateTransaction.acceptBet(betId);
-
-        const request: any = {
-          chainId: 84531,
-          target: '0xcE8e0E9aF03193aC75d75dD9e8DAB168ab8c4DCc',
-          data: data,
-          user: await signer.getAddress(),
-        };
-        const apiKey = process.env.NEXT_PUBLIC_GELATO_API as string;
-        const response = await relay.sponsoredCallERC2771(
-          request,
-          provider,
-          apiKey
-        );
-
-        const taskId = response.taskId;
-        console.log('response', taskId);
-
-        return taskId;
-      } else return '';
     };
 
     return {
       contract: contract,
       chainId: 84531,
-      createBet,
-      cancelBet,
-      acceptBet,
+      approve,
+      mint,
     };
   }
 };
 
-export default useBetsWrite;
+export default useMojoWrite;

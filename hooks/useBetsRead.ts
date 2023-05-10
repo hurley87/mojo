@@ -5,7 +5,7 @@ export const useBetsRead = ({ functionName, args }: any) => {
   return useContractRead({
     chainId: 84531,
     functionName,
-    address: '0xC0d272Fe35E3E45852af12b454AA4AE7e8EE939F',
+    address: '0xcE8e0E9aF03193aC75d75dD9e8DAB168ab8c4DCc',
     abi: BetsContract.abi,
     watch: true,
     args,

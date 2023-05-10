@@ -1,15 +1,15 @@
 import useBetsWrite from '@/hooks/useBetsWrite';
 import { UserContext } from '@/lib/UserContext';
-import { makeBig, makeNum } from '@/lib/number-utils';
+import { makeNum } from '@/lib/number-utils';
 import { useContext, useState } from 'react';
 import { useBalance } from 'wagmi';
 import va from '@vercel/analytics';
 import { useBetsSubscriber } from '@/hooks/useBetsSubscribe';
 import { BigNumber } from 'ethers';
 import toast from 'react-hot-toast';
-import { getETHPrice } from '@/lib/getEthPrice';
 import { useTeamsRead } from '@/hooks/useTeamsRead';
 import Link from 'next/link';
+import { useMojoRead } from '@/hooks/useMojoRead';
 
 export const CreateBet = ({
   gameId,
@@ -25,12 +25,11 @@ export const CreateBet = ({
   homeTeamId: number;
 }) => {
   const [teamId, setTeamId] = useState(homeTeamId);
-  const [betValue, setBetValue] = useState('0.01');
-  const [odds, setOdds] = useState(1.0);
+  const [amount, setAmount] = useState(10);
+  const [counter, setCounter] = useState(10);
   const [isBetting, setIsBetting] = useState(false);
+  const [betPlaced, setBetPlaced] = useState(true);
   const betsContract = useBetsWrite();
-  const [isUSD, setIsUSD] = useState(false);
-  const [usdAmount, setUSDAmount] = useState(2000);
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
   const { data, isLoading } = useBalance({
@@ -39,6 +38,10 @@ export const CreateBet = ({
   const { data: teamPicked } = useTeamsRead({
     functionName: 'getTeam',
     args: [teamId],
+  });
+  const { data: mojoBalance } = useMojoRead({
+    functionName: 'balanceOf',
+    args: [user?.publicAddress],
   });
 
   useBetsSubscriber({
@@ -50,6 +53,9 @@ export const CreateBet = ({
       teamId: number,
       msgSender: string
     ) => {
+      setIsBetting(false);
+      setBetPlaced(true);
+      toast.success('Bet placed successfully');
       va.track('BetCreated', {
         betId: betCounter.toNumber(),
         amount: makeNum(msgValue),
@@ -57,47 +63,26 @@ export const CreateBet = ({
         teamId: teamId,
         address: msgSender,
       });
-      setIsBetting(false);
     },
   });
 
   async function handlePlaceBetting() {
     console.log('SUBMIT');
-    console.log(gameId, teamId, betValue, odds);
+    console.log(gameId, teamId, amount, counter);
     console.log(homeTeamId);
     try {
       setIsBetting(true);
-      const createBetResponse = await betsContract?.createBet(
-        gameId,
-        teamId,
-        betValue,
-        odds
-      );
-
-      if (createBetResponse === 'insufficient funds') {
-        toast.error('insufficient funds');
-        va.track('BetCreatedError', {
-          amount: betValue,
-          odds: odds,
-          teamId: teamId,
-          address: user?.publicAddress,
-        });
-        setIsBetting(false);
-      } else {
-        toast.success('bet placed');
-        setIsBetting(false);
-      }
+      await betsContract?.createBet(gameId, teamId, amount, counter);
     } catch (e) {
       console.log(e);
+      va.track('BetCreatedError', {
+        amount: amount,
+        counter: counter,
+        teamId: teamId,
+        address: user?.publicAddress,
+      });
       setIsBetting(false);
     }
-  }
-
-  async function handleConvert() {
-    const price = await getETHPrice();
-    if (data) setUSDAmount(parseFloat(betValue) * price);
-
-    setIsUSD(true);
   }
 
   return isLoading ? null : data && !(parseFloat(makeNum(data?.value)) > 0) ? (
@@ -122,89 +107,110 @@ export const CreateBet = ({
   ) : (
     <div className="py-4">
       {data ? (
-        <div className="flex flex-col md:flex-row gap-2">
-          <select
-            defaultValue={homeTeamId}
-            onChange={(e) => setTeamId(parseInt(e.target.value))}
-            className="select select-bordered select-primary"
-          >
-            <option value={homeTeamId}>{homeTeamName}</option>
-            <option value={awayTeamId}>{awayTeamName}</option>
-          </select>
-
-          {isUSD ? (
-            <label className="input-group input-group-md">
-              <input
-                type="text"
-                placeholder="bet amount"
-                className={`input input-bordered w-full`}
-                value={
-                  isUSD
-                    ? usdAmount.toFixed(2)
-                    : data && parseFloat(makeNum(data?.value))
-                }
-              />
-              <button
-                onClick={() => setIsUSD(false)}
-                className="btn btn-primary"
+        <>
+          <label htmlFor="my-modal-3" className="btn btn-primary w-full">
+            Pick your winner
+          </label>
+          <input type="checkbox" id="my-modal-3" className="modal-toggle" />
+          <div className="modal">
+            <div className="modal-box relative">
+              <label
+                onClick={() => setBetPlaced(false)}
+                htmlFor="my-modal-3"
+                className="btn btn-sm btn-circle absolute right-2 top-2"
               >
-                USD
-              </button>
-            </label>
-          ) : (
-            <label className="input-group input-group-md">
-              <input
-                type="text"
-                placeholder="bet amount"
-                className={`input input-bordered w-full ${
-                  (data &&
-                    parseFloat(betValue) > parseFloat(makeNum(data?.value))) ||
-                  betValue === ''
-                    ? 'input-error'
-                    : 'input-primary'
-                }`}
-                value={betValue}
-                onChange={(e) => setBetValue(e.target.value)}
-              />
-              <span onClick={handleConvert} className="btn btn-primary">
-                ETH
-              </span>
-            </label>
-          )}
-          <div className="flex p-1 border-primary border rounded-lg">
-            <button
-              onClick={() => setOdds(odds - 0.1)}
-              className="btn btn-sm btn-active btn-square m-0.5"
-            >
-              -
-            </button>
-            <input
-              onChange={(e) => setOdds(parseFloat(e.target.value))}
-              className="text-md text-center bg-transparent w-full md:w-10"
-              value={odds.toFixed(1)}
-            />
-            <button
-              onClick={() => setOdds(odds + 0.1)}
-              className="btn btn-active btn-sm btn-square m-0.5"
-            >
-              +
-            </button>
+                ✕
+              </label>
+              <div className="flex flex-col gap-4 p-6">
+                <div className="flex flex-col">
+                  <label className="text-sm w-full">Pick a team to win</label>
+                  <select
+                    defaultValue={homeTeamId}
+                    onChange={(e) => setTeamId(parseInt(e.target.value))}
+                    className="select select-bordered select-primary w-full"
+                  >
+                    <option value={homeTeamId}>{homeTeamName}</option>
+                    <option value={awayTeamId}>{awayTeamName}</option>
+                  </select>
+                </div>
+                <div className="w-full">
+                  <label className="text-sm">
+                    Choose an amount of tokens you want to stake
+                  </label>
+                  <div className="flex p-1 border-primary border rounded-lg w-full justify-between">
+                    <button
+                      onClick={() => setAmount(amount - 1)}
+                      className="btn btn-sm btn-active btn-square m-0.5"
+                    >
+                      -
+                    </button>
+                    <input
+                      onChange={(e) => setAmount(parseFloat(e.target.value))}
+                      className="text-md text-center bg-transparent w-full md:w-10"
+                      value={amount}
+                    />
+                    <button
+                      onClick={() => setAmount(amount + 1)}
+                      className="btn btn-active btn-sm btn-square m-0.5"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+                <div className="w-full">
+                  <label className="text-sm pb-1">
+                    Choose an amount of tokens you want someone else to stake
+                  </label>
+                  <div className="flex p-1 border-primary border rounded-lg w-full justify-between">
+                    <button
+                      onClick={() => setCounter(counter - 1)}
+                      className="btn btn-sm btn-active btn-square m-0.5"
+                    >
+                      -
+                    </button>
+                    <input
+                      onChange={(e) => setCounter(parseFloat(e.target.value))}
+                      className="text-md text-center bg-transparent w-full md:w-10"
+                      value={counter}
+                    />
+                    <button
+                      onClick={() => setCounter(counter + 1)}
+                      className="btn btn-active btn-sm btn-square m-0.5"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2 pt-2">
+                  {betPlaced ? (
+                    <button className="btn btn-primary w-full" disabled={true}>
+                      Bet placed successfully
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handlePlaceBetting}
+                      disabled={
+                        amount <= 0 || amount > parseInt(makeNum(mojoBalance))
+                      }
+                      className={`btn btn-primary w-full ${
+                        isBetting
+                          ? 'loading before:!w-4 before:!h-4 before:!mx-0 before:!mr-1'
+                          : ''
+                      }`}
+                    >
+                      Stake {amount} MOJO to earn {amount + counter} MOJO
+                    </button>
+                  )}
+                  <p className="pt-1 text-xs">
+                    If someone accepts the {counter} MOJO counter bet and the{' '}
+                    {teamPicked?.name} win, {"you'll"} receive{' '}
+                    {amount + counter} MOJO tokens.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-          <button
-            onClick={handlePlaceBetting}
-            disabled={
-              parseFloat(betValue) > parseFloat(makeNum(data?.value)) ||
-              betValue === ''
-            }
-            className={`btn btn-primary ${
-              isBetting
-                ? 'loading before:!w-4 before:!h-4 before:!mx-0 before:!mr-1'
-                : ''
-            }`}
-          >
-            Place Bet
-          </button>
-        </div>
+        </>
       ) : (
         <Link href="/">
           <button className={`btn btn-primary text-sm`}>
@@ -212,15 +218,6 @@ export const CreateBet = ({
           </button>
         </Link>
       )}
-
-      <p className="pt-3 text-xs">
-        Bet <b>{betValue} ETH</b> on the {teamPicked?.name} to win at{' '}
-        <b>{odds.toFixed(1)} to 1 odds</b> for a profit of{' '}
-        <b>
-          {Number(makeBig(betValue).mul(10000).div(makeBig(odds))) / 10000} ETH
-        </b>
-        .
-      </p>
     </div>
   );
 };

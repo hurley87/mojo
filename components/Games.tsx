@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Game from './Game';
-import { useGamesRead } from '@/hooks/useGamesRead';
 import moment from 'moment';
 import GamesByDay from './GamesByDay';
 
@@ -22,14 +20,6 @@ function convertDateToString(date: Date) {
 
 const Games = () => {
   const [currentDay, setCurrentDay] = useState(new Date());
-  const { data: games, isLoading } = useGamesRead({
-    functionName: 'getGames',
-    args: [],
-  });
-  const { data: goodGames } = useGamesRead({
-    functionName: 'getGamesByDay',
-    args: ['3-26-2023'],
-  });
 
   return (
     <>
