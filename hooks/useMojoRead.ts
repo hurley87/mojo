@@ -5,7 +5,7 @@ export const useMojoRead = ({ functionName, args }: any) => {
   return useContractRead({
     chainId: 84531,
     functionName,
-    address: '0xfD65660A51fF9A1a6404e1bD51E651293c6cA426',
+    address: '0x372fB41b5e2065B02670446b529244921B4F8898',
     abi: MojoContract.abi,
     watch: true,
     args,
