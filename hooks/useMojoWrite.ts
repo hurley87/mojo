@@ -21,7 +21,7 @@ const useMojoWrite = () => {
     const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
     const signer = provider.getSigner();
     const contract = wagmi.useContract({
-      address: '0x372fB41b5e2065B02670446b529244921B4F8898',
+      address: '0x5E5676B7016E4C5EC0d2329EF814CD8B1efad808',
       abi: MojoContract.abi,
       signerOrProvider: signer,
     });
@@ -40,7 +40,7 @@ const useMojoWrite = () => {
 
           const request: any = {
             chainId: 84531,
-            target: '0x372fB41b5e2065B02670446b529244921B4F8898',
+            target: '0x5E5676B7016E4C5EC0d2329EF814CD8B1efad808',
             data: data,
             user: await signer.getAddress(),
           };
@@ -72,7 +72,7 @@ const useMojoWrite = () => {
 
           const request: any = {
             chainId: 84531,
-            target: '0x372fB41b5e2065B02670446b529244921B4F8898',
+            target: '0x5E5676B7016E4C5EC0d2329EF814CD8B1efad808',
             data: data,
             user: await signer.getAddress(),
           };

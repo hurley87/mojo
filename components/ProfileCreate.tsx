@@ -34,7 +34,7 @@ export const CreateProfile = () => {
   });
   const { data: mojoAllowance } = useMojoRead({
     functionName: 'allowance',
-    args: [user?.publicAddress, '0x6DcaB6dCb093495cb1BE6468FDd7f31d0827944a'],
+    args: [user?.publicAddress, '0x9362dbBbfe513Ca553F627B2e57fE98122d22A73'],
   });
   const [hasProfile, setHasProfile] = useState(checkWalletAddressExists);
   const mojoContract = useMojoWrite();
@@ -94,7 +94,7 @@ export const CreateProfile = () => {
     try {
       toast.success('Granting access ...');
       await mojoContract?.approve(
-        '0x6DcaB6dCb093495cb1BE6468FDd7f31d0827944a',
+        '0x9362dbBbfe513Ca553F627B2e57fE98122d22A73',
         mojoBalance
       );
     } catch (e) {
