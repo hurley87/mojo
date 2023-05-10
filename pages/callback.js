@@ -23,7 +23,7 @@ const Callback = () => {
       } catch (error) {
         console.log('error', error);
         if (showWarning) {
-          toast.success('Redirecting to home page...');
+          toast.success('Redirecting ...');
           setShowWarning(false);
         }
         router.push('/');

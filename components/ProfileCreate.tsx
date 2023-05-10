@@ -115,7 +115,6 @@ export const CreateProfile = () => {
         walletAddress.toLocaleLowerCase() ===
         user?.publicAddress.toLocaleLowerCase()
       ) {
-        toast.success('Access granted!');
         setIsApproveLoading(false);
         setIsApproved(true);
         va.track('TokensClaims', {
