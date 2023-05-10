@@ -38,9 +38,9 @@ const Layout = ({ children }: Props) => {
           {children}
         </div>
       </div>
-      <footer className="footer text-base-content footer-center pb-1 pt-10">
+      {/* <footer className="footer text-base-content footer-center pb-1 pt-10">
         <p>Copyright © 2023 - All right reserved by Mojo</p>
-      </footer>
+      </footer> */}
     </div>
   );
 };
