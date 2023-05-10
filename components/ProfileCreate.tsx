@@ -184,17 +184,7 @@ export const CreateProfile = () => {
               willing to match your commitment.
             </p>
             <p>If you run out of tokens you can always buy more.</p>
-            <p>The winner is the player with the most tokens.</p>
-            <p>
-              <a
-                target="_blank"
-                className="text-primary"
-                href="https://discord.gg/MjT8ZAZtw4"
-              >
-                Open this link in a new tab
-              </a>{' '}
-              to join our Discord server for more info on the game.
-            </p>
+            <p>The player with the most tokens wins.</p>
             <button
               onClick={handleMint}
               className={`btn btn-primary ${
