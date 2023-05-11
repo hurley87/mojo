@@ -209,9 +209,9 @@ export const CreateBet = ({
                     </button>
                   )}
                   <p className="pt-1 text-xs text-center">
-                    If someone accepts the {counter} MOJO counter bet and the{' '}
+                    If your opponent stakes {counter} MOJO and the{' '}
                     {teamPicked?.name} win, {"you'll"} receive{' '}
-                    {amount + counter} MOJO tokens.
+                    {amount + counter} MOJO tokens after the game.
                   </p>
                 </div>
               </div>
