@@ -28,7 +28,7 @@ export const CreateBet = ({
   const [amount, setAmount] = useState(10);
   const [counter, setCounter] = useState(10);
   const [isBetting, setIsBetting] = useState(false);
-  const [betPlaced, setBetPlaced] = useState(false);
+  const [showBetModal, setShowBetModal] = useState(false);
   const betsContract = useBetsWrite();
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
@@ -54,8 +54,8 @@ export const CreateBet = ({
       msgSender: string
     ) => {
       setIsBetting(false);
-      setBetPlaced(true);
-      toast.success('Bet placed successfully');
+      setShowBetModal(false);
+      toast.success('Your pick is in!');
       va.track('BetCreated', {
         betId: betCounter.toNumber(),
         amount: makeNum(msgValue),
@@ -108,15 +108,16 @@ export const CreateBet = ({
     <div className="py-4">
       {data ? (
         <>
-          <label htmlFor="my-modal-3" className="btn btn-primary w-full">
+          <button
+            onClick={() => setShowBetModal(true)}
+            className="btn btn-primary w-full"
+          >
             Pick your winner
-          </label>
-          <input type="checkbox" id="my-modal-3" className="modal-toggle" />
-          <div className="modal">
+          </button>
+          <div className={`modal ${showBetModal && 'modal-open'}`}>
             <div className="modal-box relative">
               <label
-                onClick={() => setBetPlaced(false)}
-                htmlFor="my-modal-3"
+                onClick={() => setShowBetModal(false)}
                 className="btn btn-sm btn-circle absolute right-2 top-2"
               >
                 ✕
@@ -187,27 +188,24 @@ export const CreateBet = ({
                   </div>
                 </div>
                 <div className="flex flex-col gap-2 pt-2">
-                  {betPlaced ? (
-                    <button className="btn btn-primary w-full" disabled={true}>
-                      Bet placed successfully
-                    </button>
-                  ) : (
-                    <button
-                      onClick={handlePlaceBetting}
-                      disabled={
-                        !amount ||
-                        amount <= 0 ||
-                        amount > parseInt(makeNum(mojoBalance))
-                      }
-                      className={`btn btn-primary w-full ${
-                        isBetting
-                          ? 'loading before:!w-4 before:!h-4 before:!mx-0 before:!mr-1'
-                          : ''
-                      }`}
-                    >
-                      Stake {amount} MOJO to earn {counter} MOJO
-                    </button>
-                  )}
+                  <button
+                    onClick={handlePlaceBetting}
+                    disabled={
+                      !amount ||
+                      amount <= 0 ||
+                      amount > parseInt(makeNum(mojoBalance)) ||
+                      isBetting
+                    }
+                    className={`btn btn-primary w-full ${
+                      isBetting
+                        ? 'loading before:!w-4 before:!h-4 before:!mx-0 before:!mr-1'
+                        : ''
+                    }`}
+                  >
+                    {isBetting
+                      ? 'Registering your pick'
+                      : `Stake ${amount} MOJO to earn ${counter} MOJO`}
+                  </button>
                   <p className="pt-1 text-xs text-center">
                     If your opponent stakes {counter} MOJO and the{' '}
                     {teamPicked?.name} win, {"you'll"} receive{' '}
