@@ -28,7 +28,7 @@ export const GetStarted = () => {
       </div>
       <video
         controls
-        className="w-full h-full object-cover pt-20"
+        className="w-full h-full object-cover py-10"
         // style={{ width: '500px', height: '500px', margin: 'auto' }}
       >
         <source src="/mojo.mp4" />
