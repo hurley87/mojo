@@ -66,9 +66,16 @@ const Navbar = () => {
             {profile?.walletAddress.toLowerCase() ===
               address?.toLowerCase() && (
               <div className="tooltip tooltip-bottom" data-tip="Profile">
-                <label htmlFor="my-modal-2" className="btn modal-button btn-sm">
-                  {profile?.username}{' '}
-                  {profile?.username && `| ${parseInt(makeNum(mojoBalance))}`}
+                <label
+                  htmlFor="my-modal-2"
+                  className="btn modal-button btn-sm flex flex-row gap-1"
+                >
+                  <span>{profile?.username}</span>
+                  {profile?.username && (
+                    <div className="badge badge-primary">
+                      {`${parseInt(makeNum(mojoBalance))}`}
+                    </div>
+                  )}
                 </label>
               </div>
             )}
