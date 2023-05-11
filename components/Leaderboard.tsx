@@ -33,9 +33,9 @@ export const Leaderboard = () => {
               <tr>
                 <th></th>
                 <th>Name</th>
-                <th>Bet Count</th>
-                <th>Winnings</th>
-                <th>Losses</th>
+                <th className="hidden lg:table-cell">Bet Count</th>
+                <th className="hidden lg:table-cell">Winnings</th>
+                <th className="hidden lg:table-cell">Losses</th>
                 <th>Score</th>
               </tr>
             </thead>
@@ -44,15 +44,19 @@ export const Leaderboard = () => {
                 <tr key={index}>
                   <th>{index + 1}</th>
                   <td>{profile.username}</td>
-                  <td>{profile.betCount}</td>
-                  <td>{profile.winnings}</td>
-                  <td>{profile.losses}</td>
+                  <td className="hidden lg:table-cell">{profile.betCount}</td>
+                  <td className="hidden lg:table-cell">
+                    {parseInt(profile.winnings)}
+                  </td>
+                  <td className="hidden lg:table-cell">
+                    {parseInt(profile.losses)}
+                  </td>
                   <td
                     className={
                       profile.points >= 0 ? 'text-green-500' : 'text-red-500'
                     }
                   >
-                    {profile.points.toFixed(3)}
+                    {parseInt(profile.points)}
                   </td>
                 </tr>
               ))}
