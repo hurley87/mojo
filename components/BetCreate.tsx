@@ -122,8 +122,10 @@ export const CreateBet = ({
                 ✕
               </label>
               <div className="flex flex-col gap-4 p-2 md:p-6">
-                <div className="flex flex-col">
-                  <label className="text-sm w-full">Pick a team to win</label>
+                <div className=" flex flex-col gap-1">
+                  <label className="text-sm w-full">
+                    The team you think will win
+                  </label>
                   <select
                     defaultValue={homeTeamId}
                     onChange={(e) => setTeamId(parseInt(e.target.value))}
@@ -133,9 +135,9 @@ export const CreateBet = ({
                     <option value={awayTeamId}>{awayTeamName}</option>
                   </select>
                 </div>
-                <div className="w-full">
+                <div className="w-full flex flex-col gap-1">
                   <label className="text-sm">
-                    Amount of tokens you want to stake
+                    Your stake on the {teamPicked?.name}
                   </label>
                   <div className="flex p-1 border-primary border rounded-lg w-full justify-between">
                     <button
@@ -145,8 +147,9 @@ export const CreateBet = ({
                       -
                     </button>
                     <input
+                      type="number"
                       onChange={(e) => setAmount(parseFloat(e.target.value))}
-                      className="text-md text-center bg-transparent w-full md:w-10"
+                      className="text-md text-center bg-transparent w-full"
                       value={amount}
                     />
                     <button
@@ -157,9 +160,10 @@ export const CreateBet = ({
                     </button>
                   </div>
                 </div>
-                <div className="w-full">
-                  <label className="text-sm pb-1">
-                    Amount of tokens you want someone else to stake
+                <div className="w-full  flex flex-col gap-1">
+                  <label className="text-sm w-full">
+                    Your {"opponent's"} stake on the{' '}
+                    {teamId === homeTeamId ? awayTeamName : homeTeamName}
                   </label>
                   <div className="flex p-1 border-primary border rounded-lg w-full justify-between">
                     <button
@@ -169,8 +173,9 @@ export const CreateBet = ({
                       -
                     </button>
                     <input
+                      type="number"
                       onChange={(e) => setCounter(parseFloat(e.target.value))}
-                      className="text-md text-center bg-transparent w-full md:w-10"
+                      className="text-md text-center bg-transparent w-full"
                       value={counter}
                     />
                     <button
@@ -190,7 +195,9 @@ export const CreateBet = ({
                     <button
                       onClick={handlePlaceBetting}
                       disabled={
-                        amount <= 0 || amount > parseInt(makeNum(mojoBalance))
+                        !amount ||
+                        amount <= 0 ||
+                        amount > parseInt(makeNum(mojoBalance))
                       }
                       className={`btn btn-primary w-full ${
                         isBetting
@@ -198,10 +205,10 @@ export const CreateBet = ({
                           : ''
                       }`}
                     >
-                      Stake {amount} MOJO to earn {amount + counter} MOJO
+                      Stake {amount} MOJO to earn {counter} MOJO
                     </button>
                   )}
-                  <p className="pt-1 text-xs">
+                  <p className="pt-1 text-xs text-center">
                     If someone accepts the {counter} MOJO counter bet and the{' '}
                     {teamPicked?.name} win, {"you'll"} receive{' '}
                     {amount + counter} MOJO tokens.
