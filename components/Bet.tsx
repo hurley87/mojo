@@ -83,7 +83,7 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
           )}
           {!myBet && betState === BET_STATE[0] && isGameStarted && (
             <button disabled={true} className="btn">
-              Betting period is over
+              Staking period is over
             </button>
           )}
           {betState === BET_STATE[1] && <BetAccepted betId={betId} />}

@@ -66,10 +66,7 @@ const Navbar = () => {
             {profile?.walletAddress.toLowerCase() ===
               address?.toLowerCase() && (
               <div className="tooltip tooltip-bottom" data-tip="Profile">
-                <label
-                  htmlFor="my-modal-2"
-                  className="btn modal-button  btn-sm"
-                >
+                <label htmlFor="my-modal-2" className="btn modal-button btn-sm">
                   {profile?.username}{' '}
                   {profile?.username && `| ${parseInt(makeNum(mojoBalance))}`}
                 </label>
