@@ -71,7 +71,7 @@ const Navbar = () => {
                   className="btn modal-button  btn-sm"
                 >
                   {profile?.username}{' '}
-                  {profile?.username && `| ${makeNum(mojoBalance)}`}
+                  {profile?.username && `| ${parseInt(makeNum(mojoBalance))}`}
                 </label>
               </div>
             )}
