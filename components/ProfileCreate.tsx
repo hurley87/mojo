@@ -46,8 +46,6 @@ export const CreateProfile = () => {
   useEffect(() => {
     const balance = parseFloat(makeNum(mojoBalance));
     const allowance = parseFloat(makeNum(mojoAllowance));
-    console.log('hello');
-    console.log('profile create', balance, allowance);
     if (balance > 0 && allowance > 0 && balance === allowance)
       setIsApproved(true);
     if (checkWalletAddressExists) setHasProfile(checkWalletAddressExists);
@@ -157,10 +155,6 @@ export const CreateProfile = () => {
       }
     },
   });
-
-  console.log('hasMinted', hasMinted);
-  console.log('isApproved', isApproved);
-  console.log('hasProfile', hasProfile);
 
   return (
     <div className="lg:pt-10 w-full">
