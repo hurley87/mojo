@@ -22,14 +22,14 @@ const Layout = ({ children }: Props) => {
         <meta name="twitter:description" content="Onchain Fantasy Sports" />
         <meta
           name="twitter:image"
-          content="https://pollock-art.s3.amazonaws.com/mojo.png"
+          content="https://pollock-art.s3.amazonaws.com/meta.png"
         />
         <meta property="og:url" content={`https://mojo.club`} />
         <meta property="og:title" content="Mojo | Onchain Fantasy Sports" />
         <meta property="og:description" content="Onchain Fantasy Sports" />
         <meta
           property="og:image"
-          content="https://pollock-art.s3.amazonaws.com/mojo.png"
+          content="https://pollock-art.s3.amazonaws.com/meta.png"
         />
       </Head>
       <div>
