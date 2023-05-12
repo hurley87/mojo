@@ -54,7 +54,7 @@ export const BetAccept = ({
           : ''
       }`}
     >
-      Accept for {counter} MOJO
+      Stake {counter} MOJO
     </button>
   ) : (
     <BetAccepted betId={betId} />
