@@ -57,8 +57,8 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
         <div className="flex flex-col md:flex-row gap-3 md:justify-between w-full">
           <div className="flex flex-col gap-0">
             <p className="text-sm lg:text-md font-bold">
-              {profile?.username} staked {bet?.amount.toNumber()} MOJO on the{' '}
-              {teamPicked?.name}
+              {myBet ? 'You' : profile?.username} staked{' '}
+              {bet?.amount.toNumber()} MOJO on the {teamPicked?.name}
             </p>
             <div className="flex flex-row gap-1 pt-1">
               {bet?.creator.toLowerCase() ===

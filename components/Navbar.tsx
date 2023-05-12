@@ -8,7 +8,7 @@ import {
   ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 import { toast } from 'react-hot-toast';
-import { BsEye } from 'react-icons/bs';
+import { BsEye, BsRocket } from 'react-icons/bs';
 import { RxDiscordLogo } from 'react-icons/rx';
 import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { useMojoRead } from '@/hooks/useMojoRead';
@@ -100,6 +100,11 @@ const Navbar = () => {
                     close
                   </div>
                 </label>
+                <Link href="/picks">
+                  <p className="btn btn-primary btn-outline w-full">
+                    <BsRocket className="h-6 w-6 mr-2" /> Your Picks
+                  </p>
+                </Link>
                 <Link
                   target="_blank"
                   href={`https://goerli.basescan.org/address/${user?.publicAddress}#tokentxns`}
