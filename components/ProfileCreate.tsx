@@ -212,10 +212,6 @@ export const CreateProfile = () => {
               <p>
                 This is an onchain fantasy hockey pool, not a gambling website.
               </p>
-              <p>
-                Though this token is a cryptocurrency, {"it's"} not designed to
-                make you rich.
-              </p>
               <button
                 onClick={handleApprove}
                 className={`btn btn-primary ${
