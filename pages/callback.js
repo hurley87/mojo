@@ -14,14 +14,11 @@ const Callback = () => {
   useEffect(() => {
     const callback = async () => {
       try {
-        const result = await magic.oauth.getRedirectResult();
-        console.log('result', result);
+        await magic.oauth.getRedirectResult();
         let userMetadata = await magic.user.getMetadata();
-        console.log('userMetadata', userMetadata);
         await setUser(userMetadata);
         router.push('/');
-      } catch (error) {
-        console.log('error', error);
+      } catch {
         if (showWarning) {
           toast.success('Redirecting ...');
           setShowWarning(false);

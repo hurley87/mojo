@@ -55,7 +55,6 @@ const useBetsWrite = () => {
           );
 
           const taskId = response.taskId;
-          console.log('response', taskId);
 
           return taskId;
         } else return '';

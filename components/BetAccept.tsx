@@ -35,7 +35,6 @@ export const BetAccept = ({
   async function handleAcceptBet() {
     try {
       setIsLoading(true);
-      console.log('accepting bet', betId.toNumber());
       await betsContract?.acceptBet(betId.toNumber());
     } catch (e) {
       console.log(e);

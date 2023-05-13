@@ -2,7 +2,6 @@ import useBetsWrite from '@/hooks/useBetsWrite';
 import { UserContext } from '@/lib/UserContext';
 import { makeNum } from '@/lib/number-utils';
 import { useContext, useState } from 'react';
-import { useBalance } from 'wagmi';
 import va from '@vercel/analytics';
 import { useBetsSubscriber } from '@/hooks/useBetsSubscribe';
 import { BigNumber } from 'ethers';
