@@ -38,7 +38,7 @@ export const CreateBet = ({
   });
   const { data: mojoBalance, isLoading } = useMojoRead({
     functionName: 'balanceOf',
-    args: ['0x400dCfCCA6dFe004D8b9Eed8df820bF5a537d75A'],
+    args: [address],
   });
 
   useBetsSubscriber({
@@ -64,9 +64,6 @@ export const CreateBet = ({
   });
 
   async function handlePlaceBetting() {
-    console.log('SUBMIT');
-    console.log(gameId, teamId, amount, counter);
-    console.log(homeTeamId);
     try {
       setIsBetting(true);
       await betsContract?.createBet(gameId, teamId, amount, counter);
