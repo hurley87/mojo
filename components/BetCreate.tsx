@@ -32,16 +32,13 @@ export const CreateBet = ({
   const betsContract = useBetsWrite();
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
-  const { data, isLoading } = useBalance({
-    address,
-  });
   const { data: teamPicked } = useTeamsRead({
     functionName: 'getTeam',
     args: [teamId],
   });
-  const { data: mojoBalance } = useMojoRead({
+  const { data: mojoBalance, isLoading } = useMojoRead({
     functionName: 'balanceOf',
-    args: [user?.publicAddress],
+    args: ['0x400dCfCCA6dFe004D8b9Eed8df820bF5a537d75A'],
   });
 
   useBetsSubscriber({
@@ -85,7 +82,8 @@ export const CreateBet = ({
     }
   }
 
-  return isLoading ? null : data && !(parseFloat(makeNum(data?.value)) > 0) ? (
+  return isLoading ? null : mojoBalance &&
+    !(parseInt(makeNum(mojoBalance)) > 0) ? (
     <div className="alert alert-error">
       <div className="flex-1">
         <svg
@@ -106,7 +104,7 @@ export const CreateBet = ({
     </div>
   ) : (
     <div className="py-4">
-      {data ? (
+      {mojoBalance ? (
         <>
           <button
             onClick={() => setShowBetModal(true)}
