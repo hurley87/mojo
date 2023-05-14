@@ -12,6 +12,7 @@ import { makeBig, makeNum } from '@/lib/number-utils';
 import { useMojoSubscriber } from '@/hooks/useMojoSubscribe';
 import { useMojoRead } from '@/hooks/useMojoRead';
 import Hockey from './Hockey';
+import { FundAccount } from './FundAccount';
 
 export const CreateProfile = () => {
   const [user, _]: any = useContext(UserContext);
@@ -28,7 +29,7 @@ export const CreateProfile = () => {
     functionName: 'getMintCount',
     args: [user?.publicAddress],
   });
-  const { data: mojoBalance } = useMojoRead({
+  const { data: mojoBalance, isLoading: mojoBalanceLoading } = useMojoRead({
     functionName: 'balanceOf',
     args: [user?.publicAddress],
   });
@@ -42,14 +43,16 @@ export const CreateProfile = () => {
   const [isApproveLoading, setIsApproveLoading] = useState(false);
   const [hasMinted, setHasMinted] = useState(false);
   const [isApproved, setIsApproved] = useState(false);
+  const [hasTokens, setHasTokens] = useState(false);
 
   useEffect(() => {
     const balance = parseFloat(makeNum(mojoBalance));
     const allowance = parseFloat(makeNum(mojoAllowance));
-    if (balance > 0 && allowance > 0 && balance === allowance)
+    if (balance >= 0 && allowance >= 0 && balance === allowance)
       setIsApproved(true);
     if (checkWalletAddressExists) setHasProfile(checkWalletAddressExists);
     if (mintCount?.toNumber() > 0) setHasMinted(true);
+    if (balance > 0) setHasTokens(true);
   }, [checkWalletAddressExists, mintCount, mojoAllowance, mojoBalance]);
 
   const profilesContract = useProfilesWrite();
@@ -159,6 +162,9 @@ export const CreateProfile = () => {
   return (
     <div className="lg:pt-10 w-full">
       {user === null && <GetStarted />}
+      {!mojoBalanceLoading &&
+        checkWalletAddressExists !== undefined &&
+        !hasTokens && <FundAccount />}
       {user && !isLoading && checkWalletAddressExists === undefined && (
         <div className="max-w-lg mx-auto mt-4">
           <BullLottie />
@@ -265,7 +271,8 @@ export const CreateProfile = () => {
         checkWalletAddressExists !== undefined &&
         hasMinted &&
         isApproved &&
-        hasProfile && <Hockey />}
+        hasProfile &&
+        hasTokens && <Hockey />}
     </div>
   );
 };
