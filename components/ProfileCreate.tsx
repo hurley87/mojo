@@ -46,10 +46,9 @@ export const CreateProfile = () => {
   const [hasTokens, setHasTokens] = useState(false);
 
   useEffect(() => {
-    const balance = parseFloat(makeNum(mojoBalance));
-    const allowance = parseFloat(makeNum(mojoAllowance));
-    if (balance >= 0 && allowance >= 0 && balance === allowance)
-      setIsApproved(true);
+    const balance = parseInt(makeNum(mojoBalance));
+    const allowance = parseInt(makeNum(mojoAllowance));
+    setIsApproved(balance === allowance);
     if (checkWalletAddressExists) setHasProfile(checkWalletAddressExists);
     if (mintCount?.toNumber() > 0) setHasMinted(true);
     if (balance > 0) setHasTokens(true);
@@ -158,6 +157,8 @@ export const CreateProfile = () => {
       }
     },
   });
+
+  console.log('isApproved', isApproved);
 
   return (
     <div className="lg:pt-10 w-full">
