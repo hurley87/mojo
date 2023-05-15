@@ -1,10 +1,10 @@
-import { CreateProfile } from '@/components/ProfileCreate';
 import Layout from '@/components/Layout';
+import Hockey from '@/components/Hockey';
 
 export default function Home() {
   return (
     <Layout>
-      <CreateProfile />
+      <Hockey />
     </Layout>
   );
 }
