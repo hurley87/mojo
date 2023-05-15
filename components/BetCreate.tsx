@@ -9,6 +9,8 @@ import toast from 'react-hot-toast';
 import { useTeamsRead } from '@/hooks/useTeamsRead';
 import Link from 'next/link';
 import { useMojoRead } from '@/hooks/useMojoRead';
+import { sendMessage } from '@/lib/notification';
+import { useProfilesRead } from '@/hooks/useProfilesRead';
 
 export const CreateBet = ({
   gameId,
@@ -39,6 +41,10 @@ export const CreateBet = ({
     functionName: 'balanceOf',
     args: [address],
   });
+  const { data: profile } = useProfilesRead({
+    functionName: 'getProfileByWalletAddress',
+    args: [address],
+  });
 
   useBetsSubscriber({
     eventName: 'BetCreated',
@@ -52,6 +58,13 @@ export const CreateBet = ({
       setIsBetting(false);
       setShowBetModal(false);
       toast.success('Your pick is in!');
+      sendMessage(
+        `${profile?.username} just staked ${amount} MOJO on the ${
+          teamPicked?.name
+        } and asking an opponent to stake ${counter} MOJO on the ${
+          teamId === homeTeamId ? awayTeamName : homeTeamName
+        }.`
+      );
       va.track('BetCreated', {
         betId: betCounter.toNumber(),
         amount: makeNum(msgValue),

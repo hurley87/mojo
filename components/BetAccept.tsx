@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { BigNumber } from 'ethers';
 import useBetsWrite from '@/hooks/useBetsWrite';
 import { useBetsSubscriber } from '@/hooks/useBetsSubscribe';
 import { BetAccepted } from './BetAccepted';
 import va from '@vercel/analytics';
 import toast from 'react-hot-toast';
+import { sendMessage } from '@/lib/notification';
+import { useBetsRead } from '@/hooks/useBetsRead';
+import { useProfilesRead } from '@/hooks/useProfilesRead';
+import { useTeamsRead } from '@/hooks/useTeamsRead';
+import { UserContext } from '@/lib/UserContext';
 
 export const BetAccept = ({
   counter,
@@ -13,9 +18,26 @@ export const BetAccept = ({
   counter: number;
   betId: BigNumber;
 }) => {
+  const [user, _]: any = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [hasAccepted, setHasAccepted] = useState(false);
   const betsContract = useBetsWrite();
+  const { data: bet } = useBetsRead({
+    functionName: 'getBet',
+    args: [betId],
+  });
+  const { data: profile } = useProfilesRead({
+    functionName: 'getProfileByWalletAddress',
+    args: [user?.publicAddress],
+  });
+  const { data: creatorProfile } = useProfilesRead({
+    functionName: 'getProfileByWalletAddress',
+    args: [user?.publicAddress],
+  });
+  const { data: teamPicked } = useTeamsRead({
+    functionName: 'getTeam',
+    args: [bet?.teamPickedId?.toNumber()],
+  });
 
   useBetsSubscriber({
     eventName: 'BetAccepted',
@@ -29,6 +51,9 @@ export const BetAccept = ({
       });
       setHasAccepted(true);
       setIsLoading(false);
+      sendMessage(
+        `${profile?.username} accepted ${creatorProfile?.username}'s wager on ${teamPicked?.name} for ${counter} MOJO.`
+      );
     },
   });
 
@@ -38,7 +63,7 @@ export const BetAccept = ({
       await betsContract?.acceptBet(betId.toNumber());
     } catch (e) {
       console.log(e);
-      toast.error('Inufficient funds');
+      toast.error('Insufficient funds');
       setIsLoading(false);
       va.track('BetAcceptedError', { betId: betId.toNumber() });
     }
