@@ -5,51 +5,39 @@ const faqs = [
       'You need a Discord account to get started. Join our Discord server at https://discord.gg/MjT8ZAZtw4 and follow the instructions in the #start-here channel.',
   },
   {
-    question: 'How do I place a bet?',
+    question: 'What is the prize for winning?',
     answer:
-      'Pick a game, pick a team, the amount you want to bet and the odds you want to bet at. Then click the "Place Bet" button. Someone will have to accept your bet before it is placed.',
+      'The winner gets $500 in USDC. The prize will be distributed after the playoffs are over.',
   },
   {
-    question: 'How do you make money?',
-    answer: 'We take 1% of the amount from each bet.',
-  },
-  {
-    question: 'How are you only able to charge 1%?',
+    question: 'How is the winner determined?',
     answer:
-      'We use the blockchain to cut out the middleman. We can charge less because all bets are managed by code. ',
+      'The winner is the player with the most tokens at the end of the playoffs. You get tokens by making correct picks.',
   },
   {
-    question: 'What currency do I bet with?',
-    answer: 'This is built on Base. You can get testnet ETH directly from us.',
-  },
-  {
-    question: 'When are bets closed and winnings distributed?',
+    question: 'How do I make picks?',
     answer:
-      'We close bets before the game starts and winnings are distributed after the game ends.',
+      "Stake MOJO tokens on the team you think will win and have your stake matched by another player. If your team wins, you get your stake back plus your opponent's stake.",
   },
   {
-    question: 'How do I check my balance?',
-    answer: 'You can check your balance in the top right corner of the page.',
-  },
-  {
-    question: 'How do I withdraw my winnings?',
-    answer: 'Reach out to our support team to withdraw your winnings.',
+    question: 'How do I get MOJO tokens?',
+    answer: 'Everyone starts with 100 MOJO tokens. You can also buy more.',
   },
 ];
 
 export const FAQ = () => {
   return (
-    <div className="w-full flex flex-col gap-4 mt-10 mb-20">
+    <div className="w-full flex flex-col gap-4 mt-4 mb-20">
       {faqs.map((faq, index) => (
         <div
           key={index}
           tabIndex={index}
-          className="collapse collapse-arrow bg-base-100 rounded-box"
+          className="collapse collapse-arrow bg-base-100 rounded-box px-0"
         >
-          <div className="collapse-title text-sm lg:text-xl font-medium">
+          <div className="collapse-title text-sm lg:text-xl font-medium px-0">
             {faq.question}
           </div>
-          <div className="collapse-content">
+          <div className="collapse-content px-0">
             <p>{faq.answer}</p>
           </div>
         </div>
