@@ -59,6 +59,7 @@ export const CreateBet = ({
       setIsBetting(false);
       setShowBetModal(false);
       toast.success('Your pick is in!');
+      console.log(msgValue);
       sendMessage(
         `${profile?.username} just staked ${amount} MOJO on the ${
           teamPicked?.name
