@@ -32,7 +32,7 @@ export const BetAccept = ({
   });
   const { data: creatorProfile } = useProfilesRead({
     functionName: 'getProfileByWalletAddress',
-    args: [user?.publicAddress],
+    args: [bet?.creator],
   });
   const { data: teamPicked } = useTeamsRead({
     functionName: 'getTeam',
