@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { useMojoRead } from '@/hooks/useMojoRead';
 import { sendMessage } from '@/lib/notification';
 import { useProfilesRead } from '@/hooks/useProfilesRead';
+import * as fbq from '../lib/fpixel';
 
 export const CreateBet = ({
   gameId,
@@ -67,10 +68,14 @@ export const CreateBet = ({
       );
       va.track('BetCreated', {
         betId: betCounter.toNumber(),
-        amount: makeNum(msgValue),
+        amount,
         odds: makeNum(odds),
         teamId: teamId,
         address: msgSender,
+      });
+      fbq.event('Purchase', {
+        currency: 'USD',
+        value: amount,
       });
     },
   });
