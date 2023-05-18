@@ -31,8 +31,8 @@ const FixedBanner = () => {
         href="https://discord.gg/MjT8ZAZtw4"
         className="underline"
       >
-        Click here to join our Discord! You'll get access to our community and
-        product updates.
+        Click here to join our Discord! You&apos;ll get access to our community
+        and product updates.
       </a>
     </div>
   );

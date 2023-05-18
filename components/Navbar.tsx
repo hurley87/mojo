@@ -9,7 +9,6 @@ import {
 } from '@heroicons/react/24/outline';
 import { toast } from 'react-hot-toast';
 import { BsEye, BsRocket, BsQuestionCircle } from 'react-icons/bs';
-import { RxDiscordLogo } from 'react-icons/rx';
 import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { useMojoRead } from '@/hooks/useMojoRead';
 import { makeNum } from '@/lib/number-utils';
@@ -49,9 +48,11 @@ const Navbar = () => {
       </div>
       <div className="flex gap-0">
         <div className="tooltip tooltip-bottom" data-tip="FAQ">
-          <a href="/faq" className="btn btn-square">
-            <BsQuestionCircle className="h-6 w-6" />
-          </a>
+          <Link href="/faq">
+            <span className="btn btn-square">
+              <BsQuestionCircle className="h-6 w-6" />
+            </span>
+          </Link>
         </div>
         {!user?.loading && !user?.issuer ? (
           <button className="btn btn-ghost" onClick={login}>
