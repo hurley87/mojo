@@ -8,7 +8,7 @@ import {
   ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 import { toast } from 'react-hot-toast';
-import { BsEye, BsRocket } from 'react-icons/bs';
+import { BsEye, BsRocket, BsQuestionCircle } from 'react-icons/bs';
 import { RxDiscordLogo } from 'react-icons/rx';
 import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { useMojoRead } from '@/hooks/useMojoRead';
@@ -47,14 +47,10 @@ const Navbar = () => {
           <span className="font-bold text-sm">MOJO</span>
         </Link>
       </div>
-      <div className="flex gap-1">
-        <div className="tooltip tooltip-bottom" data-tip="Community">
-          <a
-            href="https://discord.gg/MjT8ZAZtw4"
-            target="_blank"
-            className="btn btn-square btn-sm"
-          >
-            <RxDiscordLogo className="h-6 w-6" />
+      <div className="flex gap-0">
+        <div className="tooltip tooltip-bottom" data-tip="FAQ">
+          <a href="/faq" className="btn btn-square">
+            <BsQuestionCircle className="h-6 w-6" />
           </a>
         </div>
         {!user?.loading && !user?.issuer ? (

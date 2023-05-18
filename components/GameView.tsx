@@ -30,7 +30,7 @@ const GameView = ({ gameId }: { gameId: string }) => {
 
   return (
     <div>
-      <div className="text-sm breadcrumbs mt-2">
+      <div className="text-sm breadcrumbs">
         <ul>
           <li>
             <Link href="/">Games</Link>

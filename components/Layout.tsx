@@ -20,6 +20,24 @@ type Props = {
   title?: string;
 };
 
+const FixedBanner = () => {
+  return (
+    <div
+      style={{ zIndex: 99999 }}
+      className="fixed top-0 left-0 w-full bg-primary text-black text-center text-xs p-2"
+    >
+      <a
+        target="_blank"
+        href="https://discord.gg/MjT8ZAZtw4"
+        className="underline"
+      >
+        Click here to join our Discord! You'll get access to our community and
+        product updates.
+      </a>
+    </div>
+  );
+};
+
 const Layout = ({ children }: Props) => {
   const [user, _]: any = useContext(UserContext);
   const [username, setUsername] = useState('');
@@ -187,9 +205,10 @@ const Layout = ({ children }: Props) => {
           content="https://pollock-art.s3.amazonaws.com/meta.png"
         />
       </Head>
-      <div>
+      <div className="pt-10">
+        <FixedBanner />
         <Navbar />
-        <div className="container lg:w-1/2 mx-auto lg:px-4 py-10">
+        <div className="container lg:w-1/2 mx-auto lg:px-4 pt-4 pb-20">
           {user === null && <GetStarted />}
           {!mojoBalanceLoading &&
             checkWalletAddressExists !== undefined &&
