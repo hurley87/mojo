@@ -57,19 +57,19 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
         <div className="flex flex-col md:flex-row gap-3 md:justify-between w-full">
           <div className="flex flex-col gap-0">
             <p className="text-sm lg:text-md font-bold">
-              {myBet ? 'You' : profile?.username} staked{' '}
+              {myBet ? 'You' : profile?.username} placed{' '}
               {bet?.amount.toNumber()} MOJO on the {teamPicked?.name}
             </p>
             <div className="flex flex-row gap-1 pt-1">
               {bet?.creator.toLowerCase() ===
               user?.publicAddress.toLowerCase() ? (
                 <p className="text-xs">
-                  Ask a friend to stake {bet?.counter.toNumber()} MOJO on the{' '}
+                  Ask a friend to place {bet?.counter.toNumber()} MOJO on the{' '}
                   {otherTeamPicked?.name}
                 </p>
               ) : (
                 <p className="text-xs">
-                  Stake {bet?.counter.toNumber()} MOJO on the{' '}
+                  Place {bet?.counter.toNumber()} MOJO on the{' '}
                   {otherTeamPicked?.name} and earn {bet?.amount.toNumber()} MOJO
                   if they win
                 </p>
@@ -83,7 +83,7 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
           )}
           {!myBet && betState === BET_STATE[0] && isGameStarted && (
             <button disabled={true} className="btn">
-              Staking period is over
+              Unavailable
             </button>
           )}
           {betState === BET_STATE[1] && <BetAccepted betId={betId} />}

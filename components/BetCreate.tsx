@@ -212,7 +212,7 @@ export const CreateBet = ({
       ) : (
         <Link href="/">
           <button className={`btn btn-primary text-sm`}>
-            Create an account before betting
+            Create an account before making your pick
           </button>
         </Link>
       )}
