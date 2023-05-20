@@ -187,7 +187,8 @@ export const CreateBet = ({
                       !amount ||
                       amount <= 0 ||
                       amount > parseInt(makeNum(mojoBalance)) ||
-                      isBetting
+                      isBetting ||
+                      counter <= 0
                     }
                     className={`btn btn-primary w-full ${
                       isBetting
