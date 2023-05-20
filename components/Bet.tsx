@@ -69,9 +69,11 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
                 </p>
               ) : (
                 <p className="text-xs">
-                  Wager {bet?.counter.toNumber()} MOJO on the{' '}
-                  {otherTeamPicked?.name} and earn {bet?.amount.toNumber()} MOJO
-                  if they win
+                  Bet {bet?.counter.toNumber()} MOJO on the{' '}
+                  {otherTeamPicked?.name} and{' '}
+                  <span className="text-green-500">
+                    earn {bet?.amount.toNumber()} MOJO
+                  </span>
                 </p>
               )}
             </div>

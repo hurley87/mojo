@@ -105,7 +105,7 @@ export const CreateBet = ({
             onClick={() => setShowBetModal(true)}
             className="btn btn-primary w-full"
           >
-            Pick your winner
+            Create Your Bet
           </button>
           <div className={`modal ${showBetModal && 'modal-open'}`}>
             <div className="modal-box relative">
@@ -117,6 +117,9 @@ export const CreateBet = ({
               </label>
               <div className="flex flex-col gap-4 p-2 md:p-6">
                 <div className=" flex flex-col gap-1">
+                  <h2 className="font-bold pb-4">
+                    Create a bet between you and your opponent.
+                  </h2>
                   <label className="text-sm w-full">
                     The team you think will win
                   </label>
@@ -198,7 +201,7 @@ export const CreateBet = ({
                   >
                     {isBetting
                       ? 'Registering your pick'
-                      : `Stake ${amount} MOJO to earn ${counter} MOJO`}
+                      : `Bet ${amount} MOJO to earn ${counter} MOJO`}
                   </button>
                   <p className="pt-1 text-xs text-center">
                     If your opponent stakes {counter} MOJO and the{' '}
