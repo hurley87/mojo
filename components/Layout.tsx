@@ -185,21 +185,21 @@ const Layout = ({ children }: Props) => {
   return (
     <div className="flex flex-col h-screen justify-between p-4">
       <Head>
-        <title>Mojo | Onchain Fantasy Sports</title>
+        <title>Mojo | P2P Sports Betting</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="Onchain Fantasy Sports" />
+        <meta name="description" content="P2P Sports Betting" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@davidhurley87" />
-        <meta name="twitter:title" content="Mojo | Onchain Fantasy Sports" />
-        <meta name="twitter:description" content="Onchain Fantasy Sports" />
+        <meta name="twitter:title" content="Mojo | P2P Sports Betting" />
+        <meta name="twitter:description" content="P2P Sports Betting" />
         <meta
           name="twitter:image"
           content="https://pollock-art.s3.amazonaws.com/meta.png"
         />
         <meta property="og:url" content={`https://mojo.club`} />
-        <meta property="og:title" content="Mojo | Onchain Fantasy Sports" />
-        <meta property="og:description" content="Onchain Fantasy Sports" />
+        <meta property="og:title" content="Mojo | P2P Sports Betting" />
+        <meta property="og:description" content="P2P Sports Betting" />
         <meta
           property="og:image"
           content="https://pollock-art.s3.amazonaws.com/meta.png"
@@ -257,21 +257,25 @@ const Layout = ({ children }: Props) => {
               <div className="max-w-sm mx-auto">
                 <div className="flex flex-col gap-4">
                   <h2 className="font-bold text-lg">The MOJO Token</h2>
-                  <p>This token is not real money.</p>
+                  <p>This token is not real money yet.</p>
                   <p>For now, it is simply used to keep score.</p>
                   <p>
-                    This is an onchain fantasy hockey pool, not a gambling
-                    website.
+                    This is the start of a P2P sports betting platform. If you
+                    have ideas on how it can be better{' '}
+                    <a className="text-primary" href="mailto:david@mojo.com">
+                      email me
+                    </a>
+                    .
                   </p>
                   <button
                     onClick={handleApprove}
-                    className={`btn btn-primary ${
+                    className={`btn btn-primary mt-2 ${
                       isApproveLoading
                         ? 'loading before:!w-4 before:!h-4 before:!mx-0 before:!mr-1'
                         : ''
                     }`}
                   >
-                    I understand
+                    Continue
                   </button>
                 </div>
               </div>

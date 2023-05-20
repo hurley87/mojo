@@ -15,7 +15,7 @@ export const GetStarted = () => {
         <div className="text-center hero-content">
           <div className="max-w-4xl pt-10">
             <h1 className="mb-3 text-3xl md:text-3xl lg:text-5xl font-bold">
-              Onchain Fantasy Sports
+              P2P Sports Betting
             </h1>
             <p className="mb-6 text-sm lg:text-lg">
               Starting with the NHL playoffs, earn MOJO tokens by picking
