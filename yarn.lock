@@ -5031,6 +5031,11 @@ react-dom@18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
+react-driftjs@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/react-driftjs/-/react-driftjs-1.2.2.tgz#56353857a8b70d5bb271ab39f9deb9f06e45e8c5"
+  integrity sha512-rQKRVJ5JaI4bTSHoDpvDORyUnWpLr/EZoeZLbdm2J5oqcdCbnOT+iKZJkzYskQXU4sg4X9XppdDfQ7Z/o0pErw==
+
 react-hot-toast@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/react-hot-toast/-/react-hot-toast-2.4.0.tgz#b91e7a4c1b6e3068fc599d3d83b4fb48668ae51d"
