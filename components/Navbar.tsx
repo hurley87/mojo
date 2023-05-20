@@ -78,7 +78,7 @@ const Navbar = () => {
             )}
             <input type="checkbox" id="my-modal-2" className="modal-toggle" />
             <div className="modal">
-              <div className="modal-box text-center flex flex-col gap-4 max-w-sm">
+              <div className="modal-box text-center flex flex-col gap-4 max-w-xs">
                 <label htmlFor="my-modal-2">
                   <div className="btn btn-primary btn-outline w-full">
                     <svg
