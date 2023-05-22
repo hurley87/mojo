@@ -9,7 +9,7 @@ import { Analytics } from '@vercel/analytics/react';
 import * as fbq from '../lib/fpixel';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
-// import Drift from 'react-driftjs';
+import Drift from 'react-driftjs';
 
 // Use wagmi to configure the provider.
 // Right now, we will only connect to hardhat's standalone localhost network
@@ -76,7 +76,7 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
         <Toaster position="top-center" />
         <Analytics />
-        {/* <Drift appId="ru9395i8c7ki" />; */}
+        <Drift appId="ru9395i8c7ki" />;
       </UserContext.Provider>
     </WagmiConfig>
   );
