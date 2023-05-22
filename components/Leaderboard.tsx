@@ -22,6 +22,9 @@ export const Leaderboard = () => {
     return b.points - a.points;
   });
 
+  console.log(sortedProfiles);
+  console.log(sortedProfiles.length);
+
   return (
     <div className="w-full">
       {isLoading ? (
@@ -40,26 +43,28 @@ export const Leaderboard = () => {
               </tr>
             </thead>
             <tbody>
-              {sortedProfiles.map((profile: any, index: number) => (
-                <tr key={index}>
-                  <th>{index + 1}</th>
-                  <td>{profile.username}</td>
-                  <td className="hidden lg:table-cell">{profile.betCount}</td>
-                  <td className="hidden lg:table-cell">
-                    {parseInt(profile.winnings)}
-                  </td>
-                  <td className="hidden lg:table-cell">
-                    {parseInt(profile.losses)}
-                  </td>
-                  <td
-                    className={
-                      profile.points >= 0 ? 'text-green-500' : 'text-red-500'
-                    }
-                  >
-                    {parseInt(profile.points)}
-                  </td>
-                </tr>
-              ))}
+              {sortedProfiles
+                .slice(0, 10)
+                .map((profile: any, index: number) => (
+                  <tr key={index}>
+                    <th>{index + 1}</th>
+                    <td>{profile.username}</td>
+                    <td className="hidden lg:table-cell">{profile.betCount}</td>
+                    <td className="hidden lg:table-cell">
+                      {parseInt(profile.winnings)}
+                    </td>
+                    <td className="hidden lg:table-cell">
+                      {parseInt(profile.losses)}
+                    </td>
+                    <td
+                      className={
+                        profile.points >= 0 ? 'text-green-500' : 'text-red-500'
+                      }
+                    >
+                      {parseInt(profile.points)}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

@@ -18,7 +18,7 @@ const Hockey = () => {
           onClick={() => setShowGames(false)}
           className={`tab ${!showGames && 'tab-active'}`}
         >
-          Leaderboard
+          Top 10
         </a>
       </div>
       {showGames ? <Games /> : <Leaderboard />}
