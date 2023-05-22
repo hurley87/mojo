@@ -23,7 +23,7 @@ export const Leaderboard = () => {
   });
 
   console.log(sortedProfiles);
-  console.log(sortedProfiles.length);
+  console.log(sortedProfiles?.length);
 
   return (
     <div className="w-full">
@@ -31,6 +31,10 @@ export const Leaderboard = () => {
         <div>loading ...</div>
       ) : (
         <div className="overflow-x-auto">
+          <h2>
+            Player with the most points at the end of playoffs will will $500
+            USDC.
+          </h2>
           <table className="table table-zebra w-full">
             <thead>
               <tr>
