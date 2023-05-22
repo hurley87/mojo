@@ -31,9 +31,8 @@ export const Leaderboard = () => {
         <div>loading ...</div>
       ) : (
         <div className="overflow-x-auto">
-          <h2 className="font-bold">
-            The person with the most points at the end of playoffs will earn
-            $500 USDC.
+          <h2 className="text-sm">
+            The person with the highest score by June 15th will earn $500 USDC.
           </h2>
           <table className="table table-zebra w-full">
             <thead>
@@ -50,7 +49,14 @@ export const Leaderboard = () => {
               {sortedProfiles
                 .slice(0, 10)
                 .map((profile: any, index: number) => (
-                  <tr key={index}>
+                  <tr
+                    className={
+                      index === 0
+                        ? 'font-black text-xl'
+                        : 'font-semibold text-sm'
+                    }
+                    key={index}
+                  >
                     <th>{index + 1}</th>
                     <td>{profile.username}</td>
                     <td className="hidden lg:table-cell">{profile.betCount}</td>

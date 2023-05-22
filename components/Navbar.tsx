@@ -47,13 +47,6 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex gap-0">
-        <div className="tooltip tooltip-bottom" data-tip="FAQ">
-          <Link href="/faq">
-            <span className="btn btn-square">
-              <BsQuestionCircle className="h-6 w-6" />
-            </span>
-          </Link>
-        </div>
         {!user?.loading && !user?.issuer ? (
           <button className="btn btn-ghost" onClick={login}>
             Login
