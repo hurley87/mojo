@@ -128,7 +128,7 @@ const BetView = ({ betId }: { betId: string }) => {
             )}
             {!myBet && betState === BET_STATE[0] && isGameStarted && (
               <button disabled={true} className="btn">
-                Unavailable
+                Game Has Started
               </button>
             )}
           </div>

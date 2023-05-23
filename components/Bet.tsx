@@ -66,12 +66,17 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
               </p>
             </div>
           </div>
-          {betState === BET_STATE[0] && (
+          {betState === BET_STATE[0] && !isGameStarted && (
             <Link href={`/bets/${betId}`}>
               <button className="btn btn-primary btn-outline w-full">
                 View Bet
               </button>
             </Link>
+          )}
+          {betState === BET_STATE[0] && isGameStarted && (
+            <button disabled={true} className="btn">
+              Game Has Started
+            </button>
           )}
           {betState === BET_STATE[1] && <BetAccepted betId={betId} />}
           {betState === BET_STATE[2] && <BetFinished betId={betId} />}
