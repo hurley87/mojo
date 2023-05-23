@@ -7,7 +7,7 @@ export const useTeamsRead = ({ functionName, args }: any) => {
     functionName,
     address: '0x44Fa31488779C90d88d4C31D7D1184Ea7cf8dA3b',
     abi: TeamsContract.abi,
-    watch: true,
+    watch: false,
     args,
   }) as any;
 };

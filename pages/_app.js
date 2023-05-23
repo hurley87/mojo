@@ -76,7 +76,7 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
         <Toaster position="top-center" />
         <Analytics />
-        <Drift appId="ru9395i8c7ki" />;
+        <Drift appId="ru9395i8c7ki" />
       </UserContext.Provider>
     </WagmiConfig>
   );

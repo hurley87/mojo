@@ -7,7 +7,7 @@ export const useMojoRead = ({ functionName, args }: any) => {
     functionName,
     address: '0x5E5676B7016E4C5EC0d2329EF814CD8B1efad808',
     abi: MojoContract.abi,
-    watch: true,
+    watch: false,
     args,
   }) as any;
 };

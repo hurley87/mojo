@@ -23,7 +23,7 @@ type Props = {
 const FixedBanner = () => {
   return (
     <div
-      style={{ zIndex: 99999 }}
+      style={{ zIndex: 9999 }}
       className="fixed top-0 left-0 w-full bg-primary text-black text-center text-xs p-2"
     >
       <a
@@ -31,8 +31,8 @@ const FixedBanner = () => {
         href="https://discord.gg/MjT8ZAZtw4"
         className="underline"
       >
-        Click here to join our Discord! You&apos;ll get access to our community
-        and product updates.
+        Click here to join our Discord! Get get access to our community and
+        product updates.
       </a>
     </div>
   );
@@ -137,7 +137,7 @@ const Layout = ({ children }: Props) => {
       console.log(spender, walletAddress, amount);
       if (
         walletAddress.toLocaleLowerCase() ===
-        user?.publicAddress.toLocaleLowerCase()
+        user?.publicAddress?.toLocaleLowerCase()
       ) {
         setIsApproveLoading(false);
         setIsApproved(true);
@@ -327,7 +327,7 @@ const Layout = ({ children }: Props) => {
             hasMinted &&
             isApproved &&
             hasProfile &&
-            hasTokens &&
+            // hasTokens &&
             children}
         </div>
       </div>

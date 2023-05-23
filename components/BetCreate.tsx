@@ -12,6 +12,7 @@ import { useMojoRead } from '@/hooks/useMojoRead';
 import { sendMessage } from '@/lib/notification';
 import { useProfilesRead } from '@/hooks/useProfilesRead';
 import * as fbq from '../lib/fpixel';
+import { useRouter } from 'next/router';
 
 export const CreateBet = ({
   gameId,
@@ -46,6 +47,7 @@ export const CreateBet = ({
     functionName: 'getProfileByWalletAddress',
     args: [address],
   });
+  const router = useRouter();
 
   useBetsSubscriber({
     eventName: 'BetCreated',
@@ -59,7 +61,6 @@ export const CreateBet = ({
       setIsBetting(false);
       setShowBetModal(false);
       toast.success('Your pick is in!');
-      console.log(msgValue);
       sendMessage(
         `${profile?.username} just staked ${amount} MOJO on the ${
           teamPicked?.name
@@ -78,6 +79,7 @@ export const CreateBet = ({
         currency: 'USD',
         value: amount,
       });
+      router.push(`/bets/${betCounter.toNumber()}`);
     },
   });
 

@@ -4,12 +4,11 @@ import { useBetsRead } from '@/hooks/useBetsRead';
 import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { useTeamsRead } from '@/hooks/useTeamsRead';
 import { UserContext } from '@/lib/UserContext';
-import { CancelBet } from './BetCancel';
-import { BetAccept } from './BetAccept';
 import { BetAccepted } from './BetAccepted';
 import { BetCancelled } from './BetCancelled';
 import { BetFinished } from './BetFinished';
 import { useGamesRead } from '@/hooks/useGamesRead';
+import Link from 'next/link';
 
 const BET_STATE = ['Created', 'Accepted', 'Finished', 'Cancelled'];
 
@@ -61,32 +60,18 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
               {bet?.amount.toNumber()} MOJO on the {teamPicked?.name}
             </p>
             <div className="flex flex-row gap-1 pt-1">
-              {bet?.creator.toLowerCase() ===
-              user?.publicAddress.toLowerCase() ? (
-                <p className="text-xs">
-                  Ask a friend to place {bet?.counter.toNumber()} MOJO on the{' '}
-                  {otherTeamPicked?.name}
-                </p>
-              ) : (
-                <p className="text-xs">
-                  Bet {bet?.counter.toNumber()} MOJO on the{' '}
-                  {otherTeamPicked?.name} and{' '}
-                  <span className="text-green-500">
-                    earn {bet?.amount.toNumber()} MOJO
-                  </span>
-                </p>
-              )}
+              <p className="text-xs">
+                Asking for an opponent to place {bet?.counter.toNumber()} MOJO
+                on the {otherTeamPicked?.name}.
+              </p>
             </div>
           </div>
-
-          {myBet && betState === BET_STATE[0] && <CancelBet betId={betId} />}
-          {!myBet && betState === BET_STATE[0] && !isGameStarted && (
-            <BetAccept counter={bet?.counter.toNumber()} betId={betId} />
-          )}
-          {!myBet && betState === BET_STATE[0] && isGameStarted && (
-            <button disabled={true} className="btn">
-              Unavailable
-            </button>
+          {betState === BET_STATE[0] && (
+            <Link href={`/bets/${betId}`}>
+              <button className="btn btn-primary btn-outline w-full">
+                View Bet
+              </button>
+            </Link>
           )}
           {betState === BET_STATE[1] && <BetAccepted betId={betId} />}
           {betState === BET_STATE[2] && <BetFinished betId={betId} />}

@@ -7,7 +7,7 @@ export const useProfilesRead = ({ functionName, args }: any) => {
     functionName,
     address: '0xc60ACe68563bc0F5EdFB3246CFaEda0ff03B61c9',
     abi: ProfilesContract.abi,
-    watch: true,
+    watch: false,
     args,
   }) as any;
 };

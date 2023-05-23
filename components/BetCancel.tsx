@@ -9,7 +9,7 @@ import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { sendMessage } from '@/lib/notification';
 import { useTeamsRead } from '@/hooks/useTeamsRead';
 
-export const CancelBet = ({ betId }: { betId: BigNumber }) => {
+export const CancelBet = ({ betId }: { betId: string }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
   const betsContract = useBetsWrite();
@@ -40,15 +40,15 @@ export const CancelBet = ({ betId }: { betId: BigNumber }) => {
   async function handleCancelBet() {
     try {
       setIsLoading(true);
-      await betsContract?.cancelBet(betId.toNumber());
+      await betsContract?.cancelBet(parseInt(betId));
     } catch (e) {
       console.log(e);
-      va.track('BetCancelledError', { betId: betId.toNumber() });
+      va.track('BetCancelledError', { betId: parseInt(betId) });
       setIsLoading(false);
     }
   }
 
-  return isCancelled ? (
+  return isCancelled || bet?.state === 3 ? (
     <BetCancelled />
   ) : (
     <button
@@ -59,7 +59,7 @@ export const CancelBet = ({ betId }: { betId: BigNumber }) => {
           : ''
       }`}
     >
-      cancel
+      cancel bet
     </button>
   );
 };
