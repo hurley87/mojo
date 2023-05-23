@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import moment from 'moment';
 import { useBetsRead } from '@/hooks/useBetsRead';
-import { CreateBet } from './BetCreate';
 import { CancelBet } from './BetCancel';
 import { BetAccept } from './BetAccept';
 import Link from 'next/link';
@@ -9,18 +8,14 @@ import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { useTeamsRead } from '@/hooks/useTeamsRead';
 import { useGamesRead } from '@/hooks/useGamesRead';
 import { UserContext } from '@/lib/UserContext';
-import { makeBig } from '@/lib/number-utils';
 import toast from 'react-hot-toast';
-
-const BET_STATE = ['Created', 'Accepted', 'Finished', 'Cancelled'];
 
 const BetView = ({ betId }: { betId: string }) => {
   const [user, _]: any = useContext(UserContext);
-  const { data: bet, isLoading: isBetLoading } = useBetsRead({
+  const { data: bet } = useBetsRead({
     functionName: 'getBet',
     args: [betId],
   });
-  const [betState, setBetState] = useState(BET_STATE[0]);
   const { data: profile } = useProfilesRead({
     functionName: 'getProfileByWalletAddress',
     args: [bet?.creator],
@@ -115,7 +110,7 @@ const BetView = ({ betId }: { betId: string }) => {
             )}
           </div>
           <div className="flex flex-row gap-2">
-            {myBet && betState === BET_STATE[0] && (
+            {myBet && (
               <>
                 <CancelBet betId={betId} />
                 <button onClick={copyShareLink} className={`btn btn-primary`}>
@@ -123,10 +118,8 @@ const BetView = ({ betId }: { betId: string }) => {
                 </button>
               </>
             )}
-            {!myBet && betState === BET_STATE[0] && !isGameStarted && (
-              <BetAccept betId={betId} />
-            )}
-            {!myBet && betState === BET_STATE[0] && isGameStarted && (
+            {!myBet && !isGameStarted && <BetAccept betId={betId} />}
+            {!myBet && isGameStarted && (
               <button disabled={true} className="btn">
                 Game Has Started
               </button>
