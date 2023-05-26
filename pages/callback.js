@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { magic } from '@/lib/magic';
 import { UserContext } from '@/lib/UserContext';
 import { toast } from 'react-hot-toast';
-import Layout from '@/components/Layout';
 
 const Callback = () => {
   const router = useRouter();
@@ -29,7 +28,7 @@ const Callback = () => {
   }, [router, setUser, showWarning]);
 
   return (
-    <Layout>
+    <div className="container lg:w-1/2 mx-auto lg:px-4 pt-4 pb-20">
       <div className="text-center pt-28">
         <div role="status">
           <svg
@@ -51,7 +50,7 @@ const Callback = () => {
           <span className="sr-only">Loading...</span>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 
