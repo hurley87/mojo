@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { toast } from 'react-hot-toast';
 import { BsEye } from 'react-icons/bs';
-import { GiHockey } from 'react-icons/gi';
+import { GiHockey, GiBasketballBasket } from 'react-icons/gi';
 import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { useMojoRead } from '@/hooks/useMojoRead';
 import { makeNum } from '@/lib/number-utils';
@@ -95,6 +95,11 @@ const Navbar = ({ contract }: { contract: any }) => {
                 <Link href="/nhlpicks">
                   <p className="btn btn-primary btn-outline w-full">
                     <GiHockey className="h-6 w-6 mr-2" /> NHL Picks
+                  </p>
+                </Link>
+                <Link href="/nbapicks">
+                  <p className="btn btn-primary btn-outline w-full">
+                    <GiBasketballBasket className="h-6 w-6 mr-2" /> NBA Picks
                   </p>
                 </Link>
                 <Link

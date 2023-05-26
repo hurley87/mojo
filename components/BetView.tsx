@@ -64,7 +64,7 @@ const BetView = ({ betId, contract }: { betId: string; contract: any }) => {
       <div className="text-sm breadcrumbs">
         <ul>
           <li>
-            <Link href={`/${contract.betPath}/${bet?.gameId.toNumber()}`}>
+            <Link href={`/${contract.sport}/${bet?.gameId.toNumber()}`}>
               {homeTeamName} vs {awayTeamName},{' '}
               {startTime &&
                 moment.unix(startTime.toNumber()).format('MMMM Do [at] h:mm a')}
