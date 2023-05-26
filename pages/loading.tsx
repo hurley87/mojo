@@ -1,35 +1,9 @@
-import { useEffect, useContext, useState } from 'react';
-import { useRouter } from 'next/router';
-import { magic } from '@/lib/magic';
-import { UserContext } from '@/lib/UserContext';
-import { toast } from 'react-hot-toast';
 import Layout from '@/components/Layout';
+import { nbaContract } from '@/lib/nbaContracts';
 
-const Callback = () => {
-  const router = useRouter();
-  const [, setUser] = useContext(UserContext);
-  const [showWarning, setShowWarning] = useState(true);
-
-  useEffect(() => {
-    const callback = async () => {
-      try {
-        await magic.oauth.getRedirectResult();
-        let userMetadata = await magic.user.getMetadata();
-        await setUser(userMetadata);
-        router.push('/');
-      } catch {
-        if (showWarning) {
-          toast.success('Redirecting ...');
-          setShowWarning(false);
-        }
-        router.push('/');
-      }
-    };
-    callback();
-  }, [router, setUser, showWarning]);
-
+export default function Loading() {
   return (
-    <Layout>
+    <Layout contract={nbaContract}>
       <div className="text-center pt-28">
         <div role="status">
           <svg
@@ -53,6 +27,4 @@ const Callback = () => {
       </div>
     </Layout>
   );
-};
-
-export default Callback;
+}

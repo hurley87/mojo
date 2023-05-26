@@ -1,8 +1,9 @@
 import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { makeNum } from '@/lib/number-utils';
 
-export const Leaderboard = () => {
+export const Leaderboard = ({ address }: { address: string }) => {
   const { data: profiles, isLoading } = useProfilesRead({
+    address,
     functionName: 'getProfiles',
     args: [],
   });

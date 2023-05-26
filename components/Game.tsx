@@ -4,16 +4,19 @@ import { useGamesRead } from '@/hooks/useGamesRead';
 import { AiOutlineDoubleRight } from 'react-icons/ai';
 import Link from 'next/link';
 
-const Game = ({ gameId }: { gameId: string }) => {
+const Game = ({ gameId, contract }: { gameId: string; contract: any }) => {
   const { data: homeTeamName } = useGamesRead({
+    address: contract.games,
     functionName: 'getGameHomeTeamName',
     args: [gameId],
   });
   const { data: awayTeamName } = useGamesRead({
+    address: contract.games,
     functionName: 'getGameAwayTeamName',
     args: [gameId],
   });
   const { data: startTime, isLoading } = useGamesRead({
+    address: contract.games,
     functionName: 'getGameStartTime',
     args: [gameId],
   });
@@ -31,7 +34,7 @@ const Game = ({ gameId }: { gameId: string }) => {
             moment.unix(startTime.toNumber()).format('MMMM Do [at] h:mm a')}
         </p>
       </div>
-      <Link href={`/games/${gameId}`}>
+      <Link href={`/${contract.sport}/${gameId}`}>
         <button className="btn btn-square">
           <AiOutlineDoubleRight className="w-6 h-6" />
         </button>

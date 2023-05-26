@@ -2,9 +2,10 @@ import React from 'react';
 import Game from './Game';
 import { useGamesRead } from '@/hooks/useGamesRead';
 
-const GamesByDay = ({ day }: { day: string }) => {
+const GamesByDay = ({ day, contract }: { day: string; contract: any }) => {
   const { data: games, isLoading } = useGamesRead({
     functionName: 'getGamesByDay',
+    address: contract.games,
     args: [day],
   });
 
@@ -35,7 +36,7 @@ const GamesByDay = ({ day }: { day: string }) => {
         games?.map((game: any, index: number) => (
           <div key={game.gameId.toNumber()}>
             {index !== 0 && <div className="divider"></div>}
-            <Game gameId={game.gameId.toNumber()} />
+            <Game contract={contract} gameId={game.gameId.toNumber()} />
           </div>
         ))}
     </div>

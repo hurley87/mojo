@@ -8,15 +8,17 @@ import {
   ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 import { toast } from 'react-hot-toast';
-import { BsEye, BsRocket, BsQuestionCircle } from 'react-icons/bs';
+import { BsEye } from 'react-icons/bs';
+import { GiHockey } from 'react-icons/gi';
 import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { useMojoRead } from '@/hooks/useMojoRead';
 import { makeNum } from '@/lib/number-utils';
 
-const Navbar = () => {
+const Navbar = ({ contract }: { contract: any }) => {
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
   const { data: profile } = useProfilesRead({
+    address: contract?.profiles,
     functionName: 'getProfileByWalletAddress',
     args: [address],
   });
@@ -90,9 +92,9 @@ const Navbar = () => {
                     close
                   </div>
                 </label>
-                <Link href="/picks">
+                <Link href="/nhlpicks">
                   <p className="btn btn-primary btn-outline w-full">
-                    <BsRocket className="h-6 w-6 mr-2" /> Your Picks
+                    <GiHockey className="h-6 w-6 mr-2" /> NHL Picks
                   </p>
                 </Link>
                 <Link

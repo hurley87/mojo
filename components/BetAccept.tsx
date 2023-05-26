@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react';
-import { BigNumber } from 'ethers';
 import useBetsWrite from '@/hooks/useBetsWrite';
 import { useBetsSubscriber } from '@/hooks/useBetsSubscribe';
 import { BetAccepted } from './BetAccepted';
@@ -13,28 +12,39 @@ import { UserContext } from '@/lib/UserContext';
 import { makeBig, makeNum } from '@/lib/number-utils';
 import { useMojoRead } from '@/hooks/useMojoRead';
 
-export const BetAccept = ({ betId }: { betId: string }) => {
+export const BetAccept = ({
+  betId,
+  contract,
+}: {
+  betId: string;
+  contract: any;
+}) => {
   const [user, _]: any = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [hasAccepted, setHasAccepted] = useState(false);
-  const betsContract = useBetsWrite();
+  const betsContract = useBetsWrite(contract.bets);
   const { data: bet } = useBetsRead({
+    address: contract.bets,
     functionName: 'getBet',
     args: [betId],
   });
   const { data: profile } = useProfilesRead({
+    address: contract.profiles,
     functionName: 'getProfileByWalletAddress',
     args: [user?.publicAddress],
   });
   const { data: creatorProfile } = useProfilesRead({
+    address: contract.profiles,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.creator],
   });
   const { data: teamPicked } = useTeamsRead({
+    address: contract.teams,
     functionName: 'getTeam',
     args: [bet?.teamPickedId?.toNumber()],
   });
   const { data: otherTeamPicked } = useTeamsRead({
+    address: contract.teams,
     functionName: 'getTeam',
     args: [bet?.otherTeamPickedId?.toNumber()],
   });
@@ -44,6 +54,7 @@ export const BetAccept = ({ betId }: { betId: string }) => {
   });
 
   useBetsSubscriber({
+    address: contract.bets,
     eventName: 'BetAccepted',
     listener: (id: any, creator: string, acceptor: string) => {
       console.log('BetAccepted', id.toNumber(), creator, acceptor);
@@ -95,6 +106,6 @@ export const BetAccept = ({ betId }: { betId: string }) => {
       )}
     </>
   ) : (
-    <BetAccepted betId={makeBig(betId)} />
+    <BetAccepted contract={contract} betId={makeBig(betId)} />
   );
 };

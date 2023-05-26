@@ -3,7 +3,7 @@ import Games from '@/components/Games';
 import { Leaderboard } from '@/components/Leaderboard';
 import { useState } from 'react';
 
-const Hockey = () => {
+const GamesPage = ({ contract }: { contract: any }) => {
   const [showGames, setShowGames] = useState(true);
   return (
     <>
@@ -25,9 +25,13 @@ const Hockey = () => {
           Games
         </a>
       </div>
-      {showGames ? <Games /> : <Leaderboard />}
+      {showGames ? (
+        <Games contract={contract} />
+      ) : (
+        <Leaderboard address={contract.profiles} />
+      )}
     </>
   );
 };
 
-export default Hockey;
+export default GamesPage;

@@ -15,12 +15,14 @@ import * as fbq from '../lib/fpixel';
 import { useRouter } from 'next/router';
 
 export const CreateBet = ({
+  contract,
   gameId,
   homeTeamName,
   awayTeamName,
   awayTeamId,
   homeTeamId,
 }: {
+  contract: any;
   gameId: number;
   homeTeamName: string;
   awayTeamName: string;
@@ -32,10 +34,11 @@ export const CreateBet = ({
   const [counter, setCounter] = useState(10);
   const [isBetting, setIsBetting] = useState(false);
   const [showBetModal, setShowBetModal] = useState(false);
-  const betsContract = useBetsWrite();
+  const betsContract = useBetsWrite(contract.bets);
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
   const { data: teamPicked } = useTeamsRead({
+    address: contract.teams,
     functionName: 'getTeam',
     args: [teamId],
   });
@@ -44,6 +47,7 @@ export const CreateBet = ({
     args: [address],
   });
   const { data: profile } = useProfilesRead({
+    address: contract.profiles,
     functionName: 'getProfileByWalletAddress',
     args: [address],
   });
@@ -51,6 +55,7 @@ export const CreateBet = ({
 
   useBetsSubscriber({
     eventName: 'BetCreated',
+    address: contract.bets,
     listener: (
       betCounter: BigNumber,
       msgValue: BigNumber,
@@ -60,6 +65,7 @@ export const CreateBet = ({
     ) => {
       setIsBetting(false);
       setShowBetModal(false);
+      console.log(msgValue);
       toast.success('Your pick is in!');
       sendMessage(
         `${profile?.username} just staked ${amount} MOJO on the ${
@@ -79,7 +85,7 @@ export const CreateBet = ({
         currency: 'USD',
         value: amount,
       });
-      router.push(`/bets/${betCounter.toNumber()}`);
+      router.push(`/${contract.betPath}/${betCounter.toNumber()}`);
     },
   });
 

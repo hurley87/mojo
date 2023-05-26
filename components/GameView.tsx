@@ -5,24 +5,30 @@ import { CreateBet } from './BetCreate';
 import Bets from './Bets';
 import Link from 'next/link';
 
-const GameView = ({ gameId }: { gameId: string }) => {
+const GameView = ({ gameId, contract }: { gameId: string; contract: any }) => {
+  console.log('contract', contract);
   const { data: homeTeamName } = useGamesRead({
+    address: contract.games,
     functionName: 'getGameHomeTeamName',
     args: [gameId],
   });
   const { data: awayTeamName } = useGamesRead({
+    address: contract.games,
     functionName: 'getGameAwayTeamName',
     args: [gameId],
   });
   const { data: awayTeamId } = useGamesRead({
+    address: contract.games,
     functionName: 'getGameAwayTeamId',
     args: [gameId],
   });
   const { data: homeTeamId, isLoading } = useGamesRead({
+    address: contract.games,
     functionName: 'getGameHomeTeamId',
     args: [gameId],
   });
   const { data: startTime } = useGamesRead({
+    address: contract.games,
     functionName: 'getGameStartTime',
     args: [gameId],
   });
@@ -33,7 +39,7 @@ const GameView = ({ gameId }: { gameId: string }) => {
       <div className="text-sm breadcrumbs">
         <ul>
           <li>
-            <Link href="/">Games</Link>
+            <Link href={`/${contract.sport}`}>Games</Link>
           </li>
           <li>
             {homeTeamName} vs {awayTeamName},{' '}
@@ -66,6 +72,7 @@ const GameView = ({ gameId }: { gameId: string }) => {
         <>
           {!isLoading && (
             <CreateBet
+              contract={contract}
               gameId={parseInt(gameId)}
               homeTeamName={homeTeamName}
               awayTeamName={awayTeamName}
@@ -75,7 +82,7 @@ const GameView = ({ gameId }: { gameId: string }) => {
           )}
         </>
       )}
-      <Bets gameId={parseInt(gameId)} />
+      <Bets contract={contract} gameId={parseInt(gameId)} />
     </div>
   );
 };

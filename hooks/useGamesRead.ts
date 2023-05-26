@@ -1,11 +1,11 @@
 import { useContractRead } from 'wagmi';
 import GamesContract from './abis/Games.json';
 
-export const useGamesRead = ({ functionName, args }: any) => {
+export const useGamesRead = ({ functionName, address, args }: any) => {
   return useContractRead({
     chainId: 84531,
     functionName,
-    address: '0xadE9877B3fCC4EF1aEA48eE03662B1b0c822b552',
+    address,
     abi: GamesContract.abi,
     watch: false,
     args,

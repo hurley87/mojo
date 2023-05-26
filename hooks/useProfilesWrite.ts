@@ -15,14 +15,14 @@ export interface Transfer {
   amount: BigNumber;
 }
 
-const useProfilesWrite = () => {
+const useProfilesWrite = (address: string) => {
   if (magic.rpcProvider) {
     const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
     const signer = provider.getSigner();
 
     const contract = wagmi.useContract({
       // Add the address that was output from your deploy script
-      address: '0xc60ACe68563bc0F5EdFB3246CFaEda0ff03B61c9',
+      address,
       abi: ProfilesContract.abi,
       signerOrProvider: signer,
     });
@@ -36,7 +36,7 @@ const useProfilesWrite = () => {
 
           const request: any = {
             chainId: 84531,
-            target: '0xc60ACe68563bc0F5EdFB3246CFaEda0ff03B61c9',
+            target: address,
             data: data,
             user: await signer.getAddress(),
           };

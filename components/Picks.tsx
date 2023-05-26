@@ -12,9 +12,11 @@ function reverseArr(input: any) {
   return ret;
 }
 
-const YourPicks = () => {
+const Picks = ({ contract }: { contract: any }) => {
+  console.log(contract);
   const [user, _]: any = useContext(UserContext);
   const { data: bets, isLoading: isBetsLoading } = useBetsRead({
+    address: contract.bets,
     functionName: 'getWalletBets',
     args: [user?.publicAddress],
   });
@@ -52,7 +54,7 @@ const YourPicks = () => {
             {reverseArr(bets).map((betId: BigNumber, index: number) => (
               <div key={index}>
                 {index !== 0 && <div className="divider"></div>}
-                <Bet key={betId.toNumber()} betId={betId} />
+                <Bet contract={contract} key={betId.toNumber()} betId={betId} />
               </div>
             ))}
           </div>
@@ -62,4 +64,4 @@ const YourPicks = () => {
   );
 };
 
-export default YourPicks;
+export default Picks;

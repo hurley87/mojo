@@ -14,26 +14,37 @@ import toast from 'react-hot-toast';
 
 const BET_STATE = ['Created', 'Accepted', 'Finished', 'Cancelled'];
 
-export const Bet = ({ betId }: { betId: BigNumber }) => {
+export const Bet = ({
+  betId,
+  contract,
+}: {
+  betId: BigNumber;
+  contract: any;
+}) => {
   const [user, _]: any = useContext(UserContext);
   const { data: bet, isLoading: isBetLoading } = useBetsRead({
+    address: contract.bets,
     functionName: 'getBet',
     args: [betId],
   });
   const [betState, setBetState] = useState(BET_STATE[0]);
   const { data: profile } = useProfilesRead({
+    address: contract.profiles,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.creator],
   });
   const { data: teamPicked } = useTeamsRead({
+    address: contract.teams,
     functionName: 'getTeam',
     args: [bet?.teamPickedId?.toNumber()],
   });
   const { data: otherTeamPicked } = useTeamsRead({
+    address: contract.teams,
     functionName: 'getTeam',
     args: [bet?.otherTeamPickedId?.toNumber()],
   });
   const { data: startTime } = useGamesRead({
+    address: contract.games,
     functionName: 'getGameStartTime',
     args: [bet?.gameId.toNumber()],
   });
@@ -48,7 +59,7 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
 
   async function copyShareLink() {
     navigator.clipboard.writeText(
-      `${window.origin}/bets/${bet?.gameId.toNumber()}`
+      `${window.origin}/${contract.betPath}/${bet?.gameId.toNumber()}`
     );
     toast.success('Share link copied!');
   }
@@ -84,7 +95,7 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
                 <AiOutlineCopy className="w-6 h-6" />
               </button>
 
-              <Link href={`/bets/${betId}`}>
+              <Link href={`/${contract.betPath}/${betId}`}>
                 <button className="btn btn-square">
                   <AiOutlineDoubleRight className="w-6 h-6" />
                 </button>
@@ -96,8 +107,12 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
               Game Has Started
             </button>
           )}
-          {betState === BET_STATE[1] && <BetAccepted betId={betId} />}
-          {betState === BET_STATE[2] && <BetFinished betId={betId} />}
+          {betState === BET_STATE[1] && (
+            <BetAccepted contract={contract} betId={betId} />
+          )}
+          {betState === BET_STATE[2] && (
+            <BetFinished contract={contract} betId={betId} />
+          )}
           {betState === BET_STATE[3] && <BetCancelled />}
         </div>
       )}

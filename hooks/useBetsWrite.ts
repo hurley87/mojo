@@ -15,12 +15,12 @@ export interface Transfer {
   amount: BigNumber;
 }
 
-const useBetsWrite = () => {
+const useBetsWrite = (address: string) => {
   if (magic.rpcProvider) {
     const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
     const signer = provider.getSigner();
     const contract = wagmi.useContract({
-      address: '0x9362dbBbfe513Ca553F627B2e57fE98122d22A73',
+      address,
       abi: BetsContract.abi,
       signerOrProvider: signer,
     });
@@ -43,7 +43,7 @@ const useBetsWrite = () => {
 
           const request: any = {
             chainId: 84531,
-            target: '0x9362dbBbfe513Ca553F627B2e57fE98122d22A73',
+            target: address,
             data: data,
             user: await signer.getAddress(),
           };
@@ -72,7 +72,7 @@ const useBetsWrite = () => {
 
           const request: any = {
             chainId: 84531,
-            target: '0x9362dbBbfe513Ca553F627B2e57fE98122d22A73',
+            target: address,
             data: data,
             user: await signer.getAddress(),
           };
@@ -100,7 +100,7 @@ const useBetsWrite = () => {
 
         const request: any = {
           chainId: 84531,
-          target: '0x9362dbBbfe513Ca553F627B2e57fE98122d22A73',
+          target: address,
           data: data,
           user: await signer.getAddress(),
         };

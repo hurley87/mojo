@@ -10,33 +10,40 @@ import { useGamesRead } from '@/hooks/useGamesRead';
 import { UserContext } from '@/lib/UserContext';
 import toast from 'react-hot-toast';
 
-const BetView = ({ betId }: { betId: string }) => {
+const BetView = ({ betId, contract }: { betId: string; contract: any }) => {
   const [user, _]: any = useContext(UserContext);
   const { data: bet } = useBetsRead({
+    address: contract.bets,
     functionName: 'getBet',
     args: [betId],
   });
   const { data: profile } = useProfilesRead({
+    address: contract.profiles,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.creator],
   });
   const { data: teamPicked } = useTeamsRead({
+    address: contract.teams,
     functionName: 'getTeam',
     args: [bet?.teamPickedId?.toNumber()],
   });
   const { data: otherTeamPicked } = useTeamsRead({
+    address: contract.teams,
     functionName: 'getTeam',
     args: [bet?.otherTeamPickedId?.toNumber()],
   });
   const { data: homeTeamName } = useGamesRead({
+    address: contract.games,
     functionName: 'getGameHomeTeamName',
     args: [bet?.gameId.toNumber()],
   });
   const { data: awayTeamName } = useGamesRead({
+    address: contract.games,
     functionName: 'getGameAwayTeamName',
     args: [bet?.gameId.toNumber()],
   });
   const { data: startTime } = useGamesRead({
+    address: contract.games,
     functionName: 'getGameStartTime',
     args: [bet?.gameId.toNumber()],
   });
@@ -46,7 +53,9 @@ const BetView = ({ betId }: { betId: string }) => {
   const isGameStarted = startTime?.toNumber() < date.getTime() / 1000;
 
   async function copyShareLink() {
-    navigator.clipboard.writeText(`${window.origin}/bets/${betId}`);
+    navigator.clipboard.writeText(
+      `${window.origin}/${contract.betPath}/${betId}`
+    );
     toast.success('Share link copied!');
   }
 
@@ -55,7 +64,7 @@ const BetView = ({ betId }: { betId: string }) => {
       <div className="text-sm breadcrumbs">
         <ul>
           <li>
-            <Link href={`/games/${bet?.gameId.toNumber()}`}>
+            <Link href={`/nhl/${bet?.gameId.toNumber()}`}>
               {homeTeamName} vs {awayTeamName},{' '}
               {startTime &&
                 moment.unix(startTime.toNumber()).format('MMMM Do [at] h:mm a')}
@@ -112,13 +121,15 @@ const BetView = ({ betId }: { betId: string }) => {
           <div className="flex flex-row gap-2">
             {myBet && (
               <>
-                <CancelBet betId={betId} />
+                <CancelBet contract={contract} betId={betId} />
                 <button onClick={copyShareLink} className={`btn btn-primary`}>
                   Copy Share Link
                 </button>
               </>
             )}
-            {!myBet && !isGameStarted && <BetAccept betId={betId} />}
+            {!myBet && !isGameStarted && (
+              <BetAccept contract={contract} betId={betId} />
+            )}
             {!myBet && isGameStarted && (
               <button disabled={true} className="btn">
                 Game Has Started
