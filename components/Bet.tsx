@@ -9,6 +9,8 @@ import { BetCancelled } from './BetCancelled';
 import { BetFinished } from './BetFinished';
 import { useGamesRead } from '@/hooks/useGamesRead';
 import Link from 'next/link';
+import { AiOutlineCopy, AiOutlineDoubleRight } from 'react-icons/ai';
+import toast from 'react-hot-toast';
 
 const BET_STATE = ['Created', 'Accepted', 'Finished', 'Cancelled'];
 
@@ -44,6 +46,13 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
     if (bet?.state) setBetState(BET_STATE[bet?.state]);
   }, [bet?.state, bet?.odds, bet?.amount]);
 
+  async function copyShareLink() {
+    navigator.clipboard.writeText(
+      `${window.origin}/bets/${bet?.gameId.toNumber()}`
+    );
+    toast.success('Share link copied!');
+  }
+
   return user?.loading ? (
     <div className="h-10 w-full animate-pulse bg-primary-focus rounded-md"></div>
   ) : (
@@ -67,11 +76,20 @@ export const Bet = ({ betId }: { betId: BigNumber }) => {
             </div>
           </div>
           {betState === BET_STATE[0] && !isGameStarted && (
-            <Link href={`/bets/${betId}`}>
-              <button className="btn btn-primary btn-outline w-full">
-                View Bet
+            <div className="flex gap-2">
+              <button
+                onClick={() => copyShareLink()}
+                className="btn btn-square"
+              >
+                <AiOutlineCopy className="w-6 h-6" />
               </button>
-            </Link>
+
+              <Link href={`/bets/${betId}`}>
+                <button className="btn btn-square">
+                  <AiOutlineDoubleRight className="w-6 h-6" />
+                </button>
+              </Link>
+            </div>
           )}
           {betState === BET_STATE[0] && isGameStarted && (
             <button disabled={true} className="btn">
