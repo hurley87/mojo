@@ -5,30 +5,30 @@ import { CreateBet } from './BetCreate';
 import Bets from './Bets';
 import Link from 'next/link';
 
-const GameView = ({ gameId, contract }: { gameId: string; contract: any }) => {
-  console.log('contract', contract);
+const GameView = ({ gameId, sport }: { gameId: string; sport: any }) => {
+  console.log('sport', sport);
   const { data: homeTeamName } = useGamesRead({
-    address: contract.games,
+    address: sport.gamesAddress,
     functionName: 'getGameHomeTeamName',
     args: [gameId],
   });
   const { data: awayTeamName } = useGamesRead({
-    address: contract.games,
+    address: sport.gamesAddress,
     functionName: 'getGameAwayTeamName',
     args: [gameId],
   });
   const { data: awayTeamId } = useGamesRead({
-    address: contract.games,
+    address: sport.gamesAddress,
     functionName: 'getGameAwayTeamId',
     args: [gameId],
   });
   const { data: homeTeamId, isLoading } = useGamesRead({
-    address: contract.games,
+    address: sport.gamesAddress,
     functionName: 'getGameHomeTeamId',
     args: [gameId],
   });
   const { data: startTime } = useGamesRead({
-    address: contract.games,
+    address: sport.gamesAddress,
     functionName: 'getGameStartTime',
     args: [gameId],
   });
@@ -39,7 +39,7 @@ const GameView = ({ gameId, contract }: { gameId: string; contract: any }) => {
       <div className="text-sm breadcrumbs">
         <ul>
           <li>
-            <Link href={`/${contract.sport}`}>Games</Link>
+            <Link href={`/${sport.sport}`}>Games</Link>
           </li>
           <li>
             {homeTeamName} vs {awayTeamName},{' '}
@@ -72,7 +72,7 @@ const GameView = ({ gameId, contract }: { gameId: string; contract: any }) => {
         <>
           {!isLoading && (
             <CreateBet
-              contract={contract}
+              sport={sport}
               gameId={parseInt(gameId)}
               homeTeamName={homeTeamName}
               awayTeamName={awayTeamName}
@@ -82,7 +82,7 @@ const GameView = ({ gameId, contract }: { gameId: string; contract: any }) => {
           )}
         </>
       )}
-      <Bets contract={contract} gameId={parseInt(gameId)} />
+      <Bets sport={sport} gameId={parseInt(gameId)} />
     </div>
   );
 };

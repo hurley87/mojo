@@ -12,39 +12,33 @@ import { UserContext } from '@/lib/UserContext';
 import { makeBig, makeNum } from '@/lib/number-utils';
 import { useMojoRead } from '@/hooks/useMojoRead';
 
-export const BetAccept = ({
-  betId,
-  contract,
-}: {
-  betId: string;
-  contract: any;
-}) => {
+export const BetAccept = ({ betId, sport }: { betId: string; sport: any }) => {
   const [user, _]: any = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [hasAccepted, setHasAccepted] = useState(false);
-  const betsContract = useBetsWrite(contract.bets);
+  const betsContract = useBetsWrite(sport.betsAddress);
   const { data: bet } = useBetsRead({
-    address: contract.bets,
+    address: sport.betsAddress,
     functionName: 'getBet',
     args: [betId],
   });
   const { data: profile } = useProfilesRead({
-    address: contract.profiles,
+    address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [user?.publicAddress],
   });
   const { data: creatorProfile } = useProfilesRead({
-    address: contract.profiles,
+    address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.creator],
   });
   const { data: teamPicked } = useTeamsRead({
-    address: contract.teams,
+    address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.teamPickedId?.toNumber()],
   });
   const { data: otherTeamPicked } = useTeamsRead({
-    address: contract.teams,
+    address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.otherTeamPickedId?.toNumber()],
   });
@@ -54,7 +48,7 @@ export const BetAccept = ({
   });
 
   useBetsSubscriber({
-    address: contract.bets,
+    address: sport.betsAddress,
     eventName: 'BetAccepted',
     listener: (id: any, creator: string, acceptor: string) => {
       console.log('BetAccepted', id.toNumber(), creator, acceptor);
@@ -106,6 +100,6 @@ export const BetAccept = ({
       )}
     </>
   ) : (
-    <BetAccepted contract={contract} betId={makeBig(betId)} />
+    <BetAccepted sport={sport} betId={makeBig(betId)} />
   );
 };

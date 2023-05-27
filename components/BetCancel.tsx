@@ -9,34 +9,28 @@ import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { sendMessage } from '@/lib/notification';
 import { useTeamsRead } from '@/hooks/useTeamsRead';
 
-export const CancelBet = ({
-  betId,
-  contract,
-}: {
-  betId: string;
-  contract: any;
-}) => {
+export const CancelBet = ({ betId, sport }: { betId: string; sport: any }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
-  const betsContract = useBetsWrite(contract.bets);
+  const betsContract = useBetsWrite(sport.betsAddress);
   const { data: bet } = useBetsRead({
-    address: contract.bets,
+    address: sport.betsAddress,
     functionName: 'getBet',
     args: [betId],
   });
   const { data: profile } = useProfilesRead({
-    address: contract.profiles,
+    address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.creator],
   });
   const { data: teamPicked } = useTeamsRead({
-    address: contract.teams,
+    address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.teamPickedId?.toNumber()],
   });
 
   useBetsSubscriber({
-    address: contract.bets,
+    address: sport.betsAddress,
     eventName: 'BetCancelled',
     listener: (id: any) => {
       va.track('BetCancelled', { betId: id.toNumber() });

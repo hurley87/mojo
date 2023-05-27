@@ -11,9 +11,9 @@ function reverseArr(input: any) {
   return ret;
 }
 
-const Bets = ({ gameId, contract }: { gameId: number; contract: any }) => {
+const Bets = ({ gameId, sport }: { gameId: number; sport: any }) => {
   const { data: bets, isLoading: isBetsLoading } = useBetsRead({
-    address: contract.bets,
+    address: sport.betsAddress,
     functionName: 'getGameBets',
     args: [gameId],
   });
@@ -50,7 +50,7 @@ const Bets = ({ gameId, contract }: { gameId: number; contract: any }) => {
             {reverseArr(bets).map((betId: BigNumber, index: number) => (
               <div key={index}>
                 {index !== 0 && <div className="divider"></div>}
-                <Bet contract={contract} key={betId.toNumber()} betId={betId} />
+                <Bet sport={sport} key={betId.toNumber()} betId={betId} />
               </div>
             ))}
           </div>

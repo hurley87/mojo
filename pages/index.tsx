@@ -32,7 +32,7 @@ export default function Home() {
       </Head>
       <div className="pt-10">
         <FixedBanner />
-        <Navbar contract={null} />
+        <Navbar sport={null} />
         <div className="container lg:w-1/4 mx-auto lg:px-4 pt-4 pb-20">
           <br />
           <div className="w-full">

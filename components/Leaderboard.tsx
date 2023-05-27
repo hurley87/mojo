@@ -1,9 +1,9 @@
 import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { makeNum } from '@/lib/number-utils';
 
-export const Leaderboard = ({ contract }: { contract: any }) => {
+export const Leaderboard = ({ sport }: { sport: any }) => {
   const { data: profiles, isLoading } = useProfilesRead({
-    address: contract.profiles,
+    address: sport.profilesAddress,
     functionName: 'getProfiles',
     args: [],
   });
@@ -32,7 +32,7 @@ export const Leaderboard = ({ contract }: { contract: any }) => {
         <div>loading ...</div>
       ) : (
         <div className="overflow-x-auto">
-          <h2 className="text-sm">{contract.prize}</h2>
+          <h2 className="text-sm">{sport.prize}</h2>
           <table className="table table-zebra w-full">
             <thead>
               <tr>

@@ -1,11 +1,11 @@
 import Picks from '@/components/Picks';
 import Layout from '@/components/Layout';
-import { nbaContract } from '@/lib/nbaContracts';
+import { nba } from '@/lib/nba';
 
 export default function PicksPage() {
   return (
-    <Layout contract={nbaContract}>
-      <Picks contract={nbaContract} />
+    <Layout sport={nba}>
+      <Picks sport={nba} />
     </Layout>
   );
 }

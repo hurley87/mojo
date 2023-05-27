@@ -18,19 +18,19 @@ import FixedBanner from './Fixedbanner';
 type Props = {
   children?: ReactNode;
   title?: string;
-  contract?: any;
+  sport?: any;
 };
 
-const NHLLayout = ({ contract, children }: Props) => {
+const Layout = ({ sport, children }: Props) => {
   const [user, _]: any = useContext(UserContext);
   const [username, setUsername] = useState('');
   const { data: checkWalletAddressExists, isLoading } = useProfilesRead({
-    address: contract.profiles,
+    address: sport.profilesAddress,
     functionName: 'checkWalletAddressExists',
     args: [user?.publicAddress],
   });
   const { data: usernameExists } = useProfilesRead({
-    address: contract.profiles,
+    address: sport.profilesAddress,
     functionName: 'checkUsernameExists',
     args: [username],
   });
@@ -44,7 +44,7 @@ const NHLLayout = ({ contract, children }: Props) => {
   });
   const { data: mojoAllowance } = useMojoRead({
     functionName: 'allowance',
-    args: [user?.publicAddress, contract.bets],
+    args: [user?.publicAddress, sport.betsAddress],
   });
   const [hasProfile, setHasProfile] = useState(checkWalletAddressExists);
   const mojoContract = useMojoWrite();
@@ -63,7 +63,7 @@ const NHLLayout = ({ contract, children }: Props) => {
     if (balance > 0) setHasTokens(true);
   }, [checkWalletAddressExists, mintCount, mojoAllowance, mojoBalance]);
 
-  const profilesContract = useProfilesWrite(contract.profiles);
+  const profilesContract = useProfilesWrite(sport.profilesAddress);
   const [loading, setLoading] = useState(false);
 
   async function handleMint() {
@@ -102,7 +102,7 @@ const NHLLayout = ({ contract, children }: Props) => {
     setIsApproveLoading(true);
     try {
       toast.success('Granting access ...');
-      await mojoContract?.approve(contract.bets, mojoBalance);
+      await mojoContract?.approve(sport.betsAddress, mojoBalance);
     } catch (e) {
       toast.error('try again');
       setIsApproveLoading(false);
@@ -147,7 +147,7 @@ const NHLLayout = ({ contract, children }: Props) => {
   }
 
   useProfilesSubscriber({
-    address: contract.profiles,
+    address: sport.profilesAddress,
     eventName: 'ProfileCreated',
     listener: (id: any, username: string, walletAddress: string) => {
       if (
@@ -190,7 +190,7 @@ const NHLLayout = ({ contract, children }: Props) => {
       </Head>
       <div className="pt-10">
         <FixedBanner />
-        <Navbar contract={contract} />
+        <Navbar sport={sport} />
         <div className="container lg:w-1/2 mx-auto lg:px-4 pt-4 pb-20">
           {user === null && <GetStarted />}
           {!mojoBalanceLoading &&
@@ -336,4 +336,4 @@ const NHLLayout = ({ contract, children }: Props) => {
   );
 };
 
-export default NHLLayout;
+export default Layout;

@@ -18,7 +18,7 @@ function convertDateToString(date: Date) {
   return `${date.getMonth()}-${date.getDate()}-${date.getFullYear()}`;
 }
 
-const Games = ({ contract }: { contract: string }) => {
+const Games = ({ sport }: { sport: string }) => {
   const [currentDay, setCurrentDay] = useState(new Date());
 
   return (
@@ -40,7 +40,7 @@ const Games = ({ contract }: { contract: string }) => {
           {moment(getNextDay(currentDay)).format('MMM Do')}
         </a>
       </div>
-      <GamesByDay contract={contract} day={convertDateToString(currentDay)} />
+      <GamesByDay sport={sport} day={convertDateToString(currentDay)} />
     </>
   );
 };

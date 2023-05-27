@@ -1,9 +1,9 @@
 import Layout from '@/components/Layout';
-import { nbaContract } from '@/lib/nbaContracts';
+import { nba } from '@/lib/nba';
 
 export default function Loading() {
   return (
-    <Layout contract={nbaContract}>
+    <Layout sport={nba}>
       <div className="text-center pt-28">
         <div role="status">
           <svg

@@ -3,7 +3,7 @@ import Games from '@/components/Games';
 import { Leaderboard } from '@/components/Leaderboard';
 import { useState } from 'react';
 
-const GamesPage = ({ contract }: { contract: any }) => {
+const GamesPage = ({ sport }: { sport: any }) => {
   const [showGames, setShowGames] = useState(true);
   return (
     <>
@@ -25,11 +25,7 @@ const GamesPage = ({ contract }: { contract: any }) => {
           Games
         </a>
       </div>
-      {showGames ? (
-        <Games contract={contract} />
-      ) : (
-        <Leaderboard contract={contract} />
-      )}
+      {showGames ? <Games sport={sport} /> : <Leaderboard sport={sport} />}
     </>
   );
 };

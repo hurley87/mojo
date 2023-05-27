@@ -14,11 +14,11 @@ import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { useMojoRead } from '@/hooks/useMojoRead';
 import { makeNum } from '@/lib/number-utils';
 
-const Navbar = ({ contract }: { contract: any }) => {
+const Navbar = ({ sport }: { sport: any }) => {
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
   const { data: profile } = useProfilesRead({
-    address: contract?.profiles,
+    address: sport?.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [address],
   });

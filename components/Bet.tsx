@@ -14,37 +14,31 @@ import toast from 'react-hot-toast';
 
 const BET_STATE = ['Created', 'Accepted', 'Finished', 'Cancelled'];
 
-export const Bet = ({
-  betId,
-  contract,
-}: {
-  betId: BigNumber;
-  contract: any;
-}) => {
+export const Bet = ({ betId, sport }: { betId: BigNumber; sport: any }) => {
   const [user, _]: any = useContext(UserContext);
   const { data: bet, isLoading: isBetLoading } = useBetsRead({
-    address: contract.bets,
+    address: sport.betsAddress,
     functionName: 'getBet',
     args: [betId],
   });
   const [betState, setBetState] = useState(BET_STATE[0]);
   const { data: profile } = useProfilesRead({
-    address: contract.profiles,
+    address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.creator],
   });
   const { data: teamPicked } = useTeamsRead({
-    address: contract.teams,
+    address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.teamPickedId?.toNumber()],
   });
   const { data: otherTeamPicked } = useTeamsRead({
-    address: contract.teams,
+    address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.otherTeamPickedId?.toNumber()],
   });
   const { data: startTime } = useGamesRead({
-    address: contract.games,
+    address: sport.gamesAddress,
     functionName: 'getGameStartTime',
     args: [bet?.gameId.toNumber()],
   });
@@ -58,9 +52,7 @@ export const Bet = ({
   }, [bet?.state, bet?.odds, bet?.amount]);
 
   async function copyShareLink() {
-    navigator.clipboard.writeText(
-      `${window.origin}/${contract.betPath}/${bet?.gameId.toNumber()}`
-    );
+    navigator.clipboard.writeText(`${window.origin}/${sport.betPath}/${betId}`);
     toast.success('Share link copied!');
   }
 
@@ -95,7 +87,7 @@ export const Bet = ({
                 <AiOutlineCopy className="w-6 h-6" />
               </button>
 
-              <Link href={`/${contract.betPath}/${betId}`}>
+              <Link href={`/${sport.betPath}/${betId}`}>
                 <button className="btn btn-square">
                   <AiOutlineDoubleRight className="w-6 h-6" />
                 </button>
@@ -108,10 +100,10 @@ export const Bet = ({
             </button>
           )}
           {betState === BET_STATE[1] && (
-            <BetAccepted contract={contract} betId={betId} />
+            <BetAccepted sport={sport} betId={betId} />
           )}
           {betState === BET_STATE[2] && (
-            <BetFinished contract={contract} betId={betId} />
+            <BetFinished sport={sport} betId={betId} />
           )}
           {betState === BET_STATE[3] && <BetCancelled />}
         </div>

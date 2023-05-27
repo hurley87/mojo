@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 import BetView from '@/components/BetView';
-import { nhlContract } from '@/lib/nhlContracts';
+import { nhl } from '@/lib/nhl';
 
 const ViewBetPage: NextPage = () => {
   const [betId, setBetId] = React.useState<string | undefined>();
@@ -16,8 +16,8 @@ const ViewBetPage: NextPage = () => {
   }, [router.isReady, router.query]);
 
   return (
-    <Layout contract={nhlContract}>
-      {!!betId && <BetView contract={nhlContract} betId={betId} />}
+    <Layout sport={nhl}>
+      {!!betId && <BetView sport={nhl} betId={betId} />}
     </Layout>
   );
 };

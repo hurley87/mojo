@@ -15,14 +15,14 @@ import * as fbq from '../lib/fpixel';
 import { useRouter } from 'next/router';
 
 export const CreateBet = ({
-  contract,
+  sport,
   gameId,
   homeTeamName,
   awayTeamName,
   awayTeamId,
   homeTeamId,
 }: {
-  contract: any;
+  sport: any;
   gameId: number;
   homeTeamName: string;
   awayTeamName: string;
@@ -34,11 +34,11 @@ export const CreateBet = ({
   const [counter, setCounter] = useState(10);
   const [isBetting, setIsBetting] = useState(false);
   const [showBetModal, setShowBetModal] = useState(false);
-  const betsContract = useBetsWrite(contract.bets);
+  const betsContract = useBetsWrite(sport.betsAddress);
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
   const { data: teamPicked } = useTeamsRead({
-    address: contract.teams,
+    address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [teamId],
   });
@@ -47,7 +47,7 @@ export const CreateBet = ({
     args: [address],
   });
   const { data: profile } = useProfilesRead({
-    address: contract.profiles,
+    address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [address],
   });
@@ -55,7 +55,7 @@ export const CreateBet = ({
 
   useBetsSubscriber({
     eventName: 'BetCreated',
-    address: contract.bets,
+    address: sport.betsAddress,
     listener: (
       betCounter: BigNumber,
       msgValue: BigNumber,
@@ -85,7 +85,7 @@ export const CreateBet = ({
         currency: 'USD',
         value: amount,
       });
-      router.push(`/${contract.betPath}/${betCounter.toNumber()}`);
+      router.push(`/${sport.betPath}/${betCounter.toNumber()}`);
     },
   });
 

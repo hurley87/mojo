@@ -10,40 +10,40 @@ import { useGamesRead } from '@/hooks/useGamesRead';
 import { UserContext } from '@/lib/UserContext';
 import toast from 'react-hot-toast';
 
-const BetView = ({ betId, contract }: { betId: string; contract: any }) => {
+const BetView = ({ betId, sport }: { betId: string; sport: any }) => {
   const [user, _]: any = useContext(UserContext);
   const { data: bet } = useBetsRead({
-    address: contract.bets,
+    address: sport.betsAddress,
     functionName: 'getBet',
     args: [betId],
   });
   const { data: profile } = useProfilesRead({
-    address: contract.profiles,
+    address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.creator],
   });
   const { data: teamPicked } = useTeamsRead({
-    address: contract.teams,
+    address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.teamPickedId?.toNumber()],
   });
   const { data: otherTeamPicked } = useTeamsRead({
-    address: contract.teams,
+    address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.otherTeamPickedId?.toNumber()],
   });
   const { data: homeTeamName } = useGamesRead({
-    address: contract.games,
+    address: sport.gamesAddress,
     functionName: 'getGameHomeTeamName',
     args: [bet?.gameId.toNumber()],
   });
   const { data: awayTeamName } = useGamesRead({
-    address: contract.games,
+    address: sport.gamesAddress,
     functionName: 'getGameAwayTeamName',
     args: [bet?.gameId.toNumber()],
   });
   const { data: startTime } = useGamesRead({
-    address: contract.games,
+    address: sport.gamesAddress,
     functionName: 'getGameStartTime',
     args: [bet?.gameId.toNumber()],
   });
@@ -53,9 +53,7 @@ const BetView = ({ betId, contract }: { betId: string; contract: any }) => {
   const isGameStarted = startTime?.toNumber() < date.getTime() / 1000;
 
   async function copyShareLink() {
-    navigator.clipboard.writeText(
-      `${window.origin}/${contract.betPath}/${betId}`
-    );
+    navigator.clipboard.writeText(`${window.origin}/${sport.betPath}/${betId}`);
     toast.success('Share link copied!');
   }
 
@@ -64,7 +62,7 @@ const BetView = ({ betId, contract }: { betId: string; contract: any }) => {
       <div className="text-sm breadcrumbs">
         <ul>
           <li>
-            <Link href={`/${contract.sport}/${bet?.gameId.toNumber()}`}>
+            <Link href={`/${sport.sport}/${bet?.gameId.toNumber()}`}>
               {homeTeamName} vs {awayTeamName},{' '}
               {startTime &&
                 moment.unix(startTime.toNumber()).format('MMMM Do [at] h:mm a')}
@@ -121,14 +119,14 @@ const BetView = ({ betId, contract }: { betId: string; contract: any }) => {
           <div className="flex flex-row gap-2">
             {myBet && (
               <>
-                <CancelBet contract={contract} betId={betId} />
+                <CancelBet sport={sport} betId={betId} />
                 <button onClick={copyShareLink} className={`btn btn-primary`}>
                   Copy Share Link
                 </button>
               </>
             )}
             {!myBet && !isGameStarted && (
-              <BetAccept contract={contract} betId={betId} />
+              <BetAccept sport={sport} betId={betId} />
             )}
             {!myBet && isGameStarted && (
               <button disabled={true} className="btn">

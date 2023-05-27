@@ -1,11 +1,11 @@
 import Layout from '@/components/Layout';
 import GamesPage from '@/components/GamesPage';
-import { nbaContract } from '@/lib/nbaContracts';
+import { nba } from '@/lib/nba';
 
 export default function NHL() {
   return (
-    <Layout contract={nbaContract}>
-      <GamesPage contract={nbaContract} />
+    <Layout sport={nba}>
+      <GamesPage sport={nba} />
     </Layout>
   );
 }

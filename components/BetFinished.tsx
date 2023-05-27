@@ -4,18 +4,18 @@ import { useProfilesRead } from '@/hooks/useProfilesRead';
 
 export const BetFinished = ({
   betId,
-  contract,
+  sport,
 }: {
   betId: BigNumber;
-  contract: any;
+  sport: any;
 }) => {
   const { data: bet, isLoading: isBetLoading } = useBetsRead({
-    address: contract.bets,
+    address: sport.betsAddress,
     functionName: 'getBet',
     args: [betId],
   });
   const { data: winner } = useProfilesRead({
-    address: contract.profiles,
+    address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.winner],
   });
