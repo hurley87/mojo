@@ -136,7 +136,7 @@ export const BetAccept = ({ betId, sport }: { betId: string; sport: any }) => {
         <button disabled={true} className={`btn`}>
           You need more tokens to place this bet
         </button>
-      ) : isApproved ? (
+      ) : !isApproved ? (
         <button
           onClick={handleApprove}
           disabled={isApproveLoading}
