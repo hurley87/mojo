@@ -25,7 +25,7 @@ const Layout = ({ sport, children }: Props) => {
   const [user, _]: any = useContext(UserContext);
   const [username, setUsername] = useState('');
   const { data: checkWalletAddressExists, isLoading } = useProfilesRead({
-    address: sport.profilesAddress,
+    address: sport?.profilesAddress,
     functionName: 'checkWalletAddressExists',
     args: [user?.publicAddress],
   });
@@ -42,26 +42,19 @@ const Layout = ({ sport, children }: Props) => {
     functionName: 'balanceOf',
     args: [user?.publicAddress],
   });
-  const { data: mojoAllowance } = useMojoRead({
-    functionName: 'allowance',
-    args: [user?.publicAddress, sport.betsAddress],
-  });
+
   const [hasProfile, setHasProfile] = useState(checkWalletAddressExists);
   const mojoContract = useMojoWrite();
   const [isClaimLoading, setIsClaimLoading] = useState(false);
-  const [isApproveLoading, setIsApproveLoading] = useState(false);
   const [hasMinted, setHasMinted] = useState(false);
-  const [isApproved, setIsApproved] = useState(false);
   const [hasTokens, setHasTokens] = useState(false);
 
   useEffect(() => {
     const balance = parseInt(makeNum(mojoBalance));
-    const allowance = parseInt(makeNum(mojoAllowance));
-    setIsApproved(balance === allowance);
     if (checkWalletAddressExists) setHasProfile(checkWalletAddressExists);
     if (mintCount?.toNumber() > 0) setHasMinted(true);
     if (balance > 0) setHasTokens(true);
-  }, [checkWalletAddressExists, mintCount, mojoAllowance, mojoBalance]);
+  }, [checkWalletAddressExists, mintCount, mojoBalance]);
 
   const profilesContract = useProfilesWrite(sport.profilesAddress);
   const [loading, setLoading] = useState(false);
@@ -91,38 +84,6 @@ const Layout = ({ sport, children }: Props) => {
       ) {
         setHasMinted(true);
         toast.success('Tokens received!');
-        va.track('TokensClaims', {
-          address: walletAddress,
-        });
-      }
-    },
-  });
-
-  async function handleApprove() {
-    setIsApproveLoading(true);
-    try {
-      toast.success('Granting access ...');
-      await mojoContract?.approve(sport.betsAddress, mojoBalance);
-    } catch (e) {
-      toast.error('try again');
-      setIsApproveLoading(false);
-      va.track('TokensApproveError', {
-        address: user?.publicAddress,
-      });
-      return;
-    }
-  }
-
-  useMojoSubscriber({
-    eventName: 'Approval',
-    listener: (walletAddress: string, spender: string, amount: any) => {
-      console.log(spender, walletAddress, amount);
-      if (
-        walletAddress.toLocaleLowerCase() ===
-        user?.publicAddress?.toLocaleLowerCase()
-      ) {
-        setIsApproveLoading(false);
-        setIsApproved(true);
         va.track('TokensClaims', {
           address: walletAddress,
         });
@@ -220,7 +181,7 @@ const Layout = ({ sport, children }: Props) => {
             </div>
           )}
 
-          {/* has not minted, no approval, no profile */}
+          {/* has not minted, no profile */}
           {!isLoading &&
             checkWalletAddressExists !== undefined &&
             !hasMinted && (
@@ -250,42 +211,9 @@ const Layout = ({ sport, children }: Props) => {
               </div>
             )}
 
-          {/* has minted, no approval, no profile: show approve tokens */}
+          {/* has minted and no profile: show create profile */}
           {!isLoading &&
             checkWalletAddressExists !== undefined &&
-            hasMinted &&
-            !isApproved && (
-              <div className="max-w-sm mx-auto">
-                <div className="flex flex-col gap-4">
-                  <h2 className="font-bold text-lg">The MOJO Token</h2>
-                  <p>This token is not real money yet.</p>
-                  <p>For now, it is simply used to keep score.</p>
-                  <p>
-                    This is the start of a P2P sports betting platform. If you
-                    have ideas on how it can be better{' '}
-                    <a className="text-primary" href="mailto:david@mojo.com">
-                      email me
-                    </a>
-                    .
-                  </p>
-                  <button
-                    onClick={handleApprove}
-                    className={`btn btn-primary mt-2 ${
-                      isApproveLoading
-                        ? 'loading before:!w-4 before:!h-4 before:!mx-0 before:!mr-1'
-                        : ''
-                    }`}
-                  >
-                    Continue
-                  </button>
-                </div>
-              </div>
-            )}
-
-          {/* has minted, has approval, no profile: show create profile */}
-          {!isLoading &&
-            checkWalletAddressExists !== undefined &&
-            isApproved &&
             !hasProfile && (
               <div className="max-w-sm mx-auto">
                 <div className="form-control">
@@ -322,13 +250,12 @@ const Layout = ({ sport, children }: Props) => {
               </div>
             )}
 
-          {/* hasMinted and isApproved and hasProfile: show games */}
+          {/* hasMinted and hasProfile: show games */}
           {!isLoading &&
+            user &&
             checkWalletAddressExists !== undefined &&
             hasMinted &&
-            isApproved &&
             hasProfile &&
-            // hasTokens &&
             children}
         </div>
       </div>

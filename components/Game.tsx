@@ -35,7 +35,7 @@ const Game = ({ gameId, sport }: { gameId: string; sport: any }) => {
         </p>
       </div>
       <Link href={`/${sport.sport}/${gameId}`}>
-        <button className="btn btn-square">
+        <button className="btn btn-square btn-primary">
           <AiOutlineDoubleRight className="w-6 h-6" />
         </button>
       </Link>

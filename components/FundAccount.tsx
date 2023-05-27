@@ -16,7 +16,7 @@ export const FundAccount = () => {
           ></path>
         </svg>
         <label>
-          Want more tokens? Check out the chat in the bottom right corner.
+          Want more MOJO tokens? Use the chat in the bottom right corner.
         </label>
       </div>
     </div>

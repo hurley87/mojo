@@ -6,7 +6,6 @@ import Bets from './Bets';
 import Link from 'next/link';
 
 const GameView = ({ gameId, sport }: { gameId: string; sport: any }) => {
-  console.log('sport', sport);
   const { data: homeTeamName } = useGamesRead({
     address: sport.gamesAddress,
     functionName: 'getGameHomeTeamName',

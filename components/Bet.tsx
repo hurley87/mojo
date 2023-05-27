@@ -82,13 +82,13 @@ export const Bet = ({ betId, sport }: { betId: BigNumber; sport: any }) => {
             <div className="flex gap-2">
               <button
                 onClick={() => copyShareLink()}
-                className="btn btn-square"
+                className="btn btn-square btn-primary"
               >
                 <AiOutlineCopy className="w-6 h-6" />
               </button>
 
               <Link href={`/${sport.betPath}/${betId}`}>
-                <button className="btn btn-square">
+                <button className="btn btn-square btn-primary">
                   <AiOutlineDoubleRight className="w-6 h-6" />
                 </button>
               </Link>
