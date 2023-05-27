@@ -18,9 +18,9 @@ export const GetStarted = () => {
               P2P Sports Betting
             </h1>
             <p className="mb-6 text-sm lg:text-lg">
-              Starting with the NHL playoffs, earn MOJO tokens by picking
-              winning teams. The player with the most tokens at the end of the
-              playoffs will earn a $500 prize.
+              Starting with the NHL and NBA, earn MOJO tokens by picking winning
+              teams. The player with the most tokens at the end of the playoffs
+              will earn a prize.
             </p>
             <button onClick={login} className="btn btn-primary">
               Connect Your Discord Account

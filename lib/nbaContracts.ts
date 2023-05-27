@@ -5,4 +5,6 @@ export const nbaContract = {
   teams: '0x6B5520E52C395Cc19872914A33878d53069446DC',
   sport: 'nba',
   betPath: 'nbabet',
+  prize:
+    'The person with the highest score at the end of playoffs will earn $200 USDC.',
 };

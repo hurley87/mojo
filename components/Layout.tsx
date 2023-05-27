@@ -90,7 +90,7 @@ const NHLLayout = ({ contract, children }: Props) => {
         user?.publicAddress.toLocaleLowerCase()
       ) {
         setHasMinted(true);
-        toast.success('Tokens claimed!');
+        toast.success('Tokens received!');
         va.track('TokensClaims', {
           address: walletAddress,
         });

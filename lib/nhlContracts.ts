@@ -5,4 +5,6 @@ export const nhlContract = {
   teams: '0x44Fa31488779C90d88d4C31D7D1184Ea7cf8dA3b',
   sport: 'nhl',
   betPath: 'nhlbet',
+  prize:
+    'The person with the highest score at the end of playoffs will earn $500 USDC.',
 };

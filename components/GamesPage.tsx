@@ -28,7 +28,7 @@ const GamesPage = ({ contract }: { contract: any }) => {
       {showGames ? (
         <Games contract={contract} />
       ) : (
-        <Leaderboard address={contract.profiles} />
+        <Leaderboard contract={contract} />
       )}
     </>
   );

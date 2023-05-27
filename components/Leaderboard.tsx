@@ -1,9 +1,9 @@
 import { useProfilesRead } from '@/hooks/useProfilesRead';
 import { makeNum } from '@/lib/number-utils';
 
-export const Leaderboard = ({ address }: { address: string }) => {
+export const Leaderboard = ({ contract }: { contract: any }) => {
   const { data: profiles, isLoading } = useProfilesRead({
-    address,
+    address: contract.profiles,
     functionName: 'getProfiles',
     args: [],
   });
@@ -32,9 +32,7 @@ export const Leaderboard = ({ address }: { address: string }) => {
         <div>loading ...</div>
       ) : (
         <div className="overflow-x-auto">
-          <h2 className="text-sm">
-            The person with the highest score by June 15th will earn $500 USDC.
-          </h2>
+          <h2 className="text-sm">{contract.prize}</h2>
           <table className="table table-zebra w-full">
             <thead>
               <tr>
