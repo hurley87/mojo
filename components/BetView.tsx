@@ -52,11 +52,6 @@ const BetView = ({ betId, sport }: { betId: string; sport: any }) => {
   const date = new Date();
   const isGameStarted = startTime?.toNumber() < date.getTime() / 1000;
 
-  async function copyShareLink() {
-    navigator.clipboard.writeText(`${window.origin}/${sport.betPath}/${betId}`);
-    toast.success('Share link copied!');
-  }
-
   return (
     <div>
       <div className="text-sm breadcrumbs">
@@ -120,9 +115,15 @@ const BetView = ({ betId, sport }: { betId: string; sport: any }) => {
             {myBet && (
               <>
                 <CancelBet sport={sport} betId={betId} />
-                <button onClick={copyShareLink} className={`btn btn-primary`}>
-                  Copy Share Link
-                </button>
+                <a
+                  href={`https://twitter.com/intent/tweet?text=Just%20bet%20on%20the%20${teamPicked?.name}&via=mojop2p&url=https://mojo.club/${sport.betPath}/${betId}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <button className={`btn btn-primary`}>
+                    Share to Twitter
+                  </button>
+                </a>
               </>
             )}
             {!myBet && !isGameStarted && (
