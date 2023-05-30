@@ -157,7 +157,7 @@ export const BetAccept = ({ betId, sport }: { betId: string; sport: any }) => {
         >
           {isApproveLoading
             ? 'Approving ...'
-            : `Approve ${bet?.counter.toNumber()} MOJO`}
+            : `Approve ${bet?.counter.toNumber()} MOJO Bet`}
         </button>
       ) : (
         <button
