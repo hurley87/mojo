@@ -115,7 +115,7 @@ const BetView = ({ betId, sport }: { betId: string; sport: any }) => {
             )}
           </div>
           <div className="flex flex-row gap-2">
-            {myBet && (
+            {myBet && bet?.state === 0 && (
               <>
                 <CancelBet sport={sport} betId={betId} />
                 <a
@@ -129,12 +129,17 @@ const BetView = ({ betId, sport }: { betId: string; sport: any }) => {
                 </a>
               </>
             )}
-            {!myBet && !isGameStarted && (
+            {!myBet && !isGameStarted && bet?.state === 0 && (
               <BetAccept sport={sport} betId={betId} />
             )}
             {!myBet && isGameStarted && (
               <button disabled={true} className="btn">
                 Game Has Started
+              </button>
+            )}
+            {bet?.state === 3 && (
+              <button disabled={true} className="btn">
+                Bet Cancelled
               </button>
             )}
           </div>
