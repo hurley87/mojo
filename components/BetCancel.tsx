@@ -1,35 +1,36 @@
 import { useState } from 'react';
-import { BigNumber } from 'ethers';
 import useBetsWrite from '@/hooks/useBetsWrite';
-import { useBetsSubscriber } from '@/hooks/useBetsSubscribe';
+import { useSubscribe } from '@/hooks/useSubscribe';
 import { BetCancelled } from './BetCancelled';
 import va from '@vercel/analytics';
-import { useBetsRead } from '@/hooks/useBetsRead';
-import { useProfilesRead } from '@/hooks/useProfilesRead';
+import { useRead } from '@/hooks/useRead';
 import { sendMessage } from '@/lib/notification';
-import { useTeamsRead } from '@/hooks/useTeamsRead';
 
 export const CancelBet = ({ betId, sport }: { betId: string; sport: any }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
   const betsContract = useBetsWrite(sport.betsAddress);
-  const { data: bet } = useBetsRead({
+  const { data: bet } = useRead({
+    contractName: 'Bets',
     address: sport.betsAddress,
     functionName: 'getBet',
     args: [betId],
   });
-  const { data: profile } = useProfilesRead({
+  const { data: profile } = useRead({
+    contractName: 'Profiles',
     address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.creator],
   });
-  const { data: teamPicked } = useTeamsRead({
+  const { data: teamPicked } = useRead({
+    contractName: 'Teams',
     address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.teamPickedId?.toNumber()],
   });
 
-  useBetsSubscriber({
+  useSubscribe({
+    contractName: 'Bets',
     address: sport.betsAddress,
     eventName: 'BetCancelled',
     listener: (id: any) => {

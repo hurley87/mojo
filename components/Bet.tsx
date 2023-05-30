@@ -1,13 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { BigNumber } from 'ethers';
-import { useBetsRead } from '@/hooks/useBetsRead';
-import { useProfilesRead } from '@/hooks/useProfilesRead';
-import { useTeamsRead } from '@/hooks/useTeamsRead';
+import { useRead } from '@/hooks/useRead';
 import { UserContext } from '@/lib/UserContext';
 import { BetAccepted } from './BetAccepted';
 import { BetCancelled } from './BetCancelled';
 import { BetFinished } from './BetFinished';
-import { useGamesRead } from '@/hooks/useGamesRead';
 import Link from 'next/link';
 import { AiOutlineCopy, AiOutlineDoubleRight } from 'react-icons/ai';
 import toast from 'react-hot-toast';
@@ -16,28 +13,33 @@ const BET_STATE = ['Created', 'Accepted', 'Finished', 'Cancelled'];
 
 export const Bet = ({ betId, sport }: { betId: BigNumber; sport: any }) => {
   const [user, _]: any = useContext(UserContext);
-  const { data: bet, isLoading: isBetLoading } = useBetsRead({
+  const { data: bet, isLoading: isBetLoading } = useRead({
+    contractName: 'Bets',
     address: sport.betsAddress,
     functionName: 'getBet',
     args: [betId],
   });
   const [betState, setBetState] = useState(BET_STATE[0]);
-  const { data: profile } = useProfilesRead({
+  const { data: profile } = useRead({
+    contractName: 'Profiles',
     address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.creator],
   });
-  const { data: teamPicked } = useTeamsRead({
+  const { data: teamPicked } = useRead({
+    contractName: 'Teams',
     address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.teamPickedId?.toNumber()],
   });
-  const { data: otherTeamPicked } = useTeamsRead({
+  const { data: otherTeamPicked } = useRead({
+    contractName: 'Teams',
     address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.otherTeamPickedId?.toNumber()],
   });
-  const { data: startTime } = useGamesRead({
+  const { data: startTime } = useRead({
+    contractName: 'Games',
     address: sport.gamesAddress,
     functionName: 'getGameStartTime',
     args: [bet?.gameId.toNumber()],

@@ -1,19 +1,8 @@
 import * as wagmi from 'wagmi';
-import type { BigNumber } from 'ethers';
 import ProfilesContract from './abis/Profiles.json';
 import { ethers } from 'ethers';
 import { magic } from '@/lib/magic';
-import { GelatoRelay } from '@gelatonetwork/relay-sdk';
-
-const relay = new GelatoRelay();
-
-export type Amount = BigNumber;
-
-export interface Transfer {
-  from: string;
-  to: string;
-  amount: BigNumber;
-}
+import { getaloRequest } from '@/lib/gelato';
 
 const useProfilesWrite = (address: string) => {
   if (magic.rpcProvider) {
@@ -21,7 +10,6 @@ const useProfilesWrite = (address: string) => {
     const signer = provider.getSigner();
 
     const contract = wagmi.useContract({
-      // Add the address that was output from your deploy script
       address,
       abi: ProfilesContract.abi,
       signerOrProvider: signer,
@@ -33,27 +21,7 @@ const useProfilesWrite = (address: string) => {
           const { data } = await contract.populateTransaction.createProfile(
             username
           );
-
-          const request: any = {
-            chainId: 84531,
-            target: address,
-            data: data,
-            user: await signer.getAddress(),
-          };
-          console.log('request', request);
-
-          const apiKey = process.env.NEXT_PUBLIC_GELATO_API as string;
-
-          const response = await relay.sponsoredCallERC2771(
-            request,
-            provider,
-            apiKey
-          );
-
-          const taskId = response.taskId;
-          console.log('response', taskId);
-
-          return taskId;
+          return await getaloRequest(address, data, provider);
         } else return '';
       } catch (e) {
         console.log('e', e);

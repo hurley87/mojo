@@ -3,17 +3,14 @@ import { UserContext } from '@/lib/UserContext';
 import { makeNum } from '@/lib/number-utils';
 import { useContext, useState } from 'react';
 import va from '@vercel/analytics';
-import { useBetsSubscriber } from '@/hooks/useBetsSubscribe';
+import { useSubscribe } from '@/hooks/useSubscribe';
 import { BigNumber } from 'ethers';
 import toast from 'react-hot-toast';
-import { useTeamsRead } from '@/hooks/useTeamsRead';
 import Link from 'next/link';
-import { useMojoRead } from '@/hooks/useMojoRead';
 import { sendMessage } from '@/lib/notification';
-import { useProfilesRead } from '@/hooks/useProfilesRead';
+import { useRead } from '@/hooks/useRead';
 import * as fbq from '../lib/fpixel';
 import { useRouter } from 'next/router';
-import { useMojoSubscriber } from '@/hooks/useMojoSubscribe';
 import useMojoWrite from '@/hooks/useMojoWrite';
 
 export const CreateBet = ({
@@ -41,30 +38,37 @@ export const CreateBet = ({
   const [isApproved, setIsApproved] = useState(false);
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
-  const { data: teamPicked } = useTeamsRead({
+  const { data: teamPicked } = useRead({
+    contractName: 'Teams',
     address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [teamId],
   });
-  const { data: mojoBalance } = useMojoRead({
+  const { data: mojoBalance } = useRead({
+    contractName: 'Mojo',
+    address: sport?.mojoAddress,
     functionName: 'balanceOf',
     args: [address],
   });
-  const { data: mojoAllowance } = useMojoRead({
+  const { data: mojoAllowance } = useRead({
+    contractName: 'Mojo',
+    address: sport?.mojoAddress,
     functionName: 'allowance',
     args: [user?.publicAddress, sport.betsAddress],
   });
-  const { data: profile } = useProfilesRead({
+  const { data: profile } = useRead({
+    contractName: 'Profiles',
     address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [address],
   });
 
   const router = useRouter();
-  const mojoContract = useMojoWrite();
+  const mojoContract = useMojoWrite(sport?.mojoAddress);
 
-  useBetsSubscriber({
+  useSubscribe({
     eventName: 'BetCreated',
+    contractName: 'Bets',
     address: sport.betsAddress,
     listener: (
       betCounter: BigNumber,
@@ -129,7 +133,9 @@ export const CreateBet = ({
     }
   }
 
-  useMojoSubscriber({
+  useSubscribe({
+    contractName: 'Mojo',
+    address: sport?.mojoAddress,
     eventName: 'Approval',
     listener: (walletAddress: string, spender: string, amount: any) => {
       console.log(spender, walletAddress, amount);
@@ -145,10 +151,6 @@ export const CreateBet = ({
       }
     },
   });
-
-  console.log('compare');
-  console.log(parseInt(makeNum(mojoAllowance)));
-  console.log(amount);
 
   return (
     <div className="py-4">

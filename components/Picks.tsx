@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useBetsRead } from '@/hooks/useBetsRead';
+import { useRead } from '@/hooks/useRead';
 import { BigNumber } from 'ethers';
 import { Bet } from '@/components/Bet';
 import { UserContext } from '@/lib/UserContext';
@@ -15,7 +15,8 @@ function reverseArr(input: any) {
 const Picks = ({ sport }: { sport: any }) => {
   console.log(sport);
   const [user, _]: any = useContext(UserContext);
-  const { data: bets, isLoading: isBetsLoading } = useBetsRead({
+  const { data: bets, isLoading: isBetsLoading } = useRead({
+    contractName: 'Bets',
     address: sport.betsAddress,
     functionName: 'getWalletBets',
     args: [user?.publicAddress],

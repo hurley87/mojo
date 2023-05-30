@@ -1,17 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import useBetsWrite from '@/hooks/useBetsWrite';
-import { useBetsSubscriber } from '@/hooks/useBetsSubscribe';
+import { useSubscribe } from '@/hooks/useSubscribe';
 import { BetAccepted } from './BetAccepted';
 import va from '@vercel/analytics';
 import toast from 'react-hot-toast';
 import { sendMessage } from '@/lib/notification';
-import { useBetsRead } from '@/hooks/useBetsRead';
-import { useProfilesRead } from '@/hooks/useProfilesRead';
-import { useTeamsRead } from '@/hooks/useTeamsRead';
+import { useRead } from '@/hooks/useRead';
 import { UserContext } from '@/lib/UserContext';
 import { makeBig, makeNum } from '@/lib/number-utils';
-import { useMojoRead } from '@/hooks/useMojoRead';
-import { useMojoSubscriber } from '@/hooks/useMojoSubscribe';
 import useMojoWrite from '@/hooks/useMojoWrite';
 
 export const BetAccept = ({ betId, sport }: { betId: string; sport: any }) => {
@@ -21,40 +17,49 @@ export const BetAccept = ({ betId, sport }: { betId: string; sport: any }) => {
   const [isApproveLoading, setIsApproveLoading] = useState(false);
   const [isApproved, setIsApproved] = useState(false);
   const betsContract = useBetsWrite(sport.betsAddress);
-  const { data: bet } = useBetsRead({
+  const { data: bet } = useRead({
+    contractName: 'Bets',
     address: sport.betsAddress,
     functionName: 'getBet',
     args: [betId],
   });
-  const { data: profile } = useProfilesRead({
+  const { data: profile } = useRead({
+    contractName: 'Profiles',
     address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [user?.publicAddress],
   });
-  const { data: creatorProfile } = useProfilesRead({
+  const { data: creatorProfile } = useRead({
+    contractName: 'Profiles',
     address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.creator],
   });
-  const { data: teamPicked } = useTeamsRead({
+  const { data: teamPicked } = useRead({
+    contractName: 'Teams',
     address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.teamPickedId?.toNumber()],
   });
-  const { data: otherTeamPicked } = useTeamsRead({
+  const { data: otherTeamPicked } = useRead({
+    contractName: 'Teams',
     address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.otherTeamPickedId?.toNumber()],
   });
-  const { data: mojoBalance } = useMojoRead({
+  const { data: mojoBalance } = useRead({
+    contractName: 'Mojo',
+    address: sport?.mojoAddress,
     functionName: 'balanceOf',
     args: [user?.publicAddress],
   });
-  const { data: mojoAllowance } = useMojoRead({
+  const { data: mojoAllowance } = useRead({
+    contractName: 'Mojo',
+    address: sport?.mojoAddress,
     functionName: 'allowance',
     args: [user?.publicAddress, sport.betsAddress],
   });
-  const mojoContract = useMojoWrite();
+  const mojoContract = useMojoWrite(sport?.mojoAddress);
 
   // is mojoAllowance > bet.counter and set isApproved to true using useEffect
   useEffect(() => {
@@ -81,7 +86,9 @@ export const BetAccept = ({ betId, sport }: { betId: string; sport: any }) => {
     }
   }
 
-  useMojoSubscriber({
+  useSubscribe({
+    contractName: 'Mojo',
+    address: sport.mojoAddress,
     eventName: 'Approval',
     listener: (walletAddress: string, spender: string, amount: any) => {
       console.log(spender, walletAddress, amount);
@@ -97,7 +104,9 @@ export const BetAccept = ({ betId, sport }: { betId: string; sport: any }) => {
       }
     },
   });
-  useBetsSubscriber({
+
+  useSubscribe({
+    contractName: 'Bets',
     address: sport.betsAddress,
     eventName: 'BetAccepted',
     listener: (id: any, creator: string, acceptor: string) => {

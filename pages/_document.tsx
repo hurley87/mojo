@@ -21,6 +21,7 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
+        <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async />
       </body>
     </Html>
   );

@@ -1,15 +1,13 @@
 import { UserContext } from '@/lib/UserContext';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useProfilesRead } from '@/hooks/useProfilesRead';
+import { useRead } from '@/hooks/useRead';
 import useProfilesWrite from '@/hooks/useProfilesWrite';
-import { useProfilesSubscriber } from '@/hooks/useProfilesSubscribe';
+import { useSubscribe } from '@/hooks/useSubscribe';
 import { GetStarted } from './GetStart';
 import va from '@vercel/analytics';
 import useMojoWrite from '@/hooks/useMojoWrite';
 import { makeBig, makeNum } from '@/lib/number-utils';
-import { useMojoSubscriber } from '@/hooks/useMojoSubscribe';
-import { useMojoRead } from '@/hooks/useMojoRead';
 import { FundAccount } from './FundAccount';
 import Head from 'next/head';
 import Navbar from './Navbar';
@@ -24,27 +22,32 @@ type Props = {
 const Layout = ({ sport, children }: Props) => {
   const [user, _]: any = useContext(UserContext);
   const [username, setUsername] = useState('');
-  const { data: checkWalletAddressExists, isLoading } = useProfilesRead({
+  const { data: checkWalletAddressExists, isLoading } = useRead({
+    contractName: 'Profiles',
     address: sport?.profilesAddress,
     functionName: 'checkWalletAddressExists',
     args: [user?.publicAddress],
   });
-  const { data: usernameExists } = useProfilesRead({
+  const { data: usernameExists } = useRead({
+    contractName: 'Profiles',
     address: sport.profilesAddress,
     functionName: 'checkUsernameExists',
     args: [username],
   });
-  const { data: mintCount } = useMojoRead({
+  const { data: mintCount } = useRead({
+    contractName: 'Mojo',
+    address: sport?.mojoAddress,
     functionName: 'getMintCount',
     args: [user?.publicAddress],
   });
-  const { data: mojoBalance, isLoading: mojoBalanceLoading } = useMojoRead({
+  const { data: mojoBalance, isLoading: mojoBalanceLoading } = useRead({
+    contractName: 'Mojo',
+    address: sport?.mojoAddress,
     functionName: 'balanceOf',
     args: [user?.publicAddress],
   });
-
   const [hasProfile, setHasProfile] = useState(checkWalletAddressExists);
-  const mojoContract = useMojoWrite();
+  const mojoContract = useMojoWrite(sport?.mojoAddress);
   const [isClaimLoading, setIsClaimLoading] = useState(false);
   const [hasMinted, setHasMinted] = useState(false);
   const [hasTokens, setHasTokens] = useState(false);
@@ -74,7 +77,9 @@ const Layout = ({ sport, children }: Props) => {
     }
   }
 
-  useMojoSubscriber({
+  useSubscribe({
+    contractName: 'Mojo',
+    address: sport?.mojoAddress,
     eventName: 'Transfer',
     listener: (address: string, walletAddress: string, amount: any) => {
       console.log(address, walletAddress, amount);
@@ -107,8 +112,9 @@ const Layout = ({ sport, children }: Props) => {
     }
   }
 
-  useProfilesSubscriber({
-    address: sport.profilesAddress,
+  useSubscribe({
+    contractName: 'Profiles',
+    address: sport?.profilesAddress,
     eventName: 'ProfileCreated',
     listener: (id: any, username: string, walletAddress: string) => {
       if (

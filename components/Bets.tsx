@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBetsRead } from '@/hooks/useBetsRead';
+import { useRead } from '@/hooks/useRead';
 import { BigNumber } from 'ethers';
 import { Bet } from './Bet';
 
@@ -12,7 +12,8 @@ function reverseArr(input: any) {
 }
 
 const Bets = ({ gameId, sport }: { gameId: number; sport: any }) => {
-  const { data: bets, isLoading: isBetsLoading } = useBetsRead({
+  const { data: bets, isLoading: isBetsLoading } = useRead({
+    contractName: 'Bets',
     address: sport.betsAddress,
     functionName: 'getGameBets',
     args: [gameId],

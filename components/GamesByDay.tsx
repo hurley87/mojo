@@ -1,9 +1,10 @@
 import React from 'react';
 import Game from './Game';
-import { useGamesRead } from '@/hooks/useGamesRead';
+import { useRead } from '@/hooks/useRead';
 
 const GamesByDay = ({ day, sport }: { day: string; sport: any }) => {
-  const { data: games, isLoading } = useGamesRead({
+  const { data: games, isLoading } = useRead({
+    contractName: 'Games',
     functionName: 'getGamesByDay',
     address: sport.gamesAddress,
     args: [day],

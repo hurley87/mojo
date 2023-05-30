@@ -1,32 +1,37 @@
 import React from 'react';
 import moment from 'moment';
-import { useGamesRead } from '@/hooks/useGamesRead';
+import { useRead } from '@/hooks/useRead';
 import { CreateBet } from './BetCreate';
 import Bets from './Bets';
 import Link from 'next/link';
 
 const GameView = ({ gameId, sport }: { gameId: string; sport: any }) => {
-  const { data: homeTeamName } = useGamesRead({
+  const { data: homeTeamName } = useRead({
+    contractName: 'Games',
     address: sport.gamesAddress,
     functionName: 'getGameHomeTeamName',
     args: [gameId],
   });
-  const { data: awayTeamName } = useGamesRead({
+  const { data: awayTeamName } = useRead({
+    contractName: 'Games',
     address: sport.gamesAddress,
     functionName: 'getGameAwayTeamName',
     args: [gameId],
   });
-  const { data: awayTeamId } = useGamesRead({
+  const { data: awayTeamId } = useRead({
+    contractName: 'Games',
     address: sport.gamesAddress,
     functionName: 'getGameAwayTeamId',
     args: [gameId],
   });
-  const { data: homeTeamId, isLoading } = useGamesRead({
+  const { data: homeTeamId, isLoading } = useRead({
+    contractName: 'Games',
     address: sport.gamesAddress,
     functionName: 'getGameHomeTeamId',
     args: [gameId],
   });
-  const { data: startTime } = useGamesRead({
+  const { data: startTime } = useRead({
+    contractName: 'Games',
     address: sport.gamesAddress,
     functionName: 'getGameStartTime',
     args: [gameId],

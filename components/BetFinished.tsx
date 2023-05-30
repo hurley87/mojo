@@ -1,6 +1,5 @@
 import { BigNumber } from 'ethers';
-import { useBetsRead } from '@/hooks/useBetsRead';
-import { useProfilesRead } from '@/hooks/useProfilesRead';
+import { useRead } from '@/hooks/useRead';
 
 export const BetFinished = ({
   betId,
@@ -9,12 +8,14 @@ export const BetFinished = ({
   betId: BigNumber;
   sport: any;
 }) => {
-  const { data: bet, isLoading: isBetLoading } = useBetsRead({
+  const { data: bet, isLoading: isBetLoading } = useRead({
+    contractName: 'Bets',
     address: sport.betsAddress,
     functionName: 'getBet',
     args: [betId],
   });
-  const { data: winner } = useProfilesRead({
+  const { data: winner } = useRead({
+    contractName: 'Profiles',
     address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.winner],

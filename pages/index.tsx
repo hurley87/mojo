@@ -43,7 +43,6 @@ export default function Home() {
       </Head>
       <div className="pt-10">
         <FixedBanner />
-        <Navbar sport={null} />
         <div className="hero">
           <div className="text-center hero-content">
             <div className="max-w-4xl pt-10">
@@ -51,15 +50,15 @@ export default function Home() {
                 P2P Sports Betting
               </h1>
               <p className="mb-6 text-sm lg:text-lg max-w-2xl mx-auto">
-                Starting with the NHL and NBA, earn MOJO tokens by picking
-                winner. The player with the most tokens at the end of the
-                playoffs will earn a prize.
+                Starting with the NHL and NBA, earn MOJO tokens for correctly
+                picking game winners. The player with the most tokens at the end
+                of the playoffs will earn a prize.
               </p>
               {user ? (
-                <div className="flex flex-col gap-4 max-w-sm mx-auto">
+                <div className="flex flex-col gap-4 max-w-xs mx-auto">
                   <div className="w-full">
                     <Link href="/nhl">
-                      <button className="btn btn-primary btn-outline w-full">
+                      <button className="btn btn-primary w-full">
                         <GiHockey className="h-6 w-6 mr-2" />
                         NHL
                       </button>
@@ -67,7 +66,7 @@ export default function Home() {
                   </div>
                   <div className="w-full">
                     <Link href="/nba">
-                      <button className="btn btn-primary btn-outline w-full">
+                      <button className="btn btn-primary w-full">
                         <GiBasketballBasket className="h-6 w-6 mr-2" /> NBA
                       </button>
                     </Link>

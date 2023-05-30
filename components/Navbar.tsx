@@ -10,20 +10,22 @@ import {
 import { toast } from 'react-hot-toast';
 import { BsEye } from 'react-icons/bs';
 import { GiHockey, GiBasketballBasket } from 'react-icons/gi';
-import { useProfilesRead } from '@/hooks/useProfilesRead';
-import { useMojoRead } from '@/hooks/useMojoRead';
+import { useRead } from '@/hooks/useRead';
 import { makeNum } from '@/lib/number-utils';
 
 const Navbar = ({ sport }: { sport: any }) => {
   const [user, _]: any = useContext(UserContext);
   const address = user?.publicAddress;
-  const { data: profile } = useProfilesRead({
+  const { data: profile } = useRead({
+    contractName: 'Profiles',
     address: sport?.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [address],
   });
-  const { data: mojoBalance } = useMojoRead({
+  const { data: mojoBalance } = useRead({
+    contractName: 'Mojo',
     functionName: 'balanceOf',
+    address: sport?.mojoAddress,
     args: [user?.publicAddress],
   });
 

@@ -1,48 +1,51 @@
 import React, { useContext } from 'react';
 import moment from 'moment';
-import { useBetsRead } from '@/hooks/useBetsRead';
 import { CancelBet } from './BetCancel';
 import { BetAccept } from './BetAccept';
 import Link from 'next/link';
-import { useProfilesRead } from '@/hooks/useProfilesRead';
-import { useTeamsRead } from '@/hooks/useTeamsRead';
-import { useGamesRead } from '@/hooks/useGamesRead';
+import { useRead } from '@/hooks/useRead';
 import { UserContext } from '@/lib/UserContext';
-import toast from 'react-hot-toast';
 
 const BetView = ({ betId, sport }: { betId: string; sport: any }) => {
   const [user, _]: any = useContext(UserContext);
-  const { data: bet } = useBetsRead({
+  const { data: bet } = useRead({
+    contractName: 'Bets',
     address: sport.betsAddress,
     functionName: 'getBet',
     args: [betId],
   });
-  const { data: profile } = useProfilesRead({
+  const { data: profile } = useRead({
+    contractName: 'Profiles',
     address: sport.profilesAddress,
     functionName: 'getProfileByWalletAddress',
     args: [bet?.creator],
   });
-  const { data: teamPicked } = useTeamsRead({
+  const { data: teamPicked } = useRead({
+    contractName: 'Teams',
     address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.teamPickedId?.toNumber()],
   });
-  const { data: otherTeamPicked } = useTeamsRead({
+  const { data: otherTeamPicked } = useRead({
+    contractName: 'Teams',
     address: sport.teamsAddress,
     functionName: 'getTeam',
     args: [bet?.otherTeamPickedId?.toNumber()],
   });
-  const { data: homeTeamName } = useGamesRead({
+  const { data: homeTeamName } = useRead({
+    contractName: 'Games',
     address: sport.gamesAddress,
     functionName: 'getGameHomeTeamName',
     args: [bet?.gameId.toNumber()],
   });
-  const { data: awayTeamName } = useGamesRead({
+  const { data: awayTeamName } = useRead({
+    contractName: 'Games',
     address: sport.gamesAddress,
     functionName: 'getGameAwayTeamName',
     args: [bet?.gameId.toNumber()],
   });
-  const { data: startTime } = useGamesRead({
+  const { data: startTime } = useRead({
+    contractName: 'Games',
     address: sport.gamesAddress,
     functionName: 'getGameStartTime',
     args: [bet?.gameId.toNumber()],

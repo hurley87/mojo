@@ -1,21 +1,24 @@
 import React from 'react';
 import moment from 'moment';
-import { useGamesRead } from '@/hooks/useGamesRead';
+import { useRead } from '@/hooks/useRead';
 import { AiOutlineDoubleRight } from 'react-icons/ai';
 import Link from 'next/link';
 
 const Game = ({ gameId, sport }: { gameId: string; sport: any }) => {
-  const { data: homeTeamName } = useGamesRead({
+  const { data: homeTeamName } = useRead({
+    contractName: 'Games',
     address: sport.gamesAddress,
     functionName: 'getGameHomeTeamName',
     args: [gameId],
   });
-  const { data: awayTeamName } = useGamesRead({
+  const { data: awayTeamName } = useRead({
+    contractName: 'Games',
     address: sport.gamesAddress,
     functionName: 'getGameAwayTeamName',
     args: [gameId],
   });
-  const { data: startTime, isLoading } = useGamesRead({
+  const { data: startTime, isLoading } = useRead({
+    contractName: 'Games',
     address: sport.gamesAddress,
     functionName: 'getGameStartTime',
     args: [gameId],

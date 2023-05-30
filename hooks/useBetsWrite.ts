@@ -1,19 +1,8 @@
 import * as wagmi from 'wagmi';
-import type { BigNumber } from 'ethers';
 import BetsContract from './abis/Bets.json';
 import { ethers } from 'ethers';
 import { magic } from '@/lib/magic';
-import { GelatoRelay } from '@gelatonetwork/relay-sdk';
-
-const relay = new GelatoRelay();
-
-export type Amount = BigNumber;
-
-export interface Transfer {
-  from: string;
-  to: string;
-  amount: BigNumber;
-}
+import { getaloRequest } from '@/lib/gelato';
 
 const useBetsWrite = (address: string) => {
   if (magic.rpcProvider) {
@@ -40,24 +29,7 @@ const useBetsWrite = (address: string) => {
             amount,
             counter
           );
-
-          const request: any = {
-            chainId: 84531,
-            target: address,
-            data: data,
-            user: await signer.getAddress(),
-          };
-          const apiKey = process.env.NEXT_PUBLIC_GELATO_API as string;
-          const response = await relay.sponsoredCallERC2771(
-            request,
-            provider,
-            apiKey
-          );
-
-          const taskId = response.taskId;
-          console.log('taskId', taskId);
-
-          return taskId;
+          return await getaloRequest(address, data, provider);
         } else return '';
       } catch (e: any) {
         console.log('e', e);
@@ -69,24 +41,7 @@ const useBetsWrite = (address: string) => {
       try {
         if (contract) {
           const { data } = await contract.populateTransaction.cancelBet(betId);
-
-          const request: any = {
-            chainId: 84531,
-            target: address,
-            data: data,
-            user: await signer.getAddress(),
-          };
-          const apiKey = process.env.NEXT_PUBLIC_GELATO_API as string;
-          const response = await relay.sponsoredCallERC2771(
-            request,
-            provider,
-            apiKey
-          );
-
-          const taskId = response.taskId;
-          console.log('response', taskId);
-
-          return taskId;
+          return await getaloRequest(address, data, provider);
         } else return '';
       } catch (e) {
         console.log('e', e);
@@ -97,24 +52,7 @@ const useBetsWrite = (address: string) => {
     const acceptBet = async (betId: number): Promise<string> => {
       if (contract) {
         const { data } = await contract.populateTransaction.acceptBet(betId);
-
-        const request: any = {
-          chainId: 84531,
-          target: address,
-          data: data,
-          user: await signer.getAddress(),
-        };
-        const apiKey = process.env.NEXT_PUBLIC_GELATO_API as string;
-        const response = await relay.sponsoredCallERC2771(
-          request,
-          provider,
-          apiKey
-        );
-
-        const taskId = response.taskId;
-        console.log('response', taskId);
-
-        return taskId;
+        return await getaloRequest(address, data, provider);
       } else return '';
     };
 

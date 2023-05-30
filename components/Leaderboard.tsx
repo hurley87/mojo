@@ -1,8 +1,9 @@
-import { useProfilesRead } from '@/hooks/useProfilesRead';
+import { useRead } from '@/hooks/useRead';
 import { makeNum } from '@/lib/number-utils';
 
 export const Leaderboard = ({ sport }: { sport: any }) => {
-  const { data: profiles, isLoading } = useProfilesRead({
+  const { data: profiles, isLoading } = useRead({
+    contractName: 'Profiles',
     address: sport.profilesAddress,
     functionName: 'getProfiles',
     args: [],
