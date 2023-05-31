@@ -114,14 +114,6 @@ export const Referral = ({
                   0 bets
                 </button>
               )}
-              {profile?.betCount.toNumber() > 0 && hasMinted && (
-                <button
-                  disabled={true}
-                  className="btn btn-sm btn-primary btn-outline"
-                >
-                  reward claimed
-                </button>
-              )}
             </p>
           </div>
         </div>
