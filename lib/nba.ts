@@ -8,5 +8,5 @@ export const nba = {
   sport: 'nba',
   betPath: 'nbabet',
   prize:
-    'The person with the highest score at the end of playoffs will earn $200 USDC.',
+    'The person with the highest score at the end of playoffs will earn $250 USDC.',
 };

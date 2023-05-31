@@ -8,5 +8,5 @@ export const nhl = {
   sport: 'nhl',
   betPath: 'nhlbet',
   prize:
-    'The person with the highest score at the end of playoffs will earn $500 USDC.',
+    'The person with the highest score at the end of playoffs will earn $250 USDC.',
 };
