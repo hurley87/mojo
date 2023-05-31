@@ -92,7 +92,7 @@ export const Referral = ({
                         : ''
                     }`}
                   >
-                    claim reward
+                    claim 10 MOJO
                   </button>
                 )}
               {profile?.betCount.toNumber() > 0 && mintCount > index + 1 && (
