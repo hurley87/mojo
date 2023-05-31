@@ -83,8 +83,9 @@ export default function ReferralsPage() {
               Earn MOJO Tokens
             </h1>
             <p className="mb-6 text-sm lg:text-lg max-w-2xl mx-auto">
-              Earn MOJO tokens by referring your friends to Mojo. They will have
-              to initiate and finish one bet before you can claim your reward.
+              Each person that uses your referral code will have to initiate and
+              finish one bet before you can claim your reward. The reward is 10
+              MOJO tokens for each referral.
             </p>
             {hasLink ? (
               <>
