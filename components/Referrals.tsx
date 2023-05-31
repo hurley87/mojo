@@ -6,14 +6,6 @@ import { Referral } from './Referral';
 import { nba } from '@/lib/nba';
 import { nhl } from '@/lib/nhl';
 
-function reverseArr(input: any) {
-  var ret = new Array();
-  for (var i = input.length - 1; i >= 0; i--) {
-    ret.push(input[i]);
-  }
-  return ret;
-}
-
 const Referrals = ({ address }: { address: string }) => {
   const [user, _]: any = useContext(UserContext);
   const [sportTab, setSportTab] = useState('NHL');
@@ -78,20 +70,18 @@ const Referrals = ({ address }: { address: string }) => {
         )}
         {referrals && referrals.length > 0 && (
           <div className="p-2 lg:p-6 card bg-base-300 w-full">
-            {reverseArr(referrals).map(
-              (referralId: BigNumber, index: number) => (
-                <div key={index}>
-                  {index !== 0 && <div className="divider"></div>}
-                  <Referral
-                    sport={sportTab === 'NHL' ? nhl : nba}
-                    key={referralId.toNumber()}
-                    referralId={referralId}
-                    mintCount={mintCount.toNumber()}
-                    index={index}
-                  />
-                </div>
-              )
-            )}
+            {referrals.map((referralId: BigNumber, index: number) => (
+              <div key={index}>
+                {index !== 0 && <div className="divider"></div>}
+                <Referral
+                  sport={sportTab === 'NHL' ? nhl : nba}
+                  key={referralId.toNumber()}
+                  referralId={referralId}
+                  mintCount={mintCount.toNumber()}
+                  index={index}
+                />
+              </div>
+            ))}
           </div>
         )}
       </div>

@@ -44,10 +44,14 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     setUser({ loading: true });
-    new Crate({
-      server: '1096831241631830059', // Mojo
-      channel: '1112815729218162768', // #referrals
-    });
+    try {
+      new Crate({
+        server: '1096831241631830059', // Mojo
+        channel: '1112815729218162768', // #referrals
+      });
+    } catch (e) {
+      console.log(e);
+    }
     magic.user.isLoggedIn().then((isLoggedIn) => {
       if (isLoggedIn) {
         magic.user.getMetadata().then((userData) => setUser(userData));
