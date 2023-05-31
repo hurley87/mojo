@@ -102,7 +102,7 @@ export const Bet = ({ betId, sport }: { betId: BigNumber; sport: any }) => {
               Game Has Started
             </button>
           )}
-          {myBet && betState === BET_STATE[0] && (
+          {myBet && betState === BET_STATE[0] && isGameStarted && (
             <BetCancel sport={sport} betId={betId.toNumber().toString()} />
           )}
           {betState === BET_STATE[1] && (
