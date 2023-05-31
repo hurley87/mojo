@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import moment from 'moment';
-import { CancelBet } from './BetCancel';
+import { BetCancel } from './BetCancel';
 import { BetAccept } from './BetAccept';
 import Link from 'next/link';
 import { useRead } from '@/hooks/useRead';
@@ -117,7 +117,7 @@ const BetView = ({ betId, sport }: { betId: string; sport: any }) => {
           <div className="flex flex-row gap-2">
             {myBet && bet?.state === 0 && (
               <>
-                <CancelBet sport={sport} betId={betId} />
+                <BetCancel sport={sport} betId={betId} />
                 <a
                   href={`https://twitter.com/intent/tweet?text=Just%20bet%20on%20the%20${teamPicked?.name}&via=mojop2p&url=https://mojo.club/${sport.betPath}/${betId}`}
                   target="_blank"

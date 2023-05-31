@@ -9,9 +9,10 @@ import va from '@vercel/analytics';
 import useMojoWrite from '@/hooks/useMojoWrite';
 import { makeBig, makeNum } from '@/lib/number-utils';
 import { FundAccount } from './FundAccount';
-import Head from 'next/head';
 import Navbar from './Navbar';
 import FixedBanner from './Fixedbanner';
+import useReferralsWrite from '@/hooks/useReferralsWrite';
+import LayoutMeta from './LayoutMeta';
 
 type Props = {
   children?: ReactNode;
@@ -46,18 +47,39 @@ const Layout = ({ sport, children }: Props) => {
     functionName: 'balanceOf',
     args: [user?.publicAddress],
   });
+  const { data: hasAccess, isLoading: referralLoading } = useRead({
+    contractName: 'Referrals',
+    address: sport?.referralsAddress,
+    functionName: 'getHasAccess',
+    args: [user?.publicAddress],
+  });
+  const [code, setCode] = useState('');
+  const { data: codeExists } = useRead({
+    contractName: 'Referrals',
+    address: sport?.referralsAddress,
+    functionName: 'hasCode',
+    args: [code],
+  });
   const [hasProfile, setHasProfile] = useState(checkWalletAddressExists);
   const mojoContract = useMojoWrite(sport?.mojoAddress);
   const [isClaimLoading, setIsClaimLoading] = useState(false);
   const [hasMinted, setHasMinted] = useState(false);
   const [hasTokens, setHasTokens] = useState(false);
+  const referralContract = useReferralsWrite(sport?.referralsAddress);
+  const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
     const balance = parseInt(makeNum(mojoBalance));
     if (checkWalletAddressExists) setHasProfile(checkWalletAddressExists);
     if (mintCount?.toNumber() > 0) setHasMinted(true);
     if (balance > 0) setHasTokens(true);
-  }, [checkWalletAddressExists, mintCount, mojoBalance]);
+  }, [
+    checkWalletAddressExists,
+    mintCount,
+    mojoBalance,
+    hasAccess,
+    referralLoading,
+  ]);
 
   const profilesContract = useProfilesWrite(sport.profilesAddress);
   const [loading, setLoading] = useState(false);
@@ -122,7 +144,7 @@ const Layout = ({ sport, children }: Props) => {
         user?.publicAddress.toLocaleLowerCase()
       ) {
         toast.success('Username created!');
-        setHasProfile(true);
+        setShowModal(true);
         va.track('ProfileCreated', {
           profileId: id.toNumber(),
           username,
@@ -132,33 +154,90 @@ const Layout = ({ sport, children }: Props) => {
     },
   });
 
+  async function handleCreateReferral() {
+    setLoading(true);
+    try {
+      toast.success('Granting access ...');
+      await referralContract?.createReferral(code);
+    } catch (e) {
+      toast.error('Try again.');
+      va.track('TokensClaimError', {
+        address: user?.publicAddress,
+      });
+      return;
+    }
+  }
+
+  useSubscribe({
+    contractName: 'Referrals',
+    address: sport?.referralsAddress,
+    eventName: 'ReferralCreated',
+    listener: (id: any, username: string, walletAddress: string) => {
+      // toast.success('Access granted.');
+      setShowModal(false);
+      va.track('ReferralCreated', {
+        profileId: id.toNumber(),
+        username,
+        address: walletAddress,
+      });
+    },
+  });
+
+  console.log('referralLoading', referralLoading);
+  console.log('hasAccess', hasAccess);
+  console.log('showModal', showModal);
+
   return (
     <div className="flex flex-col h-screen justify-between p-4">
-      <Head>
-        <title>Mojo | P2P Sports Betting</title>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="P2P Sports Betting" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@davidhurley87" />
-        <meta name="twitter:title" content="Mojo" />
-        <meta name="twitter:description" content="P2P Sports Betting" />
-        <meta
-          name="twitter:image"
-          content="https://pollock-art.s3.amazonaws.com/meta2.png"
-        />
-        <meta property="og:url" content={`https://mojo.club`} />
-        <meta property="og:title" content="Mojo" />
-        <meta property="og:description" content="P2P Sports Betting" />
-        <meta
-          property="og:image"
-          content="https://pollock-art.s3.amazonaws.com/meta2.png"
-        />
-      </Head>
+      <LayoutMeta />
       <div className="pt-10">
-        <FixedBanner />
+        <FixedBanner
+          url="/referrals"
+          text="Earn MOJO tokens by referring friends"
+        />
         <Navbar sport={sport} />
         <div className="container lg:w-1/2 mx-auto lg:px-4 pt-4 pb-20">
+          {!mojoBalanceLoading &&
+            checkWalletAddressExists !== undefined &&
+            !hasAccess &&
+            showModal && (
+              <div className="modal modal-open bg-opacity-95">
+                <div className="modal-box relative">
+                  <div className="flex flex-col gap-4 p-2 pb-4">
+                    <h2 className="font-bold pb-4 text-orange-500">
+                      Referral Code Required
+                    </h2>
+                    <p>To access Mojo, {"you'll"} need a referral code.</p>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="insert referral code"
+                        className={`w-full pr-16 input input-primary input-bordered ${
+                          !codeExists && 'input-error'
+                        }`}
+                        value={code}
+                        onChange={(e) => setCode(e.target.value)}
+                      />
+                      <button
+                        disabled={!codeExists}
+                        onClick={handleCreateReferral}
+                        className={`absolute top-0 right-0 rounded-l-none btn btn-primary ${
+                          loading
+                            ? 'loading before:!w-4 before:!h-4 before:!mx-0 before:!mr-1'
+                            : ''
+                        }`}
+                      >
+                        Enter Mojo
+                      </button>
+                    </div>
+                    <p className="text-xs">
+                      If you need a referral code, click on the Discord logo in
+                      the bottom right corner of the screen and ask for one.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           {user === null && <GetStarted />}
           {!mojoBalanceLoading &&
             checkWalletAddressExists !== undefined &&

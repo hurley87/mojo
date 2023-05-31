@@ -8,6 +8,7 @@ import { BetFinished } from './BetFinished';
 import Link from 'next/link';
 import { AiOutlineCopy, AiOutlineDoubleRight } from 'react-icons/ai';
 import toast from 'react-hot-toast';
+import { BetCancel } from './BetCancel';
 
 const BET_STATE = ['Created', 'Accepted', 'Finished', 'Cancelled'];
 
@@ -96,10 +97,13 @@ export const Bet = ({ betId, sport }: { betId: BigNumber; sport: any }) => {
               </Link>
             </div>
           )}
-          {betState === BET_STATE[0] && isGameStarted && (
+          {!myBet && betState === BET_STATE[0] && isGameStarted && (
             <button disabled={true} className="btn">
               Game Has Started
             </button>
+          )}
+          {myBet && betState === BET_STATE[0] && (
+            <BetCancel sport={sport} betId={betId.toNumber().toString()} />
           )}
           {betState === BET_STATE[1] && (
             <BetAccepted sport={sport} betId={betId} />

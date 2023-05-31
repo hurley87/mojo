@@ -4,6 +4,7 @@ export const nba = {
   gamesAddress: '0xccD635985c65538AE8255980C82Cd787FB6d655f',
   teamsAddress: '0x6B5520E52C395Cc19872914A33878d53069446DC',
   mojoAddress: '0x5E5676B7016E4C5EC0d2329EF814CD8B1efad808',
+  referralsAddress: '0x0E82AEB3ce2c93e6AA0336927e91c33CB5bDbfc0',
   sport: 'nba',
   betPath: 'nbabet',
   prize:

@@ -162,7 +162,9 @@ export const CreateBet = ({
           >
             Create Your Bet
           </button>
-          <div className={`modal ${showBetModal && 'modal-open'}`}>
+          <div
+            className={`modal bg-opacity-90 ${showBetModal && 'modal-open'}`}
+          >
             <div className="modal-box relative">
               <label
                 onClick={() => setShowBetModal(false)}

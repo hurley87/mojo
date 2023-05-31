@@ -1,18 +1,14 @@
+import Link from 'next/link';
 import React from 'react';
 
-const FixedBanner = () => (
+const FixedBanner = ({ text, url }: { text: string; url: string }) => (
   <div
-    style={{ zIndex: 9999 }}
+    style={{ zIndex: 99 }}
     className="fixed top-0 left-0 w-full bg-primary text-black text-center text-xs p-2"
   >
-    <a
-      target="_blank"
-      href="https://discord.gg/MjT8ZAZtw4"
-      className="underline"
-    >
-      Click here to join our Discord! Get get access to our community and
-      product updates.
-    </a>
+    <Link href={url} className="underline">
+      {text}
+    </Link>
   </div>
 );
 

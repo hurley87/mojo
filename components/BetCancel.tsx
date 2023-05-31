@@ -6,7 +6,7 @@ import va from '@vercel/analytics';
 import { useRead } from '@/hooks/useRead';
 import { sendMessage } from '@/lib/notification';
 
-export const CancelBet = ({ betId, sport }: { betId: string; sport: any }) => {
+export const BetCancel = ({ betId, sport }: { betId: string; sport: any }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
   const betsContract = useBetsWrite(sport.betsAddress);
