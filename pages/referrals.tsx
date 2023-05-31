@@ -32,9 +32,6 @@ export default function ReferralsPage() {
     functionName: 'getMyLink',
     args: [user?.publicAddress],
   });
-
-  console.log('myCode', myCode);
-
   const referralContract = useReferralsWrite(address);
   const [hasLink, setHasLink] = useState(false);
 

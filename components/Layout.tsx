@@ -183,10 +183,6 @@ const Layout = ({ sport, children }: Props) => {
     },
   });
 
-  console.log('referralLoading', referralLoading);
-  console.log('hasAccess', hasAccess);
-  console.log('showModal', showModal);
-
   return (
     <div className="flex flex-col h-screen justify-between p-4">
       <LayoutMeta />

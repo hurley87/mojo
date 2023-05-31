@@ -35,10 +35,7 @@ export const Referral = ({
   const [isClaimLoading, setIsClaimLoading] = useState(false);
   const [hasMinted, setHasMinted] = useState(false);
   const mojoContract = useMojoWrite(sport?.mojoAddress);
-  console.log('referral', referralId);
-  console.log(profile);
-  console.log('mintCount', mintCount);
-  console.log('index', index + 1);
+
   async function handleClaimReward() {
     setIsClaimLoading(true);
     try {
