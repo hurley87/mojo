@@ -75,7 +75,8 @@ export default function ReferralsPage() {
 
   return (
     <LayoutSecondary>
-      <FixedBanner url="/" text="Head back to MOJO" />
+      {user && <FixedBanner url="/" text="Head back to MOJO" />}
+
       <div className="hero pt-10">
         <div className="text-center hero-content">
           <div className="max-w-4xl pt-10">

@@ -29,13 +29,6 @@ export const GetStarted = () => {
         </div>
       </div>
       <h2 className="text-3xl font-bold pt-20">Making Picks is Easy</h2>
-      <video
-        controls
-        className="w-full h-full object-cover py-4"
-        // style={{ width: '500px', height: '500px', margin: 'auto' }}
-      >
-        <source src="/mojo.mp4" />
-      </video>
       <h2 className="text-3xl font-bold pt-20">FAQ</h2>
       <FAQ />
     </div>

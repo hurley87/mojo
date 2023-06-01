@@ -18,13 +18,16 @@ export default function Home() {
   }
   return (
     <LayoutSecondary>
-      <FixedBanner
-        url="/referrals"
-        text="Earn MOJO tokens by referring friends"
-      />
-      <div className="hero pt-10">
+      {user && (
+        <FixedBanner
+          url="/referrals"
+          text="Earn MOJO tokens by referring friends"
+        />
+      )}
+
+      <div className="hero">
         <div className="text-center hero-content">
-          <div className="max-w-4xl pt-10">
+          <div className="max-w-4xl pt-6">
             <h1 className="mb-3 text-3xl md:text-3xl lg:text-5xl font-bold">
               P2P Sports Betting
             </h1>
@@ -59,6 +62,15 @@ export default function Home() {
           </div>
         </div>
       </div>
+      {!user && (
+        <video
+          controls
+          className="w-full h-full object-cover py-4 max-h-96"
+          // style={{ width: '500px', height: '500px', margin: 'auto' }}
+        >
+          <source src="/mojo.mp4" />
+        </video>
+      )}
     </LayoutSecondary>
   );
 }
