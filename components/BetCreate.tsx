@@ -74,18 +74,19 @@ export const CreateBet = ({
       betCounter: BigNumber,
       msgValue: BigNumber,
       odds: BigNumber,
-      teamId: number,
+      coolId: number,
       msgSender: string
     ) => {
       setIsBetting(false);
       setShowBetModal(false);
       console.log(msgValue);
+      console.log(coolId);
       toast.success('Your pick is in!');
       sendMessage(
         `${profile?.username} just staked ${amount} MOJO on the ${
           teamPicked?.name
         } and asking an opponent to stake ${counter} MOJO on the ${
-          teamId === homeTeamId ? homeTeamName : awayTeamName
+          teamId === homeTeamId ? awayTeamName : homeTeamName
         }.`
       );
       va.track('BetCreated', {
