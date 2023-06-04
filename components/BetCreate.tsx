@@ -85,7 +85,7 @@ export const CreateBet = ({
         `${profile?.username} just staked ${amount} MOJO on the ${
           teamPicked?.name
         } and asking an opponent to stake ${counter} MOJO on the ${
-          teamId === homeTeamId ? awayTeamName : homeTeamName
+          teamId === homeTeamId ? homeTeamName : awayTeamName
         }.`
       );
       va.track('BetCreated', {
