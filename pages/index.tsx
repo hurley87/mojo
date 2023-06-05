@@ -5,7 +5,6 @@ import { magic } from '@/lib/magic';
 import { useContext } from 'react';
 import { UserContext } from '@/lib/UserContext';
 import LayoutSecondary from '@/components/LayoutSecondary';
-import LayoutMeta from '@/components/LayoutMeta';
 
 export default function Home() {
   const [user, _]: any = useContext(UserContext);
@@ -18,12 +17,12 @@ export default function Home() {
   }
   return (
     <LayoutSecondary>
-      {user && (
+      {/* {user && (
         <FixedBanner
           url="/referrals"
           text="Earn MOJO tokens by referring friends"
         />
-      )}
+      )} */}
 
       <div className="hero">
         <div className="text-center hero-content">

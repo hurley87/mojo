@@ -186,14 +186,14 @@ const Layout = ({ sport, children }: Props) => {
   return (
     <div className="flex flex-col h-screen justify-between p-4">
       <LayoutMeta />
-      <div className="pt-10">
-        <FixedBanner
+      <div className="">
+        {/* <FixedBanner
           url="/referrals"
           text="Earn MOJO tokens by referring friends"
-        />
+        /> */}
         <Navbar sport={sport} />
         <div className="container lg:w-1/2 mx-auto lg:px-4 pt-4 pb-20">
-          {!mojoBalanceLoading &&
+          {/* {!mojoBalanceLoading &&
             checkWalletAddressExists !== undefined &&
             !hasAccess &&
             showModal && (
@@ -233,7 +233,7 @@ const Layout = ({ sport, children }: Props) => {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
           {user === null && <GetStarted />}
           {!mojoBalanceLoading &&
             checkWalletAddressExists !== undefined &&
