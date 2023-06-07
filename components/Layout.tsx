@@ -157,8 +157,8 @@ const Layout = ({ sport, children }: Props) => {
   async function handleCreateReferral() {
     setLoading(true);
     try {
-      toast.success('Granting access ...');
       await referralContract?.createReferral(code);
+      setShowModal(false);
     } catch (e) {
       toast.error('Try again.');
       va.track('TokensClaimError', {
@@ -174,7 +174,6 @@ const Layout = ({ sport, children }: Props) => {
     eventName: 'ReferralCreated',
     listener: (id: any, username: string, walletAddress: string) => {
       // toast.success('Access granted.');
-      setShowModal(false);
       va.track('ReferralCreated', {
         profileId: id.toNumber(),
         username,
@@ -187,13 +186,13 @@ const Layout = ({ sport, children }: Props) => {
     <div className="flex flex-col h-screen justify-between p-4">
       <LayoutMeta />
       <div className="">
-        {/* <FixedBanner
+        <FixedBanner
           url="/referrals"
           text="Earn MOJO tokens by referring friends"
-        /> */}
+        />
         <Navbar sport={sport} />
         <div className="container lg:w-1/2 mx-auto lg:px-4 pt-4 pb-20">
-          {/* {!mojoBalanceLoading &&
+          {!mojoBalanceLoading &&
             checkWalletAddressExists !== undefined &&
             !hasAccess &&
             showModal && (
@@ -233,7 +232,7 @@ const Layout = ({ sport, children }: Props) => {
                   </div>
                 </div>
               </div>
-            )} */}
+            )}
           {user === null && <GetStarted />}
           {!mojoBalanceLoading &&
             checkWalletAddressExists !== undefined &&
