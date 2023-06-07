@@ -185,7 +185,7 @@ const Layout = ({ sport, children }: Props) => {
   return (
     <div className="flex flex-col h-screen justify-between p-4">
       <LayoutMeta />
-      <div className="">
+      <div className="pt-10">
         <FixedBanner
           url="/referrals"
           text="Earn MOJO tokens by referring friends"
