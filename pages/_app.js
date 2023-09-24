@@ -9,7 +9,6 @@ import { Analytics } from '@vercel/analytics/react';
 import * as fbq from '../lib/fpixel';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
-import Iframe from 'react-iframe';
 
 // Use wagmi to configure the provider.
 // Right now, we will only connect to hardhat's standalone localhost network

@@ -2,7 +2,7 @@ import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
 
 const network = {
-  rpcUrl: `https://attentive-rough-shape.base-goerli.quiknode.pro/${process.env.NEXT_PUBLIC_QUICK_NODE}/`, // Polygon RPC URL
+  rpcUrl: `https://attentive-rough-shape.base-goerli.quiknode.pro/${process.env.NEXT_PUBLIC_QUICK_NODE}/`,
   chainId: 84531,
 };
 
